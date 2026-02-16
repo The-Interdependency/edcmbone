@@ -1,0 +1,7 @@
+# Python/Node common
+__pycache__/
+*.py[cod]
+node_modules/
+.env
+.DS_Store
+*.log
