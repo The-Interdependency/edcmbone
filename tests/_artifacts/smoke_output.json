@@ -1,0 +1,1967 @@
+{
+  "turns": [
+    {
+      "turn_id": "t0",
+      "actor_id": "A",
+      "utterance_ids": [
+        "u0"
+      ],
+      "raw_text": "We need to decide this now. Do you agree?",
+      "tokens_surface": [
+        "We",
+        "need",
+        "to",
+        "decide",
+        "this",
+        "now",
+        ".",
+        "Do",
+        "you",
+        "agree",
+        "?"
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": false,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    },
+    {
+      "turn_id": "t1",
+      "actor_id": "B",
+      "utterance_ids": [
+        "u1"
+      ],
+      "raw_text": "I can't. Not like that. Why are we rushing?",
+      "tokens_surface": [
+        "I",
+        "can't",
+        ".",
+        "Not",
+        "like",
+        "that",
+        ".",
+        "Why",
+        "are",
+        "we",
+        "rushing",
+        "?"
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": false,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    },
+    {
+      "turn_id": "t2",
+      "actor_id": "A",
+      "utterance_ids": [
+        "u2"
+      ],
+      "raw_text": "Because if we don't, it will fail.",
+      "tokens_surface": [
+        "Because",
+        "if",
+        "we",
+        "don't",
+        ",",
+        "it",
+        "will",
+        "fail",
+        "."
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": false,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    },
+    {
+      "turn_id": "t3",
+      "actor_id": "B",
+      "utterance_ids": [
+        "u3"
+      ],
+      "raw_text": "Okay. But only if we define the scope.",
+      "tokens_surface": [
+        "Okay",
+        ".",
+        "But",
+        "only",
+        "if",
+        "we",
+        "define",
+        "the",
+        "scope",
+        "."
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": false,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    },
+    {
+      "turn_id": "t4",
+      "actor_id": "A",
+      "utterance_ids": [
+        "u4"
+      ],
+      "raw_text": "Agreed. Let's define scope and thresholds.",
+      "tokens_surface": [
+        "Agreed",
+        ".",
+        "Let's",
+        "define",
+        "scope",
+        "and",
+        "thresholds",
+        "."
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": false,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    },
+    {
+      "turn_id": "t5",
+      "actor_id": "B",
+      "utterance_ids": [
+        "u5",
+        "u6"
+      ],
+      "raw_text": "***\nAlso: I won't accept semantic inference in Operator.",
+      "tokens_surface": [
+        "Also",
+        ":",
+        "I",
+        "won't",
+        "accept",
+        "semantic",
+        "inference",
+        "in",
+        "Operator",
+        "."
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": true,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    },
+    {
+      "turn_id": "t6",
+      "actor_id": "A",
+      "utterance_ids": [
+        "u7"
+      ],
+      "raw_text": "Understood. Bones-only stays bones-only.",
+      "tokens_surface": [
+        "Understood",
+        ".",
+        "Bones-only",
+        "stays",
+        "bones-only",
+        "."
+      ],
+      "t_start": null,
+      "t_end": null,
+      "source_refs": [],
+      "meta": {
+        "forced_boundary": false,
+        "contains_quote": false,
+        "overlap": false,
+        "interrupted_by": null,
+        "notes": []
+      }
+    }
+  ],
+  "rounds": [
+    {
+      "round_id": "r0",
+      "initiator_actor_id": "A",
+      "turn_ids": [
+        "t0",
+        "t1"
+      ],
+      "status": "closed",
+      "meta": {
+        "closure_rule": "initiator_return_v1",
+        "excluded_sys_tool": true,
+        "notes": []
+      }
+    },
+    {
+      "round_id": "r1",
+      "initiator_actor_id": "A",
+      "turn_ids": [
+        "t2",
+        "t3"
+      ],
+      "status": "closed",
+      "meta": {
+        "closure_rule": "initiator_return_v1",
+        "excluded_sys_tool": true,
+        "notes": []
+      }
+    },
+    {
+      "round_id": "r2",
+      "initiator_actor_id": "A",
+      "turn_ids": [
+        "t4",
+        "t5"
+      ],
+      "status": "closed",
+      "meta": {
+        "closure_rule": "initiator_return_v1",
+        "excluded_sys_tool": true,
+        "notes": []
+      }
+    },
+    {
+      "round_id": "r3",
+      "initiator_actor_id": "A",
+      "turn_ids": [
+        "t6"
+      ],
+      "status": "open",
+      "meta": {
+        "closure_rule": "initiator_return_v1",
+        "excluded_sys_tool": true,
+        "notes": [
+          "status=open because transcript ended before initiator returned"
+        ]
+      }
+    }
+  ],
+  "operator": [
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::0:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t0",
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 4,
+        "P": 0,
+        "K": 2,
+        "Q": 2,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 4,
+          "excluded_tokens": 69
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 0.5,
+        "Q": 0.5,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::1:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 3,
+        "P": 0,
+        "K": 2,
+        "Q": 1,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 3,
+          "excluded_tokens": 59
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 0.6666666666666666,
+        "Q": 0.3333333333333333,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::2:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 2,
+        "P": 0,
+        "K": 2,
+        "Q": 0,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 2,
+          "excluded_tokens": 47
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 1.0,
+        "Q": 0.0,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::3:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 2,
+        "P": 0,
+        "K": 2,
+        "Q": 0,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 2,
+          "excluded_tokens": 37
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 1.0,
+        "Q": 0.0,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::4:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t4",
+        "t5",
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 2,
+        "P": 0,
+        "K": 2,
+        "Q": 0,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 2,
+          "excluded_tokens": 27
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 1.0,
+        "Q": 0.0,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::5:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t5",
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 2,
+        "P": 0,
+        "K": 2,
+        "Q": 0,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 2,
+          "excluded_tokens": 19
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 1.0,
+        "Q": 0.0,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/operator_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "operator_families_option": "A",
+      "window_id": "turn_window::6:6",
+      "window_unit": "turn",
+      "window_ids": [
+        "t6"
+      ],
+      "is_partial": true,
+      "counts": {
+        "B_total": 2,
+        "P": 0,
+        "K": 2,
+        "Q": 0,
+        "T": 0,
+        "S": 0,
+        "audit": {
+          "matched_free_bones": 0,
+          "matched_affixes": 0,
+          "matched_punct": 2,
+          "excluded_tokens": 8
+        }
+      },
+      "vector": {
+        "P": 0.0,
+        "K": 1.0,
+        "Q": 0.0,
+        "T": 0.0,
+        "S": 0.0,
+        "sum": 1.0
+      },
+      "rules_frozen": {
+        "lowercase_before_match": true,
+        "contractions_split": true,
+        "hyphen_compound_emits_one_K": true,
+        "question_mark_emits_one_Q": true,
+        "em_dash_emits_zero": true,
+        "slash_ignored_v1": true,
+        "collision_priority": [
+          "P",
+          "K",
+          "Q",
+          "T",
+          "S"
+        ],
+        "aggregation_method": "sum_and_renormalize"
+      },
+      "hmm": {
+        "contained": [
+          "Sum-and-renormalize aggregation."
+        ],
+        "deferred": [
+          "Alternative aggregation (mean of turn vectors)."
+        ]
+      }
+    }
+  ],
+  "behavioral": [
+    {
+      "schema_id": "edcmbone/behavioral_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "window_id": "round_window::0:2",
+      "round_ids": [
+        "r0",
+        "r1",
+        "r2"
+      ],
+      "closed_rounds_only": true,
+      "is_partial": true,
+      "metrics": {
+        "C": 0.3499999999999999,
+        "R": 0.6666666666666666,
+        "D": 0.19999999999999998,
+        "N": 1.0,
+        "L": 0.275,
+        "O": 0.15,
+        "F": 0.0,
+        "E": 0.0,
+        "I": 0.0
+      },
+      "raw_counts": {
+        "CS": 4,
+        "TOK": 60,
+        "RA": 0,
+        "marker_hits_by_metric": {
+          "C": {
+            "count": 2,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "C.neg:not",
+                "weight": 0.35,
+                "matched_text": "not",
+                "span": {
+                  "turn_id": "t1",
+                  "start_token": 3,
+                  "end_token": 3
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "C.con:but",
+                "weight": 0.35,
+                "matched_text": "but",
+                "span": {
+                  "turn_id": "t3",
+                  "start_token": 2,
+                  "end_token": 2
+                }
+              }
+            ]
+          },
+          "R": {
+            "count": 2,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "R.hard:i can't",
+                "weight": 1.0,
+                "matched_text": "i can't",
+                "span": {
+                  "turn_id": "t1",
+                  "start_token": 0,
+                  "end_token": 1
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "R.hard:i won't",
+                "weight": 1.0,
+                "matched_text": "i won't",
+                "span": {
+                  "turn_id": "t5",
+                  "start_token": 2,
+                  "end_token": 3
+                }
+              }
+            ]
+          },
+          "D": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "D.shift:let's",
+                "weight": 0.6,
+                "matched_text": "let's",
+                "span": {
+                  "turn_id": "t4",
+                  "start_token": 2,
+                  "end_token": 2
+                }
+              }
+            ]
+          },
+          "N": {
+            "count": 0,
+            "hits": []
+          },
+          "L": {
+            "count": 6,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "L.modal:need",
+                "weight": 1.0,
+                "matched_text": "need",
+                "span": {
+                  "turn_id": "t0",
+                  "start_token": 1,
+                  "end_token": 1
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.modal:can't",
+                "weight": 1.0,
+                "matched_text": "can't",
+                "span": {
+                  "turn_id": "t1",
+                  "start_token": 1,
+                  "end_token": 1
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.delim:not",
+                "weight": 0.6,
+                "matched_text": "not",
+                "span": {
+                  "turn_id": "t1",
+                  "start_token": 3,
+                  "end_token": 3
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.cond:if",
+                "weight": 0.6,
+                "matched_text": "if",
+                "span": {
+                  "turn_id": "t2",
+                  "start_token": 1,
+                  "end_token": 1
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.cond:if",
+                "weight": 0.6,
+                "matched_text": "if",
+                "span": {
+                  "turn_id": "t3",
+                  "start_token": 4,
+                  "end_token": 4
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.delim:only",
+                "weight": 0.6,
+                "matched_text": "only",
+                "span": {
+                  "turn_id": "t3",
+                  "start_token": 3,
+                  "end_token": 3
+                }
+              }
+            ]
+          },
+          "O": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "O.exp:also",
+                "weight": 0.6,
+                "matched_text": "also",
+                "span": {
+                  "turn_id": "t5",
+                  "start_token": 0,
+                  "end_token": 0
+                }
+              }
+            ]
+          },
+          "F": {
+            "count": 0,
+            "hits": []
+          },
+          "E": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "E.int:now",
+                "weight": 1.0,
+                "matched_text": "now",
+                "span": {
+                  "turn_id": "t0",
+                  "start_token": 5,
+                  "end_token": 5
+                }
+              }
+            ]
+          },
+          "I": {
+            "count": 0,
+            "hits": []
+          }
+        }
+      },
+      "hmm": {
+        "contained": [
+          "Structural proxy behavioral metrics (no embeddings).",
+          "Closed rounds only."
+        ],
+        "deferred": [
+          "Pattern-based evasion detection (D_qev).",
+          "List growth detector (O_list) with user/assistant role separation.",
+          "Punctuation intensity (!!) handling."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/behavioral_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "window_id": "round_window::1:2",
+      "round_ids": [
+        "r1",
+        "r2"
+      ],
+      "closed_rounds_only": true,
+      "is_partial": true,
+      "metrics": {
+        "C": 0.11666666666666665,
+        "R": 0.6666666666666666,
+        "D": 0.19999999999999998,
+        "N": 1.0,
+        "L": 0.22499999999999998,
+        "O": 0.15,
+        "F": 0.5669467095138409,
+        "E": 0.0,
+        "I": 0.0
+      },
+      "raw_counts": {
+        "CS": 2,
+        "TOK": 37,
+        "RA": 0,
+        "marker_hits_by_metric": {
+          "C": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "C.con:but",
+                "weight": 0.35,
+                "matched_text": "but",
+                "span": {
+                  "turn_id": "t3",
+                  "start_token": 2,
+                  "end_token": 2
+                }
+              }
+            ]
+          },
+          "R": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "R.hard:i won't",
+                "weight": 1.0,
+                "matched_text": "i won't",
+                "span": {
+                  "turn_id": "t5",
+                  "start_token": 2,
+                  "end_token": 3
+                }
+              }
+            ]
+          },
+          "D": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "D.shift:let's",
+                "weight": 0.6,
+                "matched_text": "let's",
+                "span": {
+                  "turn_id": "t4",
+                  "start_token": 2,
+                  "end_token": 2
+                }
+              }
+            ]
+          },
+          "N": {
+            "count": 0,
+            "hits": []
+          },
+          "L": {
+            "count": 3,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "L.cond:if",
+                "weight": 0.6,
+                "matched_text": "if",
+                "span": {
+                  "turn_id": "t2",
+                  "start_token": 1,
+                  "end_token": 1
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.cond:if",
+                "weight": 0.6,
+                "matched_text": "if",
+                "span": {
+                  "turn_id": "t3",
+                  "start_token": 4,
+                  "end_token": 4
+                }
+              },
+              {
+                "tier": "A_structural",
+                "marker_id": "L.delim:only",
+                "weight": 0.6,
+                "matched_text": "only",
+                "span": {
+                  "turn_id": "t3",
+                  "start_token": 3,
+                  "end_token": 3
+                }
+              }
+            ]
+          },
+          "O": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "O.exp:also",
+                "weight": 0.6,
+                "matched_text": "also",
+                "span": {
+                  "turn_id": "t5",
+                  "start_token": 0,
+                  "end_token": 0
+                }
+              }
+            ]
+          },
+          "F": {
+            "count": 0,
+            "hits": []
+          },
+          "E": {
+            "count": 0,
+            "hits": []
+          },
+          "I": {
+            "count": 0,
+            "hits": []
+          }
+        }
+      },
+      "hmm": {
+        "contained": [
+          "Structural proxy behavioral metrics (no embeddings).",
+          "Closed rounds only."
+        ],
+        "deferred": [
+          "Pattern-based evasion detection (D_qev).",
+          "List growth detector (O_list) with user/assistant role separation.",
+          "Punctuation intensity (!!) handling."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/behavioral_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "window_id": "round_window::2:2",
+      "round_ids": [
+        "r2"
+      ],
+      "closed_rounds_only": true,
+      "is_partial": true,
+      "metrics": {
+        "C": 0.0,
+        "R": 1.0,
+        "D": 0.19999999999999998,
+        "N": 1.0,
+        "L": 0.0,
+        "O": 0.15,
+        "F": 0.7071067811865475,
+        "E": 0.0,
+        "I": 0.0
+      },
+      "raw_counts": {
+        "CS": 1,
+        "TOK": 18,
+        "RA": 0,
+        "marker_hits_by_metric": {
+          "C": {
+            "count": 0,
+            "hits": []
+          },
+          "R": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "R.hard:i won't",
+                "weight": 1.0,
+                "matched_text": "i won't",
+                "span": {
+                  "turn_id": "t5",
+                  "start_token": 2,
+                  "end_token": 3
+                }
+              }
+            ]
+          },
+          "D": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "D.shift:let's",
+                "weight": 0.6,
+                "matched_text": "let's",
+                "span": {
+                  "turn_id": "t4",
+                  "start_token": 2,
+                  "end_token": 2
+                }
+              }
+            ]
+          },
+          "N": {
+            "count": 0,
+            "hits": []
+          },
+          "L": {
+            "count": 0,
+            "hits": []
+          },
+          "O": {
+            "count": 1,
+            "hits": [
+              {
+                "tier": "A_structural",
+                "marker_id": "O.exp:also",
+                "weight": 0.6,
+                "matched_text": "also",
+                "span": {
+                  "turn_id": "t5",
+                  "start_token": 0,
+                  "end_token": 0
+                }
+              }
+            ]
+          },
+          "F": {
+            "count": 0,
+            "hits": []
+          },
+          "E": {
+            "count": 0,
+            "hits": []
+          },
+          "I": {
+            "count": 0,
+            "hits": []
+          }
+        }
+      },
+      "hmm": {
+        "contained": [
+          "Structural proxy behavioral metrics (no embeddings).",
+          "Closed rounds only."
+        ],
+        "deferred": [
+          "Pattern-based evasion detection (D_qev).",
+          "List growth detector (O_list) with user/assistant role separation.",
+          "Punctuation intensity (!!) handling."
+        ]
+      }
+    }
+  ],
+  "bridge": [
+    {
+      "schema_id": "edcmbone/bridge_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "window_id": "bridge_window::0",
+      "round_ids": [
+        "r0",
+        "r1",
+        "r2"
+      ],
+      "closed_rounds_only": true,
+      "correlations": [],
+      "divergences": [],
+      "flags": [],
+      "rules_frozen": {
+        "bridge_is_read_only": true,
+        "does_not_modify_O_or_B": true,
+        "operator_alignment_method": "sum_and_renormalize",
+        "exclude_open_rounds": true
+      },
+      "hmm": {
+        "contained": [
+          "Bridge uses thresholded L1 divergence and Pearson correlations."
+        ],
+        "deferred": [
+          "Statistical significance / p-values.",
+          "Alt correlation methods."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/bridge_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "window_id": "bridge_window::1",
+      "round_ids": [
+        "r1",
+        "r2"
+      ],
+      "closed_rounds_only": true,
+      "correlations": [
+        {
+          "operator_family": "P",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": -1.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": -0.9999999999999998,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 1.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 1.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 1.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": -1.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 2
+        }
+      ],
+      "divergences": [
+        {
+          "round_id": "r2",
+          "type": "both_shift_unexpectedly",
+          "details": {
+            "summary": "Both Operator and Behavioral shifted beyond threshold.",
+            "operator_delta_L1": 0.3333333333333333,
+            "behavioral_delta_L1": 0.8502800428471742,
+            "thresholds_used": {
+              "divergence_threshold": 0.2
+            }
+          }
+        }
+      ],
+      "flags": [
+        {
+          "level": "info",
+          "code": "inspect_window",
+          "message": "Both layers shifted; likely genuine interaction change."
+        }
+      ],
+      "rules_frozen": {
+        "bridge_is_read_only": true,
+        "does_not_modify_O_or_B": true,
+        "operator_alignment_method": "sum_and_renormalize",
+        "exclude_open_rounds": true
+      },
+      "hmm": {
+        "contained": [
+          "Bridge uses thresholded L1 divergence and Pearson correlations."
+        ],
+        "deferred": [
+          "Statistical significance / p-values.",
+          "Alt correlation methods."
+        ]
+      }
+    },
+    {
+      "schema_id": "edcmbone/bridge_output_v1",
+      "version": "1.0.0",
+      "attribution": "GPT generated; context, prompt Erin Spencer",
+      "window_id": "bridge_window::2",
+      "round_ids": [
+        "r2"
+      ],
+      "closed_rounds_only": true,
+      "correlations": [
+        {
+          "operator_family": "P",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "P",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": -0.9285714285714285,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.944911182523068,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": -0.9869115726091127,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.865105033071382,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "K",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.9285714285714286,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": -0.944911182523068,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.9869115726091128,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": -0.8651050330713822,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "Q",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "T",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "C",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "R",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "D",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "N",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "L",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "O",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "F",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "E",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        },
+        {
+          "operator_family": "S",
+          "behavioral_metric": "I",
+          "method": "pearson",
+          "value": 0.0,
+          "n": 3
+        }
+      ],
+      "divergences": [
+        {
+          "round_id": "r2",
+          "type": "both_shift_unexpectedly",
+          "details": {
+            "summary": "Both Operator and Behavioral shifted beyond threshold.",
+            "operator_delta_L1": 0.6666666666666667,
+            "behavioral_delta_L1": 0.8151600716727067,
+            "thresholds_used": {
+              "divergence_threshold": 0.2
+            }
+          }
+        }
+      ],
+      "flags": [
+        {
+          "level": "info",
+          "code": "inspect_window",
+          "message": "Both layers shifted; likely genuine interaction change."
+        }
+      ],
+      "rules_frozen": {
+        "bridge_is_read_only": true,
+        "does_not_modify_O_or_B": true,
+        "operator_alignment_method": "sum_and_renormalize",
+        "exclude_open_rounds": true
+      },
+      "hmm": {
+        "contained": [
+          "Bridge uses thresholded L1 divergence and Pearson correlations."
+        ],
+        "deferred": [
+          "Statistical significance / p-values.",
+          "Alt correlation methods."
+        ]
+      }
+    }
+  ],
+  "hmm": {
+    "contained": [
+      "Canon is read-only; engine orchestrates only.",
+      "Schema validation optional if jsonschema not installed."
+    ],
+    "deferred": [
+      "PCNA/PCTA routing outputs integration (optional)."
+    ]
+  }
+}

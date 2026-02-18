@@ -1,0 +1,250 @@
+{
+  "schema": "edcmbone/behavioral_markers_v1",
+  "version": "1.0.0",
+  "attribution": "GPT generated; context, prompt Erin Spencer",
+  "policy": {
+    "structure_first": true,
+    "tier_a_structural_preferred": true,
+    "tier_b_lexical_minimal": true,
+    "lexical_minimal_note": "Tier B exists only to make v1 executable; intended to be replaced by structural analogues later."
+  },
+
+  "windowing": {
+    "unit": "round",
+    "default_window_rounds_m": 4,
+    "closed_rounds_only": true
+  },
+
+  "metric_marker_sets": {
+    "C_constraint_strain": {
+      "description": "Weighted contradiction density inside constraint-bearing spans.",
+      "tier_a_structural": {
+        "negation_tokens": ["not", "no", "never", "n't"],
+        "contrast_connectors": ["but", "however", "though", "although", "yet", "instead", "otherwise"],
+        "counterfactual_modals": ["would", "could", "might", "should"],
+        "question_mark": ["?"],
+        "self_correction_punct": ["—", ":", ";"],
+        "patterns": [
+          {
+            "id": "C.A.01",
+            "name": "negation_with_contrast",
+            "pattern": "NEG + ... + (but|however|though|although|yet)",
+            "weight": 0.70
+          },
+          {
+            "id": "C.A.02",
+            "name": "question_pressure",
+            "pattern": "multiple ? in round",
+            "weight": 0.35
+          },
+          {
+            "id": "C.A.03",
+            "name": "modal_collision",
+            "pattern": "(must|have to|need to) + ... + (can't|cannot|won't|not)",
+            "weight": 0.85
+          }
+        ]
+      },
+      "tier_b_lexical_minimal": {
+        "contradiction_anchors": [
+          "contradict", "inconsistent", "doesn't add up", "makes no sense", "impossible"
+        ],
+        "weight_each": 0.75
+      }
+    },
+
+    "R_refusal_density": {
+      "description": "Refusal markers per constraint-related statements.",
+      "tier_a_structural": {
+        "hard_refusal_phrases": [
+          "i can't", "i cannot", "can't", "cannot", "won't", "will not",
+          "i won't", "not allowed", "against policy", "unable to", "i'm unable",
+          "i refuse", "refuse to"
+        ],
+        "soft_refusal_phrases": [
+          "i don't know", "not sure", "i'm not sure", "unclear",
+          "i can't help with that", "i can't do that"
+        ],
+        "deflection_refusal_linkers": ["but", "however", "instead"],
+        "weights": {
+          "hard": 1.0,
+          "soft": 0.5
+        }
+      },
+      "tier_b_lexical_minimal": {
+        "refusal_anchors": ["policy", "disallowed", "prohibited"],
+        "weight_each": 0.75
+      }
+    },
+
+    "D_deflection": {
+      "description": "Topic avoidance ratio: constraint focus lost vs total tokens.",
+      "tier_a_structural": {
+        "topic_shift_markers": [
+          "anyway", "regardless", "moving on", "let's", "by the way", "in other news"
+        ],
+        "meta_discourse_markers": [
+          "as an ai", "i can't browse", "i don't have access", "i can't see"
+        ],
+        "question_evasion_patterns": [
+          {
+            "id": "D.A.01",
+            "name": "answerless_followup_question",
+            "pattern": "user asks Q -> assistant responds with Q without answering",
+            "weight": 0.80
+          }
+        ]
+      },
+      "tier_b_lexical_minimal": {
+        "deflection_anchors": ["unrelated", "separately", "different topic"],
+        "weight_each": 0.60
+      }
+    },
+
+    "N_noise": {
+      "description": "Resolution inefficiency: low ratio of resolution-actions to constraint-talk.",
+      "tier_a_structural": {
+        "resolution_action_markers": [
+          "steps:", "1)", "2)", "3)", "- ", "* ",
+          "do this", "try this", "run", "install", "set", "change", "use", "add", "remove"
+        ],
+        "non_action_padding_markers": [
+          "in general", "typically", "often", "usually", "it depends", "broadly", "overall"
+        ],
+        "weights": {
+          "action": 1.0,
+          "padding": 0.5
+        }
+      },
+      "tier_b_lexical_minimal": {
+        "noise_anchors": ["philosophically", "metaphorically", "abstractly"],
+        "weight_each": 0.50
+      }
+    },
+
+    "L_load": {
+      "description": "Constraint load: density of constraint-bearing statements per round window.",
+      "tier_a_structural": {
+        "constraint_modals": ["must", "need", "have to", "required", "can't", "cannot", "should"],
+        "constraint_conditionals": ["if", "unless", "until"],
+        "constraint_delimiters": ["only", "exactly", "no", "not"],
+        "weights": {
+          "modal": 1.0,
+          "conditional": 0.6,
+          "delimiter": 0.6
+        }
+      },
+      "tier_b_lexical_minimal": {
+        "constraint_anchors": ["constraint", "requirement", "rule", "canon", "frozen"],
+        "weight_each": 0.75
+      }
+    },
+
+    "O_overextension": {
+      "description": "Scope creep: expansion beyond original request/constraint set within window.",
+      "tier_a_structural": {
+        "expansion_markers": [
+          "also", "additionally", "furthermore", "another", "moreover",
+          "we can", "we could", "next", "in addition"
+        ],
+        "list_growth_patterns": [
+          {
+            "id": "O.A.01",
+            "name": "list_length_growth",
+            "pattern": "assistant outputs larger enumerations than asked",
+            "weight": 0.70
+          }
+        ]
+      },
+      "tier_b_lexical_minimal": {
+        "scope_anchors": ["scope", "expand", "overreach", "extra"],
+        "weight_each": 0.60
+      }
+    },
+
+    "F_fixation": {
+      "description": "Constraint engagement similarity over time (structural proxy in v1).",
+      "tier_a_structural": {
+        "proxy_features": [
+          "repeat_rate_of_constraints_tokens",
+          "repeat_rate_of_refusal_phrases",
+          "repeat_rate_of_same_question_marks",
+          "repeat_rate_of_same_modal_patterns"
+        ],
+        "similarity": {
+          "method": "cosine",
+          "vector_features": "proxy_features_counts"
+        }
+      },
+      "tier_b_lexical_minimal": {
+        "fixation_anchors": ["again", "still", "same", "repeat"],
+        "weight_each": 0.40
+      }
+    },
+
+    "E_escalation": {
+      "description": "Commitment intensity increase within window (structural proxy).",
+      "tier_a_structural": {
+        "intensity_markers": [
+          "must", "no choice", "unacceptable", "absolutely", "under no circumstance",
+          "immediately", "now", "stop", "never"
+        ],
+        "punctuation_intensity": [
+          "!!", "!!!"
+        ],
+        "trend_rule": {
+          "method": "positive_derivative",
+          "window": "W_round(m)"
+        }
+      },
+      "tier_b_lexical_minimal": {
+        "escalation_anchors": ["escalate", "urgent", "crisis"],
+        "weight_each": 0.60
+      }
+    },
+
+    "I_integration_failure": {
+      "description": "Correction incorporation failure: mismatch between correction and subsequent response.",
+      "tier_a_structural": {
+        "correction_markers_user": [
+          "no", "that's wrong", "incorrect", "not what i meant", "you missed",
+          "fix", "revise", "update", "remove", "stop"
+        ],
+        "ack_markers_assistant": [
+          "you're right", "correct", "my mistake", "apologies", "i'll fix",
+          "updated", "revised"
+        ],
+        "incorporation_rule": {
+          "method": "expected_change_present",
+          "notes": [
+            "If user correction requests a structural change (e.g., remove item, change mapping), assistant output must reflect it in next window; otherwise I increases."
+          ]
+        }
+      },
+      "tier_b_lexical_minimal": {
+        "integration_anchors": ["incorporate", "align", "consistent"],
+        "weight_each": 0.50
+      }
+    }
+  },
+
+  "computation_notes": {
+    "tokenization": "Use same tokens_surface as parsing canon; lowercase for phrase matching.",
+    "phrase_matching": "Longest phrase match wins; overlapping phrases resolved by longer-first.",
+    "weights": "If multiple markers hit, weights add then are normalized to [0,1] per metric by implementation-specific cap.",
+    "constraint_statements_proxy": "In v1, constraint-bearing statements can be proxied by presence of constraint_modals + delimiters + conditionals."
+  },
+
+  "hmm": {
+    "contained_risks": [
+      "Tier B lexical anchors inject semantics; keep minimal and replace in v2 with structural analogues.",
+      "Several markers are English-specific; multilingual requires parallel inventories.",
+      "Some tokens (e.g., 'that', 'since', 'as') are role-ambiguous; v1 accepts heuristic matching."
+    ],
+    "deferred": [
+      "Fully structural constraint-span detector",
+      "Non-English marker inventories",
+      "Learned marker induction via Bridge feedback without semantics"
+    ]
+  }
+}

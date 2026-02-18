@@ -1,0 +1,139 @@
+{
+  "schema": "edcmbone/bones_v1",
+  "version": "1.0.0",
+  "attribution": "GPT generated; context, prompt Erin Spencer",
+  "operator_families_option": "A",
+  "families": {
+    "P": "Position / relational anchors (prepositions, comparatives)",
+    "K": "Connectors (coord/subord conjunctions, clause joiners)",
+    "Q": "Qualifiers / scope (negation, quantifiers, interrogatives, ?)",
+    "T": "Temporal / aspect / modality (auxiliaries, modals, contraction fragments)",
+    "S": "Self / referential (pronouns, determiners, demonstratives)"
+  },
+  "collision_priority": ["P", "K", "Q", "T", "S"],
+  "normalization": {
+    "lowercase_before_match": true,
+    "preserve_raw_text_losslessly": true
+  },
+  "punctuation_rules": {
+    "?": { "emit": [{"family": "Q", "count": 1}] },
+    "—": { "emit": [], "note": "em dash preserved losslessly; emits 0 operator tokens" },
+    "–": { "emit": [{"family": "K", "count": 1}], "note": "en dash as connector" },
+    ";": { "emit": [{"family": "K", "count": 1}] },
+    ":": { "emit": [{"family": "K", "count": 1}] }
+  },
+  "slash_rule_v1": {
+    "/": { "emit": [], "note": "ignored for operator counting in v1; preserved losslessly" }
+  },
+  "hyphen_rule": {
+    "emit_per_hyphen_compound": [{"family": "K", "count": 1}],
+    "note": "exactly 1 K per hyphenated compound token; internal bones still matched normally"
+  },
+  "contractions": {
+    "split_apostrophe_fragments": true,
+    "fragment_family_map": {
+      "n't": "Q",
+      "'t": "Q",
+      "'ll": "T",
+      "'d": "T",
+      "'re": "T",
+      "'m": "T",
+      "'ve": "T",
+      "'s": "T"
+    },
+    "notes": {
+      "'s": "treated structurally as auxiliary/contracted copula or possessive marker; in v1 mapped to T to avoid possessive semantic inference"
+    }
+  },
+  "closed_class_mapping": {
+    "S": {
+      "articles_determiners": [
+        "a", "an", "the",
+        "this", "that", "these", "those",
+        "my", "your", "his", "her", "its", "our", "their",
+        "mine", "yours", "hers", "ours", "theirs",
+        "each", "every", "either", "neither", "some", "any", "no",
+        "another", "other", "others", "such", "same"
+      ],
+      "personal_pronouns": [
+        "i", "me", "you", "he", "him", "she", "her", "it", "we", "us", "they", "them"
+      ],
+      "reflexives": [
+        "myself", "yourself", "yourselves", "himself", "herself", "itself", "ourselves", "themselves"
+      ],
+      "indefinite_pronouns": [
+        "someone", "somebody", "something",
+        "anyone", "anybody", "anything",
+        "everyone", "everybody", "everything",
+        "noone", "nobody", "nothing"
+      ],
+      "relative_pronouns": [
+        "who", "whom", "whose", "which", "that"
+      ],
+      "expletive_there": ["there"],
+      "demonstrative_proforms": ["here", "there", "now", "then"],
+      "notes": [
+        "We keep 'who/which/that' in S as referential operators; interrogative force is captured separately via '?' and wh-words also listed in Q.interrogatives to allow dual-tagging resolution via collision priority."
+      ]
+    },
+    "P": {
+      "core_prepositions": [
+        "in", "on", "at", "by", "with", "without", "for", "from", "to", "of", "off",
+        "into", "onto", "out", "over", "under", "above", "below", "before", "after",
+        "between", "among", "within", "beyond", "through", "across", "against", "around",
+        "near", "along", "amid", "during", "via", "per", "upon", "beneath", "behind",
+        "beside", "besides", "inside", "outside", "toward", "towards", "past"
+      ],
+      "comparatives_relational": ["than", "as"],
+      "phrasal_preposition_heads": ["because", "despite", "except", "like", "unlike"],
+      "notes": [
+        "'as' is role-ambiguous; in v1 it is listed in P and may also appear in K in subordinating roles—collision priority resolves at token-level only if multi-tagging occurs in implementation."
+      ]
+    },
+    "K": {
+      "coordinating": ["and", "but", "or", "nor", "yet", "so"],
+      "subordinating": [
+        "because", "although", "though", "since", "while", "whereas",
+        "if", "unless", "until", "when", "whenever", "where", "wherever",
+        "before", "after", "once", "than", "that"
+      ],
+      "correlative": ["either", "neither", "both", "whether"],
+      "discourse_connectors_minimal": ["however", "therefore", "thus", "moreover", "instead", "otherwise"],
+      "notes": [
+        "Discourse connectors included minimally as K to support structural linkage without semantic parsing."
+      ]
+    },
+    "Q": {
+      "negators": ["not", "no", "never", "none", "nothing", "nobody", "neither", "nor"],
+      "quantifiers_degree": [
+        "all", "some", "any", "many", "much", "few", "several",
+        "most", "more", "less", "least", "enough",
+        "very", "too", "only", "just", "also", "even", "quite", "rather", "almost"
+      ],
+      "interrogatives": ["who", "what", "when", "where", "why", "how", "which", "whom", "whose"],
+      "polarity_particles_minimal": ["yes", "yeah", "yep", "nope", "nah", "okay", "ok"],
+      "notes": [
+        "Interrogatives are included here AND may exist in S.relative_pronouns; implementers may multi-tag then resolve via collision priority."
+      ]
+    },
+    "T": {
+      "aux_be": ["am", "is", "are", "was", "were", "be", "been", "being"],
+      "aux_have": ["have", "has", "had"],
+      "aux_do": ["do", "does", "did"],
+      "modals": ["can", "could", "may", "might", "must", "shall", "should", "will", "would"],
+      "time_deixis": ["now", "then", "today", "tomorrow", "yesterday"],
+      "aspect_particles_minimal": ["already", "still", "yet"],
+      "notes": [
+        "Time deixis overlaps with S.demonstrative_proforms; v1 keeps them in T for time anchoring. Collision priority would favor P/K/Q over T over S."
+      ]
+    }
+  },
+  "hmm": {
+    "unresolved": [
+      "Role-ambiguous tokens (as/since/so/that) beyond simple list-membership",
+      "Slash-as-K in future version",
+      "SYS inclusion baseline",
+      "True exhaustive discourse markers set"
+    ]
+  }
+}

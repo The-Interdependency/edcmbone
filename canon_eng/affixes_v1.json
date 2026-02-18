@@ -1,0 +1,115 @@
+{
+  "schema": "edcmbone/affixes_v1",
+  "version": "1.0.0",
+  "attribution": "GPT generated; context, prompt Erin Spencer",
+  "principle": "Bound morphemes emit bones; remaining root is flesh and discarded.",
+  "matching_policy": {
+    "longest_match_first": true,
+    "repeat_until_no_more_matches": true,
+    "prefix_then_suffix": true,
+    "max_affixes_per_token": 6,
+    "notes": [
+      "This is mechanical, not linguistic truth. It is a deterministic segmentation heuristic for structural measurement."
+    ]
+  },
+  "family_map_rules": {
+    "negation_polarity_affixes": "Q",
+    "temporal_aspect_iteration_affixes": "T",
+    "locative_relational_affixes": "P",
+    "derivational_nominalizers_general": "S",
+    "connective_affixes_rare": "K"
+  },
+  "prefixes": [
+    { "affix": "counter", "family": "Q" },
+    { "affix": "anti", "family": "Q" },
+    { "affix": "non", "family": "Q" },
+    { "affix": "dis", "family": "Q" },
+    { "affix": "mis", "family": "Q" },
+    { "affix": "mal", "family": "Q" },
+    { "affix": "un", "family": "Q" },
+    { "affix": "in", "family": "Q" },
+    { "affix": "im", "family": "Q" },
+    { "affix": "ir", "family": "Q" },
+    { "affix": "il", "family": "Q" },
+
+    { "affix": "pre", "family": "T" },
+    { "affix": "post", "family": "T" },
+    { "affix": "re", "family": "T" },
+    { "affix": "over", "family": "P" },
+    { "affix": "under", "family": "P" },
+    { "affix": "sub", "family": "P" },
+    { "affix": "super", "family": "P" },
+    { "affix": "inter", "family": "P" },
+    { "affix": "intra", "family": "P" },
+    { "affix": "trans", "family": "P" },
+    { "affix": "circum", "family": "P" },
+    { "affix": "peri", "family": "P" },
+
+    { "affix": "auto", "family": "S" },
+    { "affix": "pseudo", "family": "Q" },
+    { "affix": "meta", "family": "P" },
+    { "affix": "proto", "family": "T" },
+    { "affix": "tele", "family": "P" },
+    { "affix": "micro", "family": "Q" },
+    { "affix": "macro", "family": "Q" }
+  ],
+  "suffixes": [
+    { "affix": "ization", "family": "S" },
+    { "affix": "isation", "family": "S" },
+    { "affix": "ational", "family": "S" },
+    { "affix": "tional", "family": "S" },
+    { "affix": "fulness", "family": "S" },
+    { "affix": "lessness", "family": "Q" },
+    { "affix": "ability", "family": "S" },
+    { "affix": "ibility", "family": "S" },
+    { "affix": "acious", "family": "S" },
+    { "affix": "icious", "family": "S" },
+    { "affix": "ative", "family": "S" },
+    { "affix": "itive", "family": "S" },
+
+    { "affix": "ment", "family": "S" },
+    { "affix": "ness", "family": "S" },
+    { "affix": "ship", "family": "S" },
+    { "affix": "hood", "family": "S" },
+    { "affix": "dom", "family": "S" },
+    { "affix": "ism", "family": "S" },
+    { "affix": "ist", "family": "S" },
+    { "affix": "ity", "family": "S" },
+    { "affix": "ty", "family": "S" },
+    { "affix": "ence", "family": "S" },
+    { "affix": "ance", "family": "S" },
+    { "affix": "tion", "family": "S" },
+    { "affix": "sion", "family": "S" },
+
+    { "affix": "less", "family": "Q" },
+    { "affix": "ful", "family": "Q" },
+
+    { "affix": "able", "family": "Q" },
+    { "affix": "ible", "family": "Q" },
+
+    { "affix": "est", "family": "Q" },
+    { "affix": "er", "family": "Q" },
+
+    { "affix": "ing", "family": "T" },
+    { "affix": "ed", "family": "T" },
+    { "affix": "en", "family": "T" },
+    { "affix": "s", "family": "T" },
+
+    { "affix": "ly", "family": "S" }
+  ],
+  "guards": {
+    "min_root_length_after_stripping": 2,
+    "do_not_strip_if_result_is_empty": true,
+    "notes": [
+      "Stops pathological stripping (e.g., 'is' -> '' via 's').",
+      "Implementation SHOULD check token against closed-class before affix stripping."
+    ]
+  },
+  "hmm": {
+    "unresolved": [
+      "Whether '-s' should be treated as T universally (it can be plural vs 3sg). v1 keeps it T to avoid semantics.",
+      "Whether 'meta-' belongs to P vs Q; v1 keeps it P (relational).",
+      "Whether '-ly' should be Q (degree) vs S (derivational); v1 keeps it S."
+    ]
+  }
+}

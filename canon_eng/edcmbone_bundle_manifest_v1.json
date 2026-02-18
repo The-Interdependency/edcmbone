@@ -1,0 +1,52 @@
+{
+  "schema": "edcmbone/bundle_manifest_v1",
+  "version": "1.0.0",
+  "attribution": "GPT generated; context, prompt Erin Spencer",
+  "repo": "edcmbone",
+  "frozen_defaults": {
+    "operator_families_option": "A",
+    "collision_priority": ["P", "K", "Q", "T", "S"],
+    "operator_window_turns_k": 8,
+    "behavioral_window_rounds_m": 4,
+    "stride": "rolling_by_1",
+    "round_closure_rule": "initiator_return_v1",
+    "behavioral_closed_rounds_only": true,
+    "bridge_read_only": true,
+    "pcna_prime_count_N": 53,
+    "operator_round_alignment": "sum_and_renormalize"
+  },
+  "artifacts": [
+    { "path": "spec.md", "type": "spec", "version": "1.0.0" },
+
+    { "path": "bones_v1.json", "type": "inventory", "version": "1.0.0" },
+    { "path": "affixes_v1.json", "type": "inventory", "version": "1.0.0" },
+
+    { "path": "windowing_policy.md", "type": "policy", "version": "1.0.0" },
+    { "path": "pcna_topology_v1.md", "type": "topology", "version": "1.0.0" },
+
+    { "path": "behavioral_markers_v1.json", "type": "inventory", "version": "1.0.0" },
+    { "path": "behavioral_formulas_v1.md", "type": "formulas", "version": "1.0.0" },
+
+    { "path": "behavioral_schema_v1.json", "type": "schema", "version": "1.0.0" },
+    { "path": "operator_schema_v1.json", "type": "schema", "version": "1.0.0" },
+    { "path": "bridge_schema_v1.json", "type": "schema", "version": "1.0.0" },
+
+    { "path": "actor_schema_v1.json", "type": "schema", "version": "1.0.0" },
+    { "path": "utterance_schema_v1.json", "type": "schema", "version": "1.0.0" },
+    { "path": "turn_schema_v1.json", "type": "schema", "version": "1.0.0" },
+    { "path": "round_schema_v1.json", "type": "schema", "version": "1.0.0" }
+  ],
+  "hmm": {
+    "contained": [
+      "Tier B lexical anchors in Behavioral markers inject minimal semantics; replace in v2 with structural analogues.",
+      "Role-ambiguous tokens (as/since/that/so) are handled heuristically in v1."
+    ],
+    "deferred": [
+      "Open-round behavioral handling policy beyond exclusion",
+      "Diarization confidence & overlap timing model",
+      "Alternative round closure rules (required responder cycles)",
+      "PCNA adjacency variants (value-space prime gaps, learned weights)",
+      "Bridge divergence threshold policy"
+    ]
+  }
+}

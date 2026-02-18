@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Actor Schema v1",
+  "description": "Canonical actor identity object for lossless transcript parsing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["actor_id", "display_name", "role"],
+  "properties": {
+    "actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable canonical key (e.g., 'A', 'B', 'judge', 'witness_1', 'SYS', 'TOOL:web', 'UNK')."
+    },
+    "display_name": {
+      "type": ["string", "null"],
+      "description": "Optional human-readable name."
+    },
+    "role": {
+      "type": ["string", "null"],
+      "description": "Optional role label."
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Utterance Schema v1",
+  "description": "Canonical utterance object. Raw, lossless, speaker-attributed segment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["utterance_id", "actor_id", "raw_text", "t_start", "t_end", "source_ref"],
+  "properties": {
+    "utterance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_text": {
+      "type": "string",
+      "description": "Original raw text; never modified."
+    },
+    "t_start": {
+      "type": ["string", "null"],
+      "description": "Optional start timestamp (ISO 8601 preferred)."
+    },
+    "t_end": {
+      "type": ["string", "null"],
+      "description": "Optional end timestamp (ISO 8601 preferred)."
+    },
+    "source_ref": {
+      "type": ["string", "null"],
+      "description": "Optional pointer to page/line/audio segment."
+    }
+  }
+}

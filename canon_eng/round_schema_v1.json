@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Round Schema v1",
+  "description": "Canonical Round: initiator-return interaction unit derived from ordered Turns.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "round_id",
+    "initiator_actor_id",
+    "turn_ids",
+    "status",
+    "meta"
+  ],
+  "properties": {
+    "round_id": { "type": "string", "minLength": 1 },
+    "initiator_actor_id": { "type": "string", "minLength": 1 },
+    "turn_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Contiguous ordered turn_ids from initiator start to just before initiator returns."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["closed", "open"],
+      "description": "Open if transcript ends before initiator returns."
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closure_rule",
+        "excluded_sys_tool",
+        "notes"
+      ],
+      "properties": {
+        "closure_rule": {
+          "type": "string",
+          "enum": ["initiator_return_v1"],
+          "const": "initiator_return_v1"
+        },
+        "excluded_sys_tool": {
+          "type": "boolean",
+          "const": true,
+          "description": "Frozen v1 default: SYS/TOOL excluded from rounds."
+        },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
