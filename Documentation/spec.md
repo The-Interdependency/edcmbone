@@ -235,3 +235,61 @@ $$\operatorname{clamp}(x) = \max(0, \min(1, x))$$
 **Per-100-tokens normalisation**:
 
 $$\operatorname{norm}(x) = x \cdot \frac{100}{|\mathcal{T}|}$$
+
+---
+
+## 11. Star-Helix Tensor Field
+
+The star-helix model provides a global coherence framework for multi-agent systems. It is the geometric substrate underlying the EDCM metric space.
+
+### Graph Traversal and Fragmentation
+
+Given N agents (vertices on a circle) and a step rule k:
+
+- **Vertices** $v_j$ — individuals or roles
+- **Step size** $k$ — the interaction rule (who speaks to whom)
+- **Component count** $d = \gcd(N, k)$ — number of independent, non-communicating subgroups
+
+When $d > 1$, the system fragments into $d$ isolated cycles. When $d = 1$ (i.e. $\gcd(N,k) = 1$), the traversal is **unicursive** — every vertex is visited in a single path. This is the coherence condition.
+
+### Cylindrical Lift
+
+To separate apparent conflict from real conflict, the planar star polygon $(\theta)$ is lifted to a cylinder $(\theta, h)$:
+
+$$(\theta_j, h_j) = \left(\frac{2\pi j}{N},\; \frac{j \cdot k}{N}\right)$$
+
+In this lifted representation:
+- Events that collide in the $\theta$-projection (appearing simultaneous/contradictory) are separated along $h$ (temporally ordered)
+- A **crossing in projection** is not a real conflict — it is a projection artifact
+
+The helix is non-self-intersecting when $\gcd(N, k) = 1$.
+
+### Dynamic Step Size
+
+A fixed $k$ with composite $N$ guarantees fragmentation. A **variable** $k$ — one that adapts to demonstrated competence, context, or jury selection — can maintain $\gcd(N, k) = 1$ even as the system scales.
+
+Formally: the system selects $k_t$ at each round $t$ such that:
+
+$$\gcd(N_t, k_t) = 1 \quad \text{(coherence condition)}$$
+
+### Tensor Field of Authority
+
+Assign to each agent a competence vector in multiple fields and a voice tensor $\mathbf{A}_{ij}$ mapping agents to decisions. The non-tyranny condition requires the authority tensor to be **curl-free**:
+
+$$\nabla \times \mathbf{A} = 0$$
+
+This ensures no closed authority loop returns to the same point with a net gain. In graph terms: every authority cycle must pass through at least one node that breaks the loop (a "thirteenth" observer role).
+
+### Phase Transitions
+
+| Phase | Condition | Description |
+|-------|-----------|-------------|
+| Survival | $d > 1$ | System fragmented; subgroups isolated; resources hoarded locally |
+| Striving | $d = 1$, path length maximal | All vertices reached but with friction; projection crossings unresolved |
+| Thriving | Helix fully realised | Temporal order $h$ internalised; no collisions in $(\theta, h)$ space |
+
+### The Observer Coordinate
+
+In an N-phase atlas, the Nth vertex is the **observer's own position** — the center of projection. No star polygon can include it; it is the lifted $h$-coordinate itself. An agent occupying this role has no direct authority but holds information orthogonal to the plane of conflict.
+
+This is the mathematical basis for the "Way Seer" role: authority = 0, information dimensionality = +1.
