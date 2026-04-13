@@ -10,6 +10,9 @@ description = "EDCM with PCNA/PCTA framework"
 readme = "../Documentation/README.md"
 requires-python = ">=3.8"
 
+[tool.pytest.ini_options]
+testpaths = ["../Tests"]
+
 [tool.hatch.build]
 sources = ["src"]
 
