@@ -14,7 +14,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 - A **Tests** directory (`Tests/`) — test suite (currently being bootstrapped)
 - A **Documentation** directory (`Documentation/`) — specs and design guidelines
 
-**Current status**: Version 0.1.0. The canon data library (`edcmbone.canon`) is implemented. Other source files remain stubs. Active implementation is in progress.
+**Current status**: Version 0.1.0. Four library modules are implemented and tested (68 tests, all passing). The frontend and AMMH server remain stubs.
 
 ---
 
@@ -36,8 +36,15 @@ edcmbone/
 │           │       ├── bones_affixes_v1.json   # 76 affix bones
 │           │       ├── bones_punct_v1.json     # 13 punctuation bones
 │           │       └── markers_v1.json         # 9-metric behavioral markers
-│           └── parser/
-│               └── turns_rounds.py     # Transcript parser (stub)
+│           ├── parser/
+│           │   ├── __init__.py         # exports parse_transcript + data classes
+│           │   └── turns_rounds.py     # Embedded-model transcript parser
+│           ├── metrics/
+│           │   ├── __init__.py         # exports all public symbols
+│           │   ├── stats.py            # tokenise, TTR, entropy, novelty, cosine…
+│           │   ├── risk.py             # four risk proxies (fixation/escalation/…)
+│           │   └── compute.py          # RoundMetrics, compute_round/transcript
+│           └── compress.py             # Lossless codec + compression_stats
 ├── Frontend/
 │   ├── package.json            # npm config (React 18.2.0 + Tailwind CSS)
 │   └── tailwind.config.js      # Tailwind config (stub)
@@ -85,22 +92,30 @@ pip install -e .
 pip install -r requirements.txt
 ```
 
-The Python package is named `edcmbone`. Primary entry points:
+The Python package is named `edcmbone`. Full pipeline:
 
 ```python
-# Canon data library (implemented)
 from edcmbone.canon import CanonLoader
+from edcmbone.parser import parse_transcript
+from edcmbone.metrics import compute_transcript
+import edcmbone.compress as codec
 
 canon = CanonLoader()
-canon.lookup_word("not")           # -> {"word": "not", "primary": "P", "families": ["P"], ...}
-canon.lookup_affix("un-")          # -> {"affix": "un-", "primary": "P", ...}
-canon.lookup_punct("?")            # -> {"mark": "?", "primary": "Q", "tokens_emitted": 1, ...}
-canon.metric_names()               # -> ["C", "R", "D", "N", "L", "O", "F", "E", "I"]
-canon.metric_info("R")             # -> {metric, formula, computable_from_markers, markers, ...}
-canon.marker_phrases("R", "refusal")  # -> ["I can't", "I won't", ...]
 
-# Transcript parser (stub)
-from edcmbone.parser.turns_rounds import parse_transcript
+# 1. Parse transcript -> turns, rounds, bone/flesh tokens
+pt = parse_transcript(transcript, canon=canon)
+
+# 2. Compute 11-component metric vector per round
+metrics = compute_transcript(pt, canon=canon)
+# -> [RoundMetrics(C, R, F, E, D, N, I, O, L, P, kappa), ...]
+
+# 3. Lossless encode + compress
+compressed = codec.to_bytes(pt, metrics)
+pt2, metrics2 = codec.from_bytes(compressed)   # exact reconstruction
+
+# 4. Compression-metric statistics
+stats = codec.compression_stats(transcript, compressed, pt)
+# -> {structural_density, bone_entropy_bits, huffman_codes, ...}
 ```
 
 ### Frontend (React)
@@ -117,11 +132,14 @@ Tailwind CSS is included; configure `tailwind.config.js` with `content` paths be
 ### Running Tests
 
 ```bash
-# From repo root or Tests/
+# From repo root
 pytest Tests/
+
+# Or from Backend/ (pytest.ini_options points to ../Tests)
+cd Backend && pytest
 ```
 
-No pytest configuration exists yet. When adding tests, use `pytest` with standard conventions (`test_*.py` files, `test_*` functions).
+68 tests covering canon, parser, metrics, and compress. All pass. pytest >= 7.0 is the only test dependency (listed in `requirements.txt`).
 
 ---
 
@@ -166,13 +184,17 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 | File | Purpose |
 |------|---------|
 | `Backend/pyproject.toml` | Python package metadata, build system, data-file inclusion |
-| `Backend/src/edcmbone/canon/loader.py` | `CanonLoader` — primary implemented API |
+| `Backend/src/edcmbone/canon/loader.py` | `CanonLoader` — bone/marker lookup API |
 | `Backend/src/edcmbone/canon/data/*.json` | Authoritative canon data (bones + markers) |
-| `Backend/src/edcmbone/parser/turns_rounds.py` | Transcript parser (stub, next to implement) |
+| `Backend/src/edcmbone/parser/turns_rounds.py` | Embedded-model transcript parser |
+| `Backend/src/edcmbone/metrics/stats.py` | Text statistics (TTR, entropy, cosine, …) |
+| `Backend/src/edcmbone/metrics/risk.py` | Four risk proxies |
+| `Backend/src/edcmbone/metrics/compute.py` | Metric vector + RC-circuit energy |
+| `Backend/src/edcmbone/compress.py` | Lossless codec + Huffman compression stats |
+| `Tests/test_backend.py` | 68-test suite (canon, parser, metrics, compress) |
 | `Frontend/package.json` | Frontend dependencies and scripts |
 | `ammh/backend/server.py` | AMMH multi-model hub server (stub) |
-| `Documentation/spec.md` | Canonical framework specification including mathematics |
-| `Tests/test_backend.py` | Backend test entry point (stub) |
+| `Documentation/spec.md` | Full framework specification including mathematics |
 
 ---
 
@@ -183,9 +205,8 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
 - No pre-commit hooks
 - No pytest configuration (`pytest.ini` or `[tool.pytest.ini_options]`)
-- `requirements.txt` is empty — add dependencies as they are introduced
+- `requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
-- `parser/turns_rounds.py` is a stub — `parse_transcript` returns `None`
 - `ammh/backend/server.py` is a stub — no routes implemented
 
 When implementing any of the above, use the most current conventions for the respective toolchain.
