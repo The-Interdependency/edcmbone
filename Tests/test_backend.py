@@ -2,10 +2,10 @@
 Tests for the edcmbone backend library.
 
 Covers:
-  - edcmbone.canon    (CanonLoader)
-  - edcmbone.parser   (parse_transcript, Turn, Round, BoneToken, FleshToken)
-  - edcmbone.metrics  (stats, risk, compute)
-  - edcmbone.compress (encode/decode round-trip, compression_stats)
+  - edcmbone.canon      (CanonLoader)
+  - edcmbone.parser     (parse_transcript, Turn, Round, BoneToken, FleshToken)
+  - edcmbone.metrics    (stats, risk, compute, projection, matrix)
+  - edcmbone.compress   (encode/decode round-trip, compression_stats)
 """
 
 import math
@@ -452,3 +452,136 @@ class TestCompress:
         import edcmbone.compress as codec
         encoded = codec.encode(parsed)
         assert encoded["v"] == 1
+
+
+# ---------------------------------------------------------------------------
+# metrics.projection  (Layer 3)
+# ---------------------------------------------------------------------------
+
+@pytest.fixture(scope="module")
+def agent_metrics(parsed, metrics):
+    from edcmbone.metrics import project_transcript
+    return project_transcript(parsed, metrics)
+
+
+class TestProjection:
+    def test_returns_list(self, agent_metrics):
+        assert isinstance(agent_metrics, list)
+
+    def test_one_per_round(self, parsed, agent_metrics):
+        assert len(agent_metrics) == len(parsed.rounds)
+
+    def test_all_values_in_range(self, agent_metrics):
+        for am in agent_metrics:
+            for attr in ("CM", "DA", "DRIFT", "DVG", "INT", "TBF"):
+                val = getattr(am, attr)
+                assert 0.0 <= val <= 1.0, f"{attr}={val} out of [0,1]"
+
+    def test_vector_length(self, agent_metrics):
+        for am in agent_metrics:
+            assert len(am.vector()) == 6
+
+    def test_as_dict_keys(self, agent_metrics):
+        d = agent_metrics[0].as_dict()
+        for k in ("CM", "DA", "DRIFT", "DVG", "INT", "TBF"):
+            assert k in d
+
+    def test_tbf_zero_for_one_speaker(self, canon):
+        from edcmbone.parser import parse_transcript
+        from edcmbone.metrics import compute_transcript, project_transcript
+        single = "A: Everything here is from a single speaker.\nA: Nobody else speaks at all."
+        pt = parse_transcript(single, canon=canon)
+        l1 = compute_transcript(pt, canon=canon)
+        l3 = project_transcript(pt, l1)
+        for am in l3:
+            assert am.TBF == pytest.approx(0.0)
+
+    def test_fire_alerts_returns_list(self, agent_metrics):
+        from edcmbone.metrics import fire_alerts
+        for am in agent_metrics:
+            alerts = fire_alerts(am)
+            assert isinstance(alerts, list)
+            for a in alerts:
+                assert isinstance(a, str)
+                assert a.startswith("ALERT_")
+
+    def test_fire_alerts_high_values(self):
+        from edcmbone.metrics import AgentMetrics, fire_alerts
+        # All metrics above threshold → all alerts fire
+        am = AgentMetrics(CM=0.9, DA=0.9, DRIFT=0.9, DVG=0.9, INT=0.9, TBF=0.9)
+        alerts = fire_alerts(am)
+        assert "ALERT_CM_HIGH" in alerts
+        assert "ALERT_DA_RISING" in alerts
+        assert "ALERT_DRIFT" in alerts
+        assert "ALERT_DVG_HIGH" in alerts
+        assert "ALERT_INT_HIGH" in alerts
+        assert "ALERT_TBF_SKEW" in alerts
+
+    def test_fire_alerts_low_values(self):
+        from edcmbone.metrics import AgentMetrics, fire_alerts
+        am = AgentMetrics(CM=0.0, DA=0.0, DRIFT=0.0, DVG=0.0, INT=0.0, TBF=0.0)
+        assert fire_alerts(am) == []
+
+    def test_crosswalk_known_risks(self):
+        from edcmbone.metrics import crosswalk_risk
+        for risk in ("R_fix", "R_esc", "R_stag", "R_loop"):
+            result = crosswalk_risk(risk)
+            assert isinstance(result, list)
+            assert len(result) > 0
+            for alert in result:
+                assert alert.startswith("ALERT_")
+
+    def test_crosswalk_unknown_risk(self):
+        from edcmbone.metrics import crosswalk_risk
+        assert crosswalk_risk("R_nonexistent") == []
+
+
+# ---------------------------------------------------------------------------
+# metrics.matrix
+# ---------------------------------------------------------------------------
+
+class TestMatrix:
+    def test_a_matrix_has_version(self):
+        from edcmbone.metrics import A_MATRIX, MATRIX_VERSION
+        assert A_MATRIX["version"] == MATRIX_VERSION
+
+    def test_a_matrix_covers_all_l1_metrics(self):
+        from edcmbone.metrics import A_MATRIX
+        for m in ("C", "R", "F", "E", "D", "N", "I", "O", "L", "P", "kappa"):
+            assert m in A_MATRIX["metrics"], f"Missing metric {m} in A_MATRIX"
+
+    def test_projection_map_covers_all_l3_metrics(self):
+        from edcmbone.metrics import PROJECTION_MAP
+        for m in ("CM", "DA", "DRIFT", "DVG", "INT", "TBF"):
+            assert m in PROJECTION_MAP["metrics"]
+
+    def test_alert_thresholds_cover_all_alerts(self):
+        from edcmbone.metrics import ALERT_THRESHOLDS
+        for name in ("ALERT_CM_HIGH", "ALERT_DA_RISING", "ALERT_DRIFT",
+                     "ALERT_DVG_HIGH", "ALERT_INT_HIGH", "ALERT_TBF_SKEW"):
+            assert name in ALERT_THRESHOLDS["alerts"]
+
+    def test_freeze_adds_sha256(self):
+        from edcmbone.metrics import A_MATRIX, freeze
+        frozen = freeze(A_MATRIX)
+        assert "_sha256" in frozen
+        assert len(frozen["_sha256"]) == 16
+
+    def test_freeze_is_deterministic(self):
+        from edcmbone.metrics import A_MATRIX, freeze
+        f1 = freeze(A_MATRIX)
+        f2 = freeze(A_MATRIX)
+        assert f1["_sha256"] == f2["_sha256"]
+
+    def test_diff_identical_is_empty(self):
+        from edcmbone.metrics import A_MATRIX, diff
+        assert diff(A_MATRIX, A_MATRIX) == {}
+
+    def test_diff_detects_change(self):
+        import copy
+        from edcmbone.metrics import A_MATRIX, diff
+        modified = copy.deepcopy(A_MATRIX)
+        modified["metrics"]["F"]["rep_b"] = 0.99
+        changes = diff(A_MATRIX, modified)
+        assert ("F", "rep_b") in changes
+        assert changes[("F", "rep_b")] == (0.30, 0.99)
