@@ -39,8 +39,8 @@ How AI systems fail high-density neurodivergent input, mapped to the GCIP taxono
 **F1 — Deletion.**
 The system omits operative variables without notice. Common trigger: length normalization, summarization routines, "helpful" condensation. The user receives a response that appears to address their input but is missing the constraint they specified.
 
-**F2 — Mutation.**
-The system paraphrases an operative variable into a near-synonym that does not preserve the original constraint. "Must not fix" → "should avoid changing unnecessarily." The obligation and absolute status are both lost.
+**F2 — Mutation (undisclosed).**
+The system paraphrases an operative variable into a near-synonym that does not preserve the original constraint, without disclosing the change. "Must not fix" → "should avoid changing unnecessarily." The obligation and absolute status are both lost. Note: transformation with disclosure is not F2 — the failure is the absence of transparency, not the fact of paraphrase.
 
 **F3 — Inversion.**
 The system removes a negation operator and retains the unnegated predicate. "NOT a supervisor" → "supervisor." This is not a paraphrase error — it is a structural sign flip. The probability of this error increases when the negation appears early in the utterance and the predicate is semantically prominent.
