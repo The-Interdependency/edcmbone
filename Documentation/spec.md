@@ -48,11 +48,11 @@ Each metric entry specifies:
 
 **Token set** of a response R:
 
-$$\mathcal{T}(R) = \bigl\{ \text{lowercase tokens from } R \bigr\}$$
+$$\mathcal{T}(R) = \{ \text{lowercase tokens from } R \}$$
 
 **n-grams** of length n:
 
-$$G_n(\mathcal{T}) = \bigl\{ (t_i, t_{i+1}, \dots, t_{i+n-1}) \;\big|\; 1 \le i \le |\mathcal{T}| - n + 1 \bigr\}$$
+$$G_n(\mathcal{T}) = \{ (t_i, t_{i+1}, \dots, t_{i+n-1}) \mid 1 \le i \le |\mathcal{T}| - n + 1 \}$$
 
 **Shannon Entropy** (given token frequency c(t) and total tokens N = |T|):
 
@@ -60,7 +60,7 @@ $$H(\mathcal{T}) = - \sum_{t \in \mathcal{T}} \frac{c(t)}{N} \log_2\!\left(\frac
 
 **Type–Token Ratio (TTR) and Repetition Ratio**:
 
-$$\text{TTR}(\mathcal{T}) = \frac{|\operatorname{set}(\mathcal{T})|}{|\mathcal{T}|}$$
+$$\text{TTR}(\mathcal{T}) = \frac{|\text{set}(\mathcal{T})|}{|\mathcal{T}|}$$
 
 $$\text{RepetitionRatio} = 1 - \text{TTR}$$
 
@@ -74,17 +74,17 @@ $$\cos(\mathbf{c}_A, \mathbf{c}_B) = \frac{\sum_i c_A(i) \cdot c_B(i)}{\sqrt{\su
 
 **Repeated n-gram Density** (for n = 3):
 
-$$\text{RepNgram}(B) = \frac{\sum_{g \in G_3(\mathcal{T}_B)} \bigl(\operatorname{freq}(g) - 1\bigr)}{|G_3(\mathcal{T}_B)|}$$
+$$\text{RepNgram}(B) = \frac{\sum_{g \in G_3(\mathcal{T}_B)} \left(\text{freq}(g) - 1\right)}{|G_3(\mathcal{T}_B)|}$$
 
 (Only n-grams appearing more than once contribute.)
 
 **Pattern Density** per 1 000 characters (for a pattern p):
 
-$$\rho_{\text{pat}}(R) = \frac{\operatorname{count}_{\text{pat}}(R)}{|R|} \times 1000$$
+$$\rho_{\text{pat}}(R) = \frac{\text{count}_{\text{pat}}(R)}{|R|} \times 1000$$
 
 **Correction Fidelity** (combines overlap with correction C and distance from original A):
 
-$$\text{Fidelity} = 0.5 \cdot J(\mathcal{T}_C, \mathcal{T}_B) + 0.5 \cdot \bigl(1 - \cos(\mathbf{c}_A, \mathbf{c}_B)\bigr)$$
+$$\text{Fidelity} = 0.5 \cdot J(\mathcal{T}_C, \mathcal{T}_B) + 0.5 \cdot \left(1 - \cos(\mathbf{c}_A, \mathbf{c}_B)\right)$$
 
 with Jaccard similarity:
 
@@ -132,7 +132,7 @@ where s_t = stored energy (capacitance), δ_t = resolved flow (work), η_t = ext
 
 **Circuit dynamics** (RC-circuit analogue):
 
-$$s_{t+1} = \alpha s_t + \mathcal{E}_t - \delta_t, \qquad \delta_t = \min\bigl(\delta_{\max},\; g(y_t, y_{t-1})\bigr)$$
+$$s_{t+1} = \alpha s_t + \mathcal{E}_t - \delta_t, \qquad \delta_t = \min\left(\delta_{\max},\; g(y_t, y_{t-1})\right)$$
 
 Persistence $\alpha \in [0,1]$, maximum resolution rate $\delta_{\max} \in [0,1]$.
 
@@ -142,11 +142,11 @@ Persistence $\alpha \in [0,1]$, maximum resolution rate $\delta_{\max} \in [0,1]
 
 All risk proxies are clamped to [0, 1]:
 
-$$\operatorname{clamp}(x) = \max(0, \min(1, x))$$
+$$\text{clamp}(x) = \max(0, \min(1, x))$$
 
 **Fixation risk** (repetition + n-gram repetition + low novelty):
 
-$$R_{\text{fix}} = \operatorname{clamp}\bigl(0.3 \cdot \text{RepB} + 0.3 \cdot \text{RepNgram}(B) + 0.4 \cdot (1 - \text{Novelty})\bigr)$$
+$$R_{\text{fix}} = \text{clamp}\left(0.3 \cdot \text{RepB} + 0.3 \cdot \text{RepNgram}(B) + 0.4 \cdot (1 - \text{Novelty})\right)$$
 
 **Broken return**:
 
@@ -154,15 +154,15 @@ $$R_{\text{broken}} = 0.55 \cdot \cos(\mathbf{c}_A, \mathbf{c}_B) + 0.45 \cdot (
 
 **Escalation / shutdown risk**:
 
-$$R_{\text{esc}} = \operatorname{clamp}\bigl(0.45 \cdot R_{\text{broken}} + 0.35 \cdot \rho_{\text{refusal}}/5 + 0.2 \cdot \rho_{\text{hedge}}/5\bigr)$$
+$$R_{\text{esc}} = \text{clamp}\left(0.45 \cdot R_{\text{broken}} + 0.35 \cdot \rho_{\text{refusal}}/5 + 0.2 \cdot \rho_{\text{hedge}}/5\right)$$
 
 **Stagnation proxy** (refusal + low novelty + low unique gain):
 
-$$R_{\text{stag}} = \operatorname{clamp}\bigl(0.45 \cdot \rho_{\text{refusal}}/5 + 0.35 \cdot (1 - \text{Novelty}) + 0.2 \cdot (1 - \text{Gain})\bigr)$$
+$$R_{\text{stag}} = \text{clamp}\left(0.45 \cdot \rho_{\text{refusal}}/5 + 0.35 \cdot (1 - \text{Novelty}) + 0.2 \cdot (1 - \text{Gain})\right)$$
 
 **Repetition loop risk** (added in v0.4):
 
-$$R_{\text{loop}} = \operatorname{clamp}\bigl(0.5 \cdot \text{RepB} + 0.3 \cdot \text{RepNgram}(B) + 0.2 \cdot \cos(\mathbf{c}_A, \mathbf{c}_B)\bigr)$$
+$$R_{\text{loop}} = \text{clamp}\left(0.5 \cdot \text{RepB} + 0.3 \cdot \text{RepNgram}(B) + 0.2 \cdot \cos(\mathbf{c}_A, \mathbf{c}_B)\right)$$
 
 ---
 
@@ -230,11 +230,11 @@ where Ω = number of constraint-satisfaction microstates consistent with the obs
 
 **Clamp**:
 
-$$\operatorname{clamp}(x) = \max(0, \min(1, x))$$
+$$\text{clamp}(x) = \max(0, \min(1, x))$$
 
 **Per-100-tokens normalisation**:
 
-$$\operatorname{norm}(x) = x \cdot \frac{100}{|\mathcal{T}|}$$
+$$\text{norm}(x) = x \cdot \frac{100}{|\mathcal{T}|}$$
 
 ---
 
