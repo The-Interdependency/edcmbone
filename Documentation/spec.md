@@ -202,7 +202,7 @@ $$R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\thet
 
 The optimal separation angle θ* maximises between-cluster distance minus within-cluster variance:
 
-$$\theta^* = \arg\max_{\theta} \left[ \sum_{i<j} \|\mu_i(\theta) - \mu_j(\theta)\| - \lambda \sum_i \sum_{x \in \mathcal{C}_i} \|x(\theta) - \mu_i(\theta)\| \right]$$
+$$\theta^* = \arg\max_{\theta} \left[ \sum_{i<j} \lVert\mu_i(\theta) - \mu_j(\theta)\rVert - \lambda \sum_i \sum_{x \in \mathcal{C}_i} \lVert x(\theta) - \mu_i(\theta)\rVert \right]$$
 
 Empirically (across multiple domains):
 
