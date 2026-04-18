@@ -14,7 +14,13 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 - A **Tests** directory (`Tests/`) — test suite (currently being bootstrapped)
 - A **Documentation** directory (`Documentation/`) — specs and design guidelines
 
-**Current status**: Version 0.1.0. Four library modules are implemented and tested (68 tests, all passing). The frontend and AMMH server remain stubs.
+**Current status**: Version 0.1.0. Four library modules are implemented and tested (87 tests, all passing). The frontend and AMMH server remain stubs.
+
+---
+
+## Current Use Case — GCIP Submission
+
+edcmbone is now functioning as a civil rights evidence instrument in addition to its role as a research library. The **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to Google, OpenAI, Anthropic, xAI, Meta, Microsoft, and regulatory bodies including the FTC, DOJ ADA Unit, EU AI Office, and the UN CRPD Committee — cites edcmbone as the measurement instrument for cognitive accessibility failures in AI systems. `Documentation/GCIP.md` contains the full proposal. `Documentation/evidence_log.md` contains three EDCM-measured evidence entries showing F-loss between 49.7% and 65.3%. `Documentation/neurodivergence_handling.md` is the source interaction rubric and AI skill specification underlying the proposal. The MIT license applies to all content; everything is open source.
 
 ---
 
@@ -43,7 +49,9 @@ edcmbone/
 │           │   ├── __init__.py         # exports all public symbols
 │           │   ├── stats.py            # tokenise, TTR, entropy, novelty, cosine…
 │           │   ├── risk.py             # four risk proxies (fixation/escalation/…)
-│           │   └── compute.py          # RoundMetrics, compute_round/transcript
+│           │   ├── compute.py          # RoundMetrics, compute_round/transcript
+│           │   ├── matrix.py           # A_MATRIX, PROJECTION_MAP, freeze/diff
+│           │   └── projection.py       # AgentMetrics (CM,DA,DRIFT,DVG,INT,TBF), fire_alerts
 │           └── compress.py             # Lossless codec + compression_stats
 ├── Frontend/
 │   ├── package.json            # npm config (React 18.2.0 + Tailwind CSS)
@@ -55,8 +63,11 @@ edcmbone/
 │   └── backend/
 │       └── server.py           # AMMH server (stub)
 ├── Documentation/
-│   ├── README.md               # Project README
+│   ├── README.md               # Documentation directory index
 │   ├── spec.md                 # EDCM-PCNA-PCTA framework specification + math
+│   ├── GCIP.md                 # Global Cognitive Interaction Profiles proposal
+│   ├── evidence_log.md         # Three EDCM-measured evidence entries
+│   ├── neurodivergence_handling.md  # Interaction rubric and AI skill specification
 │   ├── auth_testing.md         # Authentication testing notes
 │   └── design_guidelines.json  # Design guidelines
 ├── edcmbone_canon_data_v1.zip  # Source zip for canon data files (keep as reference)
@@ -139,7 +150,7 @@ pytest Tests/
 cd Backend && pytest
 ```
 
-68 tests covering canon, parser, metrics, and compress. All pass. pytest >= 7.0 is the only test dependency (listed in `requirements.txt`).
+87 tests covering canon, parser, metrics, compress, projection, and matrix. All pass. pytest >= 7.0 is the only test dependency (listed in `requirements.txt`).
 
 ---
 
@@ -190,11 +201,16 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 | `Backend/src/edcmbone/metrics/stats.py` | Text statistics (TTR, entropy, cosine, …) |
 | `Backend/src/edcmbone/metrics/risk.py` | Four risk proxies |
 | `Backend/src/edcmbone/metrics/compute.py` | Metric vector + RC-circuit energy |
+| `Backend/src/edcmbone/metrics/matrix.py` | A_MATRIX, PROJECTION_MAP, ALERT_THRESHOLDS, freeze/diff |
+| `Backend/src/edcmbone/metrics/projection.py` | AgentMetrics (CM, DA, DRIFT, DVG, INT, TBF), fire_alerts |
 | `Backend/src/edcmbone/compress.py` | Lossless codec + Huffman compression stats |
-| `Tests/test_backend.py` | 68-test suite (canon, parser, metrics, compress) |
+| `Tests/test_backend.py` | 87-test suite (canon, parser, metrics, compress, projection, matrix) |
 | `Frontend/package.json` | Frontend dependencies and scripts |
 | `ammh/backend/server.py` | AMMH multi-model hub server (stub) |
 | `Documentation/spec.md` | Full framework specification including mathematics |
+| `Documentation/GCIP.md` | Global Cognitive Interaction Profiles proposal |
+| `Documentation/evidence_log.md` | Three EDCM-measured evidence entries |
+| `Documentation/neurodivergence_handling.md` | Interaction rubric and AI skill specification |
 
 ---
 

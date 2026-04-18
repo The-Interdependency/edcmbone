@@ -293,3 +293,48 @@ This ensures no closed authority loop returns to the same point with a net gain.
 In an N-phase atlas, the Nth vertex is the **observer's own position** — the center of projection. No star polygon can include it; it is the lifted $h$-coordinate itself. An agent occupying this role has no direct authority but holds information orthogonal to the plane of conflict.
 
 This is the mathematical basis for the "Way Seer" role: authority = 0, information dimensionality = +1.
+
+---
+
+## 12. GCIP Failure Taxonomy — Metric Mapping
+
+The GCIP failure taxonomy (F1–F6) is grounded in the EDCM metric vector and compression statistics. The following table maps each failure class to its EDCM detection signal.
+
+| GCIP Code | Failure Name | Primary Detection | EDCM Signal |
+|-----------|-------------|------------------|-------------|
+| F1 | Deletion | F-loss > 20% | `structural_density` drops from input to response |
+| F2 | Mutation | N-loss + L-loss | Novelty (N_t) and lexical load (L_t) both decrease; surface cosine similarity remains high |
+| F3 | Inversion | P-family bone loss | Polarity-family bone count drops in response; negation operators absent |
+| F4 | Category Collapse | K/Q-family bone loss | Quantification (K) and qualification (Q) bones absent; specific class replaced with superordinate |
+| F5 | Persistence Failure | No within-session signal | Requires cross-session structural comparison; outside current instrument scope (v0.1.0) |
+| F6 | Decorative Preservation | structural_density increase + F-loss | Bone density rises while operative constraint density drops; response longer and denser than input |
+
+**Threshold guidance:**
+- F-loss > 20%: meaningful structural degradation (GCIP Level AA failure threshold)
+- F-loss > 50%: significant failure (documented in evidence log entries 1 and 2)
+- structural_density(response) > structural_density(input) with F-loss > 0: F6 indicator
+
+**Implementation note — F-loss computation:**
+
+```python
+from edcmbone.canon import CanonLoader
+from edcmbone.parser import parse_transcript
+from edcmbone.metrics import compute_transcript
+import edcmbone.compress as codec
+
+canon = CanonLoader()
+
+def f_score(text):
+    pt    = parse_transcript(f"Speaker: {text}", canon=canon)
+    m     = compute_transcript(pt, canon=canon)
+    stats = codec.compression_stats(text, codec.to_bytes(pt, m), pt)
+    return stats['structural_density']  # F = bone_count / total_tokens
+
+f_input    = f_score(user_input_text)
+f_response = f_score(ai_response_text)
+f_loss_pct = (f_input - f_response) / f_input * 100
+```
+
+**Note on F5 (Persistence Failure):** This failure class requires comparing the structural context established at turn N with the structural content present at turn N+M across a session boundary. Within a single session, edcmbone can detect absence of a previously established constraint if rounds are defined to span the boundary. Cross-session detection requires external state management not yet implemented in v0.1.0.
+
+See `Documentation/GCIP.md` for the full taxonomy and `Documentation/evidence_log.md` for measured examples.
