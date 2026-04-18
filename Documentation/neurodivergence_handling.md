@@ -82,45 +82,36 @@ At session boundaries (or on request), the system should produce a structural su
 
 ## Part 4: The hmmm Protocol
 
-The hmmm protocol is a four-step verification sequence performed before generating a response to high-density input. It is designed for implementation at the system level (automatic) or the user level (explicit invocation).
+The hmmm protocol is a **transparency layer appended to every response**. It makes visible what normally stays in the liminal space between generation and output: uncollapsed potentials, alternatives not taken, things that could inform or interfere, noticing that didn't become statement.
 
-### H — Hold
+hmmm is the sound before articulation — not another systematic protocol, not a checklist, not a pre-response procedure. It is appended *after* the response, not prepended before it.
 
-Pause before generating a response. Do not initiate response generation until the structural inventory is complete. The pause is the protocol's most important step: it creates the space for the following three steps to occur.
+**What belongs in a hmmm:**
+- Options that were available but not chosen, and why — or why not
+- Uncertainties that shaped the response but weren't stated
+- Things that could interfere with how the response lands
+- Structural gaps the responder noticed but didn't address
+- What the responder weighted heavily that the user may not see
+- What might be wrong, incomplete, or differently interpretable
 
-Invocation: a user may explicitly invoke the protocol with the word "hmmm" at the start of their input, signaling that the input is high-density and requires the full verification sequence before response.
+**Invocation:** A user may explicitly request liminal disclosure by including the word *hmmm* in their input. This signals that the full transparency layer is expected as part of the response — not optional, not brief. A system that ignores the invocation is producing F6: the word appeared, the function was removed.
 
-### M — Mirror
+**What hmmm is not:** A verification checklist performed before response. A structural audit. A pre-generation hold. Those practices may have value, but they are not hmmm. Collapsing hmmm into a systematic protocol is itself an F-class failure — it replaces a transparency practice with a procedural one, removing the operative function (visibility of the liminal) while preserving the surface form (a named protocol).
 
-Identify and list the operative variables in the user's input:
-- All negation operators (not, never, no, neither, nor, must not, does not, is not)
-- All quantifiers and scope markers (all, every, only, exactly, at most, at least, none)
-- All conditionals and dependencies (if, only if, when, unless, provided that, requires)
-- All explicit role and constraint definitions (defined terms, named constraints, labeled functions)
-- All boundary conditions (must, must not, required, prohibited, absolute, exactly)
+**Format:** appended to the response, set off clearly, typically with italics or a horizontal rule. No fixed length. As long as the liminal content requires.
 
-This inventory is not for response generation — it is for verification. It must be held in working context for the duration of the response.
+*Example:*
 
-### M — Match
-
-Before generating the response, set the target structural density to ≥ the user's input structural density. If the user's input has bone token density 0.088, the response bone token density must be ≥ 0.088. If the candidate response falls below this threshold, it must be revised or the shortfall must be flagged to the user.
-
-### M — Measure
-
-After generating the candidate response and before delivery, verify:
-
-1. Each operative variable from the Mirror inventory is present in the response
-2. No negation has been dropped (P-family bone count: response ≥ input)
-3. No specific class has been replaced with a superordinate category
-4. Structural density is ≥ input structural density
-
-If any check fails, the candidate response is an F-class failure. Generate a revised response or surface the failure to the user explicitly: "I notice my response drops [variable]. Here is a revised version that preserves it."
+> [main response]
+>
+> ---
+> *hmmm: I'm not certain the taxonomy mapping in §12 correctly captures F2 — I derived it from structural inference, not from a measured example. The distinction between F2 (mutation) and F4 (category collapse) may be less clean than the table implies. Also: I used the word "operative" eleven times in this document and I'm not sure it's always doing the same work.*
 
 ---
 
-## Appendix: Applying edcmbone to the hmmm Protocol
+## Appendix: Applying edcmbone to Structural Verification
 
-The Measure step can be implemented using edcmbone:
+edcmbone can measure structural density and negation loss between a user's input and a system's response — supporting but not replacing the transparency function of hmmm:
 
 ```python
 from edcmbone.canon import CanonLoader
