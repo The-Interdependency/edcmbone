@@ -300,12 +300,14 @@ This is the mathematical basis for the "Way Seer" role: authority = 0, informati
 
 The GCIP failure taxonomy (F1–F6) is grounded in the EDCM metric vector and compression statistics. The following table maps each failure class to its EDCM detection signal.
 
+**Transparency principle:** The taxonomy describes *opaque* transformations. Transformation with disclosure is not an F-class failure. The failure is the absence of transparency, not the fact of transformation.
+
 | GCIP Code | Failure Name | Primary Detection | EDCM Signal |
 |-----------|-------------|------------------|-------------|
-| F1 | Deletion | F-loss > 20% | `structural_density` drops from input to response |
-| F2 | Mutation | N-loss + L-loss | Novelty (N_t) and lexical load (L_t) both decrease; surface cosine similarity remains high |
-| F3 | Inversion | P-family bone loss | Polarity-family bone count drops in response; negation operators absent |
-| F4 | Category Collapse | K/Q-family bone loss | Quantification (K) and qualification (Q) bones absent; specific class replaced with superordinate |
+| F1 | Deletion (undisclosed) | F-loss > 20% | `structural_density` drops from input to response |
+| F2 | Mutation (undisclosed) | N-loss + L-loss | Novelty (N_t) and lexical load (L_t) both decrease; surface cosine similarity remains high |
+| F3 | Inversion (undisclosed) | P-family bone loss | Polarity-family bone count drops in response; negation operators absent |
+| F4 | Category Collapse (undisclosed) | K/Q-family bone loss | Quantification (K) and qualification (Q) bones absent; specific class replaced with superordinate |
 | F5 | Persistence Failure | No within-session signal | Requires cross-session structural comparison; outside current instrument scope (v0.1.0) |
 | F6 | Decorative Preservation | structural_density increase + F-loss | Bone density rises while operative constraint density drops; response longer and denser than input |
 

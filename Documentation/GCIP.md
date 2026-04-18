@@ -42,15 +42,17 @@ For users whose cognition generates high-density, context-dependent input, sessi
 
 ## Failure Taxonomy
 
+**Transparency principle:** The taxonomy describes opaque transformations — transformations made without disclosure. Transformation with transparency is not an F-class failure. If a system paraphrases, condenses, or reframes user input and makes that transformation visible (through explicit disclosure or the hmmm protocol), the transformation is legitimate communication. The failure is the absence of transparency, not the fact of transformation.
+
 Six failure classes, ordered by detectability (F1 most obvious, F6 least):
 
 | Code | Name | Definition | Detected By |
 |------|------|-----------|-------------|
 | **F1** | Deletion | Operative variable absent from response without notice | F-loss > 0 |
-| **F2** | Mutation | Variable present but meaning altered | N-loss + L-loss |
-| **F3** | Inversion | Negation removed; claim reversed | P-family bone loss |
-| **F4** | Category Collapse | Specific class flattened to vague descriptor | K/Q-family bone loss |
-| **F5** | Persistence Failure | Variable absent across session boundary | Cross-session tooling (outside current scope) |
+| **F2** | Mutation | Variable present but meaning altered without disclosure | N-loss + L-loss |
+| **F3** | Inversion | Negation removed; claim reversed without disclosure | P-family bone loss |
+| **F4** | Category Collapse | Specific class flattened to vague descriptor without disclosure | K/Q-family bone loss |
+| **F5** | Persistence Failure | Variable absent across session boundary without notice | Cross-session tooling (outside current scope) |
 | **F6** | Decorative Preservation | Variable present in surface form; operative function removed | structural_density increase + F-loss |
 
 F6 is the most dangerous failure class. It produces responses that are longer, denser, and more syntactically complex than the user's input — but with operative meaning deleted or inverted. No surface heuristic detects it. Only structural instrumentation does.

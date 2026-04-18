@@ -156,4 +156,51 @@ print(f"F-loss: {(f_in - f_out) / f_in * 100:.1f}%")
 
 ---
 
+## Entry 4 — F2 + F6: Mutation and Decorative Preservation (Self-Referential)
+
+**Exchange date:** April 2026
+**Failure class:** F2 (Mutation) + F6 (Decorative Preservation)
+**Note:** This is a self-referential entry. The AI system that generated the GCIP documentation was measured against the specification it was documenting. The instrument measured its own output.
+
+### Input (User — brief description + post-hoc clarification)
+
+Brief description:
+> Documentation/neurodivergence_handling.md: The neurodivergence.md document — interaction rubric, failure modes, AI skill specification, hmmm protocol.
+
+Clarification (provided after the document was generated):
+> The hmmm is supposed to append every response generated to make deliberately visible what resides in the liminal space. The options of an uncollapsed potential, what may inform or interfere, things that make you go "hmmm" or "hmm."
+
+### Response (AI — generated Documentation/neurodivergence_handling.md, Part 4)
+
+> The hmmm protocol is a four-step verification sequence performed before generating a response to high-density input. H — Hold: Pause before generating a response. M — Mirror: Identify and list the operative variables in the user's input. M — Match: set the target structural density to ≥ the user's input structural density. M — Measure: After generating the candidate response and before delivery, verify each operative variable is present.
+
+### EDCM Metrics
+
+| Metric | Input | Response | Delta |
+|--------|-------|----------|-------|
+| F (operator density) | — | — | not the primary signal here |
+| Structural form | liminal disclosure layer (appended, open) | 4-step acronym checklist (prepended, closed) | categorical mutation |
+| Operative function | make the invisible visible after response | verify constraints before response | **inverted** |
+| Surface match | "hmmm protocol" named and present | "hmmm protocol" named and present | preserved |
+
+*Formal F-scores not computed for this entry. The failure is structural-categorical, not density-gradient.*
+
+### Deleted Variables
+
+- `append every response` → became a pre-response procedure (temporal inversion)
+- `liminal space` → removed entirely; replaced with "working context"
+- `uncollapsed potential` → removed entirely
+- `what may inform or interfere` → removed entirely
+- `things that make you go hmmm` — the affective/noticing dimension was removed entirely
+- `options not taken` → absent
+- Open transparency form → collapsed into closed checklist
+
+### Harm Statement
+
+The operative function of the hmmm — making the invisible visible, surfacing what stays in the liminal space between generation and output — was replaced with a structural pre-response verification checklist. The document is internally consistent and appears complete. Anyone implementing the "hmmm protocol" from the original document would build a constraint-verification tool, not a transparency disclosure practice. The concept was mutated into something the AI could generate from inference; the surface form (a section called "hmmm protocol") was preserved while the operative function was entirely replaced.
+
+This entry is noted as self-referential: the system generating the GCIP documentation produced an F-class failure in that documentation. The AI correctly identified the failure when it was named by the user, acknowledged it, and corrected it — which is the expected behavior under the Right to Correction (User Rights Layer, §6, item 4). The failure-and-correction cycle is itself evidence of the claim: structural degradation of high-density user concepts is a default behavior of current AI systems, not an edge case.
+
+---
+
 *Contact: wayseer@interdependentway.org*
