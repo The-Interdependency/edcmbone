@@ -31,7 +31,7 @@ edcmbone/
 ├── README.md                   # Library overview, quickstart, evidence log, failure taxonomy
 ├── Backend/
 │   ├── pyproject.toml          # Python package config (Hatchling, src layout)
-│   ├── requirements.txt        # Runtime dependencies (currently empty)
+│   ├── requirements.txt        # Dev/test dependencies (currently: pytest>=7.0)
 │   └── src/
 │       └── edcmbone/
 │           ├── __init__.py
@@ -86,7 +86,7 @@ edcmbone/
 | Backend   | Python >= 3.8, Hatchling packaging  |
 | Frontend  | React 18.2.0, Tailwind CSS          |
 | AMMH      | Python (server.py)                  |
-| Tests     | pytest (not yet configured)         |
+| Tests     | pytest >= 7.0 (configured via `Backend/pyproject.toml`) |
 | Build     | Hatchling (Python), npm (Frontend)  |
 
 ---
@@ -102,7 +102,7 @@ pip install -e ./Backend
 # Or from the Backend directory
 cd Backend && pip install -e .
 
-# Install test dependency
+# Install test dependencies
 pip install -r Backend/requirements.txt
 ```
 
@@ -162,7 +162,7 @@ cd Backend && pytest
 ### Python
 - Package lives under `Backend/src/edcmbone/` — standard `src/` layout configured via `[tool.hatch.build] sources = ["src"]`
 - Python 3.8+ compatible code required (no 3.9+ syntax like `list[int]` type hints without `from __future__ import annotations`)
-- `pyproject.toml` is the source of truth for metadata; `requirements.txt` is for direct runtime deps
+- `pyproject.toml` is the source of truth for metadata and runtime deps (`[project.dependencies]`); `requirements.txt` is for dev/test deps
 - JSON data files bundled with the package must be listed in `[tool.hatch.build.targets.wheel] include`
 - No linter configured yet — when adding one, prefer `ruff` for linting/formatting
 
@@ -224,7 +224,7 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - No environment variable file (`.env` or `.env.example`)
 - No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
 - No pre-commit hooks
-- `Backend/requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
+- `Backend/requirements.txt` is the dev/test requirements file (currently `pytest>=7.0`); add further dev/test deps here and runtime deps to `[project.dependencies]` in `pyproject.toml`
 - pytest IS configured: `[tool.pytest.ini_options]` in `Backend/pyproject.toml` sets `testpaths = ["../Tests"]`
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
 - `ammh/backend/server.py` is a stub — no routes implemented
