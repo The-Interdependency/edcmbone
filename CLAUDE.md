@@ -30,7 +30,7 @@ edcmbone is now functioning as a civil rights evidence instrument in addition to
 edcmbone/
 ├── Backend/
 │   ├── pyproject.toml          # Python package config (Hatchling, src layout)
-│   ├── requirements.txt        # Runtime dependencies (currently empty)
+│   ├── requirements.txt        # Runtime dependencies (pytest>=7.0)
 │   └── src/
 │       └── edcmbone/
 │           ├── __init__.py
@@ -39,7 +39,7 @@ edcmbone/
 │           │   ├── loader.py           # CanonLoader — bone/marker lookup API
 │           │   └── data/
 │           │       ├── bones_words_v1.json     # 253 free-word bones (PKQTS families)
-│           │       ├── bones_affixes_v1.json   # 76 affix bones
+│           │       ├── bones_affixes_v1.json   # 79 affix bones
 │           │       ├── bones_punct_v1.json     # 13 punctuation bones
 │           │       └── markers_v1.json         # 9-metric behavioral markers
 │           ├── parser/
@@ -220,7 +220,6 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - No environment variable file (`.env` or `.env.example`)
 - No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
 - No pre-commit hooks
-- No pytest configuration (`pytest.ini` or `[tool.pytest.ini_options]`)
 - `requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
 - `ammh/backend/server.py` is a stub — no routes implemented
