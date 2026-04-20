@@ -224,12 +224,8 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - No environment variable file (`.env` or `.env.example`)
 - No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
 - No pre-commit hooks
-<<<<<<< HEAD
 - `Backend/requirements.txt` is the dev/test requirements file (currently `pytest>=7.0`); add further dev/test deps here and runtime deps to `[project.dependencies]` in `pyproject.toml`
 - pytest IS configured: `[tool.pytest.ini_options]` in `Backend/pyproject.toml` sets `testpaths = ["../Tests"]`
-=======
-- `requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
->>>>>>> origin/main
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
 - `ammh/backend/server.py` is a stub — no routes implemented
 
