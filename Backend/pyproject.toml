@@ -36,6 +36,9 @@ testpaths = ["../Tests"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/edcmbone"]
+include = [
+  "src/edcmbone/canon/data/**/*.json",
+]
 
 [tool.hatch.build.targets.sdist]
 include = [
