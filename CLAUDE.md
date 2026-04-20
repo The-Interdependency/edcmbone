@@ -40,7 +40,7 @@ edcmbone/
 │           │   ├── loader.py           # CanonLoader — bone/marker lookup API
 │           │   └── data/
 │           │       ├── bones_words_v1.json     # 253 free-word bones (PKQTS families)
-│           │       ├── bones_affixes_v1.json   # 76 affix bones
+│           │       ├── bones_affixes_v1.json   # 79 affix bones
 │           │       ├── bones_punct_v1.json     # 13 punctuation bones
 │           │       └── markers_v1.json         # 9-metric behavioral markers
 │           ├── parser/
@@ -224,8 +224,12 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - No environment variable file (`.env` or `.env.example`)
 - No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
 - No pre-commit hooks
+<<<<<<< HEAD
 - `Backend/requirements.txt` is the dev/test requirements file (currently `pytest>=7.0`); add further dev/test deps here and runtime deps to `[project.dependencies]` in `pyproject.toml`
 - pytest IS configured: `[tool.pytest.ini_options]` in `Backend/pyproject.toml` sets `testpaths = ["../Tests"]`
+=======
+- `requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
+>>>>>>> origin/main
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
 - `ammh/backend/server.py` is a stub — no routes implemented
 
