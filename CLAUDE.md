@@ -6,7 +6,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 ## Project Overview
 
-**edcmbone** is an early-stage monorepo implementing the **EDCM-PCNA-PCTA Framework** (Extended Distributed Cognitive Model with PCNA/PCTA framework). It consists of:
+**edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Extended Distributed Cognitive Model with PCNA/PCTA framework). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input. It consists of:
 
 - A **Python backend** (`Backend/`) — core logic, transcript parsing, and canon data library
 - A **React frontend** (`Frontend/`) — UI layer styled with Tailwind CSS
@@ -28,6 +28,7 @@ edcmbone is now functioning as a civil rights evidence instrument in addition to
 
 ```
 edcmbone/
+├── README.md                   # Library overview, quickstart, evidence log, failure taxonomy
 ├── Backend/
 │   ├── pyproject.toml          # Python package config (Hatchling, src layout)
 │   ├── requirements.txt        # Runtime dependencies (currently empty)
@@ -95,12 +96,14 @@ edcmbone/
 ### Backend (Python)
 
 ```bash
-# Install in editable mode from the Backend directory
-cd Backend
-pip install -e .
+# Install in editable mode from the repo root (recommended)
+pip install -e ./Backend
 
-# Or install requirements directly
-pip install -r requirements.txt
+# Or from the Backend directory
+cd Backend && pip install -e .
+
+# Install test dependency
+pip install -r Backend/requirements.txt
 ```
 
 The Python package is named `edcmbone`. Full pipeline:
@@ -194,6 +197,7 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 
 | File | Purpose |
 |------|---------|
+| `README.md` | Library overview, quickstart, evidence log, failure taxonomy |
 | `Backend/pyproject.toml` | Python package metadata, build system, data-file inclusion |
 | `Backend/src/edcmbone/canon/loader.py` | `CanonLoader` — bone/marker lookup API |
 | `Backend/src/edcmbone/canon/data/*.json` | Authoritative canon data (bones + markers) |
@@ -220,8 +224,8 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - No environment variable file (`.env` or `.env.example`)
 - No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
 - No pre-commit hooks
-- No pytest configuration (`pytest.ini` or `[tool.pytest.ini_options]`)
-- `requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
+- `Backend/requirements.txt` has `pytest>=7.0` — add further runtime deps as introduced
+- pytest IS configured: `[tool.pytest.ini_options]` in `Backend/pyproject.toml` sets `testpaths = ["../Tests"]`
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
 - `ammh/backend/server.py` is a stub — no routes implemented
 
