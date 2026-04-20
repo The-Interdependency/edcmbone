@@ -31,6 +31,7 @@ edcmbone/
 ├── README.md                   # Library overview, quickstart, evidence log, failure taxonomy
 ├── Backend/
 │   ├── pyproject.toml          # Python package config (Hatchling, src layout)
+│   ├── README.md               # PyPI long description (copy of root README.md — keep in sync)
 │   ├── requirements.txt        # Dev/test dependencies (currently: pytest>=7.0)
 │   └── src/
 │       └── edcmbone/
@@ -160,10 +161,11 @@ cd Backend && pytest
 ## Key Conventions
 
 ### Python
-- Package lives under `Backend/src/edcmbone/` — standard `src/` layout configured via `[tool.hatch.build] sources = ["src"]`
+- Package lives under `Backend/src/edcmbone/` — standard `src/` layout; wheel built via `packages = ["src/edcmbone"]` in `[tool.hatch.build.targets.wheel]`
 - Python 3.8+ compatible code required (no 3.9+ syntax like `list[int]` type hints without `from __future__ import annotations`)
 - `pyproject.toml` is the source of truth for metadata and runtime deps (`[project.dependencies]`); `requirements.txt` is for dev/test deps
-- JSON data files bundled with the package must be listed in `[tool.hatch.build.targets.wheel] include`
+- JSON data files under `src/edcmbone/canon/data/` are included automatically via the `packages` directive — no separate include needed
+- `Backend/README.md` is a copy of the root `README.md` used as the PyPI long description; keep them in sync when the root README changes
 - No linter configured yet — when adding one, prefer `ruff` for linting/formatting
 
 ### JavaScript / React

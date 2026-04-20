@@ -7,7 +7,7 @@ name = "edcmbone"
 version = "0.1.0"
 authors = [{ name = "Erin Patrick Spencer", email = "erin.eps.hovel@gmail.com" }]
 description = "Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input"
-readme = "../README.md"
+readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.8"
 keywords = ["AI", "measurement", "structural fidelity", "cognitive accessibility", "NLP", "EDCM"]
