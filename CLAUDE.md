@@ -96,14 +96,14 @@ edcmbone/
 ### Backend (Python)
 
 ```bash
-# Install in editable mode from the repo root (recommended)
+# From the repo root (recommended)
 pip install -e ./Backend
+pip install -r Backend/requirements.txt
 
 # Or from the Backend directory
-cd Backend && pip install -e .
-
-# Install test dependencies
-pip install -r Backend/requirements.txt
+cd Backend
+pip install -e .
+pip install -r requirements.txt
 ```
 
 The Python package is named `edcmbone`. Full pipeline:
