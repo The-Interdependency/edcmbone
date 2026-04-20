@@ -6,18 +6,40 @@ build-backend = "hatchling.build"
 name = "edcmbone"
 version = "0.1.0"
 authors = [{ name = "Erin Patrick Spencer", email = "erin.eps.hovel@gmail.com" }]
-description = "EDCM with PCNA/PCTA framework"
-readme = "../Documentation/README.md"
+description = "Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input"
+readme = "../README.md"
+license = { text = "MIT" }
 requires-python = ">=3.8"
+keywords = ["AI", "measurement", "structural fidelity", "cognitive accessibility", "NLP", "EDCM"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Text Processing :: Linguistic",
+]
+
+[project.urls]
+Homepage = "https://github.com/The-Interdependency/edcmbone"
+Repository = "https://github.com/The-Interdependency/edcmbone"
+Issues = "https://github.com/The-Interdependency/edcmbone/issues"
 
 [tool.pytest.ini_options]
 testpaths = ["../Tests"]
 
-[tool.hatch.build]
-sources = ["src"]
-
 [tool.hatch.build.targets.wheel]
+packages = ["src/edcmbone"]
+
+[tool.hatch.build.targets.sdist]
 include = [
-  "src/edcmbone/**/*.py",
-  "src/edcmbone/canon/data/*.json",
+  "/src",
+  "/pyproject.toml",
+  "/requirements.txt",
 ]
