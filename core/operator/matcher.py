@@ -70,7 +70,7 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
     fams: List[str] = []
     root = t
 
-    # prefixes: longest first, repeat
+    # sort once (longest first) before the repeated-match loops
     pref_list = sorted(prefix_map.keys(), key=len, reverse=True)
     changed = True
     while changed:
@@ -82,7 +82,6 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
                 changed = True
                 break
 
-    # suffixes: longest first, repeat
     suf_list = sorted(suffix_map.keys(), key=len, reverse=True)
     changed = True
     while changed:
