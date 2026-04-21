@@ -22,14 +22,13 @@ def _vector_from_counts(c: Dict[str, int]) -> Dict[str, float]:
     v["sum"] = sum(v[f] for f in ["P","K","Q","T","S"])
     return v
 
-def compute_operator_for_turn(
+def _process_turn_tokens(
     turn: Dict[str, Any],
-    bones_inventory: Dict[str, Any],
-    affixes_inventory: Dict[str, Any],
+    bones_map: Dict[str, str],
+    pref_map: Dict[str, str],
+    suf_map: Dict[str, str],
 ) -> Dict[str, Any]:
-    bones_map = load_bones_map(bones_inventory)
-    pref_map, suf_map = load_affixes(affixes_inventory)
-
+    """Core per-turn operator computation. Accepts pre-built maps (no repeated loading)."""
     counts = _empty_counts()
     audit = {"matched_free_bones": 0, "matched_affixes": 0, "matched_punct": 0, "excluded_tokens": 0}
 
@@ -86,7 +85,7 @@ def compute_operator_for_turn(
             else:
                 audit["excluded_tokens"] += 1
 
-    out = {
+    return {
         "schema_id": "edcmbone/operator_output_v1",
         "version": "1.0.0",
         "attribution": "GPT generated; context, prompt Erin Spencer",
@@ -115,7 +114,30 @@ def compute_operator_for_turn(
             "deferred": ["Slash-as-K decision.", "Expanded contraction map."]
         }
     }
-    return out
+
+
+def compute_operator_for_turn(
+    turn: Dict[str, Any],
+    bones_inventory: Dict[str, Any],
+    affixes_inventory: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Public single-turn API. Builds maps from raw inventories (use batch APIs for loops)."""
+    bones_map = load_bones_map(bones_inventory)
+    pref_map, suf_map = load_affixes(affixes_inventory)
+    return _process_turn_tokens(turn, bones_map, pref_map, suf_map)
+
+
+def compute_per_turn_operator(
+    *,
+    turns: List[Dict[str, Any]],
+    bones_inventory: Dict[str, Any],
+    affixes_inventory: Dict[str, Any],
+) -> List[Dict[str, Any]]:
+    """Per-turn operator outputs (one entry per turn, indexed by turn_id). Maps built once."""
+    bones_map = load_bones_map(bones_inventory)
+    pref_map, suf_map = load_affixes(affixes_inventory)
+    return [_process_turn_tokens(t, bones_map, pref_map, suf_map) for t in turns]
+
 
 def _sum_counts(operator_turn_outputs: List[Dict[str, Any]]) -> Dict[str, int]:
     c = _empty_counts()
@@ -131,18 +153,6 @@ def _sum_counts(operator_turn_outputs: List[Dict[str, Any]]) -> Dict[str, int]:
     c["audit"] = audit  # type: ignore
     return c
 
-def compute_per_turn_operator(
-    *,
-    turns: List[Dict[str, Any]],
-    bones_inventory: Dict[str, Any],
-    affixes_inventory: Dict[str, Any],
-) -> List[Dict[str, Any]]:
-    """Per-turn operator outputs (one entry per turn, indexed by turn_id)."""
-    return [
-        compute_operator_for_turn(t, bones_inventory, affixes_inventory)
-        for t in turns
-    ]
-
 
 def compute_operator_windows(
     *,
@@ -152,11 +162,11 @@ def compute_operator_windows(
     k_turns: int = 8,
     stride: int = 1
 ) -> List[Dict[str, Any]]:
-    # per-turn operator
-    per_turn = [
-        compute_operator_for_turn(t, bones_inventory, affixes_inventory)
-        for t in turns
-    ]
+    # build maps once for the entire batch
+    bones_map = load_bones_map(bones_inventory)
+    pref_map, suf_map = load_affixes(affixes_inventory)
+
+    per_turn = [_process_turn_tokens(t, bones_map, pref_map, suf_map) for t in turns]
 
     outputs: List[Dict[str, Any]] = []
     if not per_turn:

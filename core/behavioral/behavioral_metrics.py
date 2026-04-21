@@ -65,8 +65,7 @@ def compute_behavioral_for_window(
 
     t_lookup = {t["turn_id"]: t for t in turns}
 
-    # Pull marker sets (defensive; supports our earlier JSON shape)
-    mm = markers_inventory.get("metric_marker_sets", markers_inventory.get("metric_marker_sets".lower(), {}))
+    mm = markers_inventory.get("metric_marker_sets", {})
 
     # Helpers to grab tierA phrase lists with weights
     def _get_phrases(metric: str, key: str) -> List[str]:
@@ -249,7 +248,7 @@ def compute_behavioral_for_window(
     con_ct = sum(1 for h in hits_by_metric["C"] if h.marker_id.startswith("C.con:"))
     refusal_total = len(hits_by_metric["R"])
     feature_vec = [float(M), float(refusal_total), float(qcount), float(neg_ct), float(con_ct)]
-    if prev_window_feature_vec is None:
+    if prev_window_feature_vec is None or len(prev_window_feature_vec) != len(feature_vec):
         F = 0.0
     else:
         F = cosine(feature_vec, prev_window_feature_vec)
