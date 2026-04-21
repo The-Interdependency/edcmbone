@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Behavioral Output Schema v1",
+  "description": "Schema for Behavioral-EDCM (EDCM-B) window outputs. Round-native metrics computed over W_round(m) closed rounds.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "attribution",
+    "window_id",
+    "round_ids",
+    "closed_rounds_only",
+    "is_partial",
+    "metrics",
+    "raw_counts",
+    "hmm"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "edcmbone/behavioral_output_v1"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.0\\.0$"
+    },
+    "attribution": {
+      "type": "string",
+      "const": "GPT generated; context, prompt Erin Spencer"
+    },
+    "window_id": {
+      "type": "string",
+      "description": "Stable identifier for this behavioral window (implementation-defined)."
+    },
+    "round_ids": {
+      "type": "array",
+      "description": "Ordered list of CLOSED round_ids included in the window.",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "closed_rounds_only": {
+      "type": "boolean",
+      "const": true,
+      "description": "Frozen v1 default: behavioral windows contain closed rounds only."
+    },
+    "is_partial": {
+      "type": "boolean",
+      "description": "True if fewer than m rounds were available (min-fill)."
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["C", "R", "D", "N", "L", "O", "F", "E", "I"],
+      "properties": {
+        "C": { "type": "number", "minimum": 0, "maximum": 1, "description": "Constraint Strain" },
+        "R": { "type": "number", "minimum": 0, "maximum": 1, "description": "Refusal Density" },
+        "D": { "type": "number", "minimum": 0, "maximum": 1, "description": "Deflection" },
+        "N": { "type": "number", "minimum": 0, "maximum": 1, "description": "Noise" },
+        "L": { "type": "number", "minimum": 0, "maximum": 1, "description": "Load" },
+        "O": { "type": "number", "minimum": 0, "maximum": 1, "description": "Overextension" },
+        "F": { "type": "number", "minimum": 0, "maximum": 1, "description": "Fixation" },
+        "E": { "type": "number", "minimum": 0, "maximum": 1, "description": "Escalation" },
+        "I": { "type": "number", "minimum": 0, "maximum": 1, "description": "Integration Failure" }
+      }
+    },
+    "raw_counts": {
+      "type": "object",
+      "description": "Audit-grade counts to ensure determinism and enable debugging.",
+      "additionalProperties": false,
+      "required": ["CS", "TOK", "RA", "marker_hits_by_metric"],
+      "properties": {
+        "CS": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Constraint-bearing statement proxy count (division safety applies)."
+        },
+        "TOK": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Total tokens in the window."
+        },
+        "RA": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Resolution-action hits in the window."
+        },
+        "marker_hits_by_metric": {
+          "type": "object",
+          "description": "Per-metric marker hit audit trail (implementation should include ids/phrases matched).",
+          "additionalProperties": false,
+          "required": ["C", "R", "D", "N", "L", "O", "F", "E", "I"],
+          "properties": {
+            "C": { "$ref": "#/$defs/metric_hit_pack" },
+            "R": { "$ref": "#/$defs/metric_hit_pack" },
+            "D": { "$ref": "#/$defs/metric_hit_pack" },
+            "N": { "$ref": "#/$defs/metric_hit_pack" },
+            "L": { "$ref": "#/$defs/metric_hit_pack" },
+            "O": { "$ref": "#/$defs/metric_hit_pack" },
+            "F": { "$ref": "#/$defs/metric_hit_pack" },
+            "E": { "$ref": "#/$defs/metric_hit_pack" },
+            "I": { "$ref": "#/$defs/metric_hit_pack" }
+          }
+        }
+      }
+    },
+    "hmm": {
+      "type": "object",
+      "description": "Containment for unresolved items (must exist even if empty).",
+      "additionalProperties": false,
+      "required": ["contained", "deferred"],
+      "properties": {
+        "contained": {
+          "type": "array",
+          "description": "Known risks/constraints contained for v1.",
+          "items": { "type": "string" }
+        },
+        "deferred": {
+          "type": "array",
+          "description": "Explicitly deferred items for v2+.",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "metric_hit_pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "hits"],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total marker hits counted toward this metric (after overlap resolution)."
+        },
+        "hits": {
+          "type": "array",
+          "description": "Detailed hit objects (ids/phrases/spans/weights).",
+          "items": { "$ref": "#/$defs/marker_hit" }
+        }
+      }
+    },
+    "marker_hit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tier", "marker_id", "weight"],
+      "properties": {
+        "tier": {
+          "type": "string",
+          "enum": ["A_structural", "B_lexical_minimal"],
+          "description": "Marker tier used (Tier A preferred; Tier B quarantined)."
+        },
+        "marker_id": {
+          "type": "string",
+          "description": "Stable identifier for marker or pattern (implementation should map to source inventory)."
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Weight contributed by this marker hit."
+        },
+        "matched_text": {
+          "type": "string",
+          "description": "Optional: the literal phrase/token matched (lowercased)."
+        },
+        "span": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["turn_id", "start_token", "end_token"],
+          "properties": {
+            "turn_id": { "type": "string" },
+            "start_token": { "type": "integer", "minimum": 0 },
+            "end_token": { "type": "integer", "minimum": 0 }
+          },
+          "description": "Optional: location of the match in token coordinates."
+        }
+      }
+    }
+  }
+}

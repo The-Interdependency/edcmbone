@@ -10,3 +10,6 @@ node_modules/
 dist/
 *.egg-info/
 build/
+
+# Generated test artifacts (golden files kept under tests/golden/ only)
+tests/_artifacts/

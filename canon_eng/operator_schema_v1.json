@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Operator Output Schema v1",
+  "description": "Schema for Operator-EDCM (EDCM-O) window outputs. Turn-native, bones-only, Option A families. Aggregates may be emitted for Turn or Round alignment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "attribution",
+    "operator_families_option",
+    "window_id",
+    "window_unit",
+    "window_ids",
+    "is_partial",
+    "counts",
+    "vector",
+    "rules_frozen",
+    "hmm"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "edcmbone/operator_output_v1"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.0\\.0$"
+    },
+    "attribution": {
+      "type": "string",
+      "const": "GPT generated; context, prompt Erin Spencer"
+    },
+    "operator_families_option": {
+      "type": "string",
+      "const": "A",
+      "description": "Frozen: Option A families (P,K,Q,T,S) = Position/Connectors/Qualifiers/Temporal/Self."
+    },
+    "window_id": {
+      "type": "string",
+      "description": "Stable identifier for this operator window (implementation-defined)."
+    },
+    "window_unit": {
+      "type": "string",
+      "enum": ["turn", "round"],
+      "description": "Operator is turn-native; round unit is allowed only for O_round computed by sum-and-renormalize."
+    },
+    "window_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Ordered list of Turn IDs (if window_unit=turn) or Round IDs (if window_unit=round)."
+    },
+    "is_partial": {
+      "type": "boolean",
+      "description": "True if fewer than k items were available (min-fill)."
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["B_total", "P", "K", "Q", "T", "S", "audit"],
+      "properties": {
+        "B_total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total emitted bone tokens in the window."
+        },
+        "P": { "type": "integer", "minimum": 0 },
+        "K": { "type": "integer", "minimum": 0 },
+        "Q": { "type": "integer", "minimum": 0 },
+        "T": { "type": "integer", "minimum": 0 },
+        "S": { "type": "integer", "minimum": 0 },
+        "audit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["matched_free_bones", "matched_affixes", "matched_punct", "excluded_tokens"],
+          "properties": {
+            "matched_free_bones": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Count of closed-class word matches."
+            },
+            "matched_affixes": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Count of emitted bound morpheme matches."
+            },
+            "matched_punct": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Count of emitted punctuation/connective tokens (e.g., ? -> 1Q)."
+            },
+            "excluded_tokens": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Count of surface tokens discarded as flesh (open-class roots etc.)."
+            }
+          }
+        }
+      }
+    },
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["P", "K", "Q", "T", "S", "sum"],
+      "properties": {
+        "P": { "type": "number", "minimum": 0, "maximum": 1 },
+        "K": { "type": "number", "minimum": 0, "maximum": 1 },
+        "Q": { "type": "number", "minimum": 0, "maximum": 1 },
+        "T": { "type": "number", "minimum": 0, "maximum": 1 },
+        "S": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sum": {
+          "type": "number",
+          "minimum": 0.999999,
+          "maximum": 1.000001,
+          "description": "Σ vector components; must be ~1.0 (floating tolerance)."
+        }
+      }
+    },
+    "rules_frozen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lowercase_before_match",
+        "contractions_split",
+        "hyphen_compound_emits_one_K",
+        "question_mark_emits_one_Q",
+        "em_dash_emits_zero",
+        "slash_ignored_v1",
+        "collision_priority",
+        "aggregation_method"
+      ],
+      "properties": {
+        "lowercase_before_match": { "type": "boolean", "const": true },
+        "contractions_split": { "type": "boolean", "const": true },
+        "hyphen_compound_emits_one_K": { "type": "boolean", "const": true },
+        "question_mark_emits_one_Q": { "type": "boolean", "const": true },
+        "em_dash_emits_zero": { "type": "boolean", "const": true },
+        "slash_ignored_v1": { "type": "boolean", "const": true },
+        "collision_priority": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["P", "K", "Q", "T", "S"] },
+          "const": ["P", "K", "Q", "T", "S"]
+        },
+        "aggregation_method": {
+          "type": "string",
+          "enum": ["sum_and_renormalize"],
+          "const": "sum_and_renormalize"
+        }
+      }
+    },
+    "hmm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contained", "deferred"],
+      "properties": {
+        "contained": { "type": "array", "items": { "type": "string" } },
+        "deferred": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

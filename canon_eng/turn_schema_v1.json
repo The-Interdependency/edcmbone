@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Turn Schema v1",
+  "description": "Canonical Turn object. One or more merged utterances from the same actor, with surface tokens.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["turn_id", "actor_id", "utterance_ids", "raw_text", "tokens_surface", "t_start", "t_end", "source_refs", "meta"],
+  "properties": {
+    "turn_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique turn identifier (e.g. 't0', 't1')."
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Speaker / actor identifier (e.g. 'A', 'B', 'SYS', 'TOOL', 'UNK')."
+    },
+    "utterance_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Ordered list of source utterance_ids merged into this turn."
+    },
+    "raw_text": {
+      "type": "string",
+      "description": "Merged raw text; utterances joined with newline. Never modified after construction."
+    },
+    "tokens_surface": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Surface tokenization of raw_text per tokenizer.py rules."
+    },
+    "t_start": {
+      "type": ["string", "null"],
+      "description": "Optional start timestamp inherited from first utterance (ISO 8601 preferred)."
+    },
+    "t_end": {
+      "type": ["string", "null"],
+      "description": "Optional end timestamp inherited from last utterance (ISO 8601 preferred)."
+    },
+    "source_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional pointers to page/line/audio segments from merged utterances."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Turn-level flags derived during merging.",
+      "additionalProperties": false,
+      "required": ["forced_boundary", "contains_quote", "overlap", "interrupted_by", "notes"],
+      "properties": {
+        "forced_boundary": {
+          "type": "boolean",
+          "description": "True if any merged utterance was a forced boundary marker."
+        },
+        "contains_quote": {
+          "type": "boolean",
+          "description": "True if any merged utterance raw_text contains a double-quote character."
+        },
+        "overlap": {
+          "type": "boolean",
+          "description": "True if any merged utterance raw_text contained an [overlap] annotation."
+        },
+        "interrupted_by": {
+          "type": ["string", "null"],
+          "description": "actor_id of the interrupting speaker, if known; otherwise null."
+        },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Optional free-text annotations added during parsing."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EDCMBone Bridge Output Schema v1",
+  "description": "Schema for Bridge outputs aligning Operator and Behavioral per closed rounds. Bridge is observational only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "attribution",
+    "window_id",
+    "round_ids",
+    "closed_rounds_only",
+    "correlations",
+    "divergences",
+    "flags",
+    "rules_frozen",
+    "hmm"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "edcmbone/bridge_output_v1"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.0\\.0$"
+    },
+    "attribution": {
+      "type": "string",
+      "const": "GPT generated; context, prompt Erin Spencer"
+    },
+    "window_id": {
+      "type": "string",
+      "description": "Stable identifier for this bridge window (implementation-defined)."
+    },
+    "round_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Ordered list of CLOSED round_ids aligned in this bridge computation."
+    },
+    "closed_rounds_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "correlations": {
+      "type": "array",
+      "description": "Observed correlations between Operator family components and Behavioral metrics over the bridge window.",
+      "items": { "$ref": "#/$defs/corr_item" }
+    },
+    "divergences": {
+      "type": "array",
+      "description": "Divergence events where O shifts without B shift or vice versa.",
+      "items": { "$ref": "#/$defs/div_item" }
+    },
+    "flags": {
+      "type": "array",
+      "description": "Human-facing flags recommending inspection or parameter adjustment; observational only.",
+      "items": { "$ref": "#/$defs/flag_item" }
+    },
+    "rules_frozen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bridge_is_read_only",
+        "does_not_modify_O_or_B",
+        "operator_alignment_method",
+        "exclude_open_rounds"
+      ],
+      "properties": {
+        "bridge_is_read_only": { "type": "boolean", "const": true },
+        "does_not_modify_O_or_B": { "type": "boolean", "const": true },
+        "operator_alignment_method": {
+          "type": "string",
+          "enum": ["sum_and_renormalize"],
+          "const": "sum_and_renormalize"
+        },
+        "exclude_open_rounds": { "type": "boolean", "const": true }
+      }
+    },
+    "hmm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contained", "deferred"],
+      "properties": {
+        "contained": { "type": "array", "items": { "type": "string" } },
+        "deferred": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "$defs": {
+    "corr_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operator_family", "behavioral_metric", "method", "value", "n"],
+      "properties": {
+        "operator_family": { "type": "string", "enum": ["P", "K", "Q", "T", "S"] },
+        "behavioral_metric": { "type": "string", "enum": ["C", "R", "D", "N", "L", "O", "F", "E", "I"] },
+        "method": {
+          "type": "string",
+          "enum": ["pearson"],
+          "description": "Frozen v1 default correlation method."
+        },
+        "value": { "type": "number", "minimum": -1, "maximum": 1 },
+        "n": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of paired observations used (must be >=2 for correlation)."
+        }
+      }
+    },
+    "div_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["round_id", "type", "details"],
+      "properties": {
+        "round_id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["O_shift_without_B", "B_spike_without_O", "both_shift_unexpectedly"]
+        },
+        "details": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["summary"],
+          "properties": {
+            "summary": { "type": "string" },
+            "operator_delta_L1": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Optional: L1 distance between O_round and previous O_round."
+            },
+            "behavioral_delta_L1": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Optional: L1 distance between B_window and previous B_window."
+            },
+            "thresholds_used": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "Optional: thresholds used to trigger divergence."
+            }
+          }
+        }
+      }
+    },
+    "flag_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "code", "message"],
+      "properties": {
+        "level": { "type": "string", "enum": ["info", "warn", "alert"] },
+        "code": {
+          "type": "string",
+          "enum": [
+            "inspect_window",
+            "reduce_window",
+            "increase_window",
+            "split_by_actor",
+            "check_open_rounds",
+            "check_marker_overreach"
+          ]
+        },
+        "message": { "type": "string" }
+      }
+    }
+  }
+}
