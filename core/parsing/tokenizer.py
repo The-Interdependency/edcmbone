@@ -29,21 +29,16 @@ def tokens_surface(text: str) -> List[str]:
     if not text:
         return []
     toks: List[str] = []
-    last_end = 0
+    pos = 0
     for m in TOKEN_RE.finditer(text):
-        # Emit any unmatched non-whitespace characters between matches
-        gap = text[last_end:m.start()]
-        for chunk in gap.split():
-            toks.append(chunk)
+        # Emit any unmatched non-whitespace characters in the gap before this match.
+        gap = text[pos:m.start()]
+        toks.extend(gap.split())
         tok = next(g for g in m.groups() if g is not None)
         toks.append(tok)
-        last_end = m.end()
-    # Emit any trailing unmatched non-whitespace characters
-    gap = text[last_end:]
-    for chunk in gap.split():
-        toks.append(chunk)
-    # If regex misses odd unicode, fall back by splitting remaining whitespace chunks
-    # (rare, but keeps determinism).
+        pos = m.end()
+    # Trailing gap after the last match.
+    toks.extend(text[pos:].split())
     if not toks:
         toks = text.split()
     return toks

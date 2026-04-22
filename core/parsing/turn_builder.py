@@ -55,10 +55,10 @@ def build_turns_from_utterances(raw_utterances: List[Dict[str, Any]]) -> List[Di
         else:
             if forced:
                 start_new = True
-            elif actor != current["actor_id"]:
+            elif actor == "UNK" or current["actor_id"] == "UNK":
+                # UNK utterances are never merged with neighbours
                 start_new = True
-            elif actor == "UNK":
-                # UNK turns never merge with neighbors, including consecutive UNK
+            elif actor != current["actor_id"]:
                 start_new = True
 
         if start_new:

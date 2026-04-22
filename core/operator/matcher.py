@@ -17,24 +17,22 @@ def choose_family(families: List[str]) -> str:
 
 def contraction_split(tok: str) -> List[str]:
     """
-    Surface contraction splitting (frozen):
+    Surface contraction splitting aligned to fragment_family_map in bones_v1.json:
       don't -> do + n't
-      I'll -> I + 'll
-      I'd -> I + 'd
-      they're -> they + 're
-      I'm -> I + 'm
-      I've -> I + 've
-      it's -> it + 's
+      I'll  -> I + 'll
+      I'd   -> I + 'd
+      we're -> we + 're
+      I'm   -> I + 'm
+      I've  -> I + 've
+      it's  -> it + 's
     """
     t = tok
     if not t or "'" not in t:
         return [tok]
-    # canonical apostrophe assumed
     low = t.lower()
     if low.endswith("n't") and len(t) > 3:
         return [t[:-3], "n't"]
-    # ordered by length (longest first) to avoid prefix conflicts
-    for suf in ("'ll", "'re", "'ve", "'d", "'m", "'s"):
+    for suf in ("'ll", "'d", "'re", "'m", "'ve", "'s"):
         if low.endswith(suf) and len(t) > len(suf):
             return [t[:-len(suf)], suf]
     return [tok]
@@ -45,13 +43,15 @@ def match_whole_word(tok: str, bones_map: Dict[str, str]) -> List[str]:
     return [fam] if fam in {"P","K","Q","T","S"} else []
 
 def match_punct(tok: str) -> List[str]:
-    # frozen punct rules
+    # frozen punct rules per bones_v1.json punctuation_rules
     if tok == "?":
         return ["Q"]
     if tok == "—":
         return []  # em dash emits zero
     if tok == "–":
-        return ["K"]  # en dash treated as connection
+        return ["K"]  # en dash as connector
+    if tok in (":", ";"):
+        return ["K"]  # connective emissions per canon
     # hyphen handled separately at surface token stage
     return []
 
@@ -70,7 +70,7 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
     fams: List[str] = []
     root = t
 
-    # prefixes: longest first, repeat
+    # sort once (longest first) before the repeated-match loops
     pref_list = sorted(prefix_map.keys(), key=len, reverse=True)
     changed = True
     while changed:
@@ -82,7 +82,6 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
                 changed = True
                 break
 
-    # suffixes: longest first, repeat
     suf_list = sorted(suffix_map.keys(), key=len, reverse=True)
     changed = True
     while changed:

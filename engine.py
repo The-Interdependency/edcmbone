@@ -99,8 +99,7 @@ def analyze_transcript(
     # ---- Import core components (implement these modules in edcmbone/core/...) ----
     # hmmm: keep these pure; no IO; no global state.
     from core.parsing.parsing_pipeline import parse_utterances_to_turns_rounds
-    from core.parsing.round_builder import _is_sys_tool
-    from core.operator.operator_extractor import compute_operator_windows, compute_per_turn_operator_outputs
+    from core.operator.operator_extractor import compute_operator_windows, compute_per_turn_operator
     from core.behavioral.behavioral_window import compute_behavioral_windows
     from core.bridge.bridge_engine import compute_bridge_windows
 
@@ -119,16 +118,18 @@ def analyze_transcript(
         for r in rounds:
             _validate(round_schema, r, "round")
 
-    # ---- Operator (turn-native; SYS/TOOL excluded per canon windowing_policy) ----
-    # Per canon, SYS/TOOL turns are excluded from Operator by default.
-    op_turns = [t for t in turns if not _is_sys_tool(t["actor_id"])]
-    per_turn_op_outputs = compute_per_turn_operator_outputs(
-        turns=op_turns,
+    # ---- Operator (turn-native; SYS/TOOL excluded per canon windowing policy) ----
+    _SYS_TOOL = {"SYS", "TOOL"}
+    operator_turns = [t for t in turns if t.get("actor_id", "").upper() not in _SYS_TOOL]
+
+    per_turn_op = compute_per_turn_operator(
+        turns=operator_turns,
         bones_inventory=canon["bones"],
         affixes_inventory=canon["affixes"],
     )
+
     operator_outputs = compute_operator_windows(
-        turns=op_turns,
+        turns=operator_turns,
         bones_inventory=canon["bones"],
         affixes_inventory=canon["affixes"],
         k_turns=cfg.operator_k_turns,
@@ -155,13 +156,13 @@ def analyze_transcript(
         for b in behavioral_outputs:
             _validate(beh_schema, b, "behavioral")
 
-    # ---- Bridge (observational alignment; thresholds adjustable) ----
+    # ---- Bridge (observational alignment; aligned by round turn_ids) ----
     bridge_outputs = compute_bridge_windows(
         rounds=rounds,
         turns=turns,
         operator_outputs=operator_outputs,
-        per_turn_operator_outputs=per_turn_op_outputs,
         behavioral_outputs=behavioral_outputs,
+        per_turn_operator=per_turn_op,
         divergence_threshold=cfg.divergence_threshold,
         closed_rounds_only=True,
     )

@@ -163,25 +163,25 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 21,
+        "B_total": 23,
         "P": 1,
         "K": 4,
-        "Q": 4,
+        "Q": 6,
         "T": 5,
         "S": 7,
         "audit": {
-          "matched_free_bones": 20,
+          "matched_free_bones": 22,
           "matched_affixes": 0,
           "matched_punct": 1,
-          "excluded_tokens": 15
+          "excluded_tokens": 13
         }
       },
       "vector": {
-        "P": 0.047619047619047616,
-        "K": 0.19047619047619047,
-        "Q": 0.19047619047619047,
-        "T": 0.23809523809523808,
-        "S": 0.3333333333333333,
+        "P": 0.043478260869565216,
+        "K": 0.17391304347826086,
+        "Q": 0.2608695652173913,
+        "T": 0.21739130434782608,
+        "S": 0.30434782608695654,
         "sum": 1.0
       },
       "rules_frozen": {
@@ -223,25 +223,25 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 14,
+        "B_total": 16,
         "P": 1,
         "K": 4,
-        "Q": 3,
+        "Q": 5,
         "T": 2,
         "S": 4,
         "audit": {
-          "matched_free_bones": 14,
+          "matched_free_bones": 16,
           "matched_affixes": 0,
           "matched_punct": 0,
-          "excluded_tokens": 12
+          "excluded_tokens": 10
         }
       },
       "vector": {
-        "P": 0.07142857142857142,
-        "K": 0.2857142857142857,
-        "Q": 0.21428571428571427,
-        "T": 0.14285714285714285,
-        "S": 0.2857142857142857,
+        "P": 0.0625,
+        "K": 0.25,
+        "Q": 0.3125,
+        "T": 0.125,
+        "S": 0.25,
         "sum": 1.0
       },
       "rules_frozen": {
@@ -282,25 +282,25 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 10,
+        "B_total": 11,
         "P": 0,
         "K": 3,
-        "Q": 2,
+        "Q": 3,
         "T": 2,
         "S": 3,
         "audit": {
-          "matched_free_bones": 10,
+          "matched_free_bones": 11,
           "matched_affixes": 0,
           "matched_punct": 0,
-          "excluded_tokens": 8
+          "excluded_tokens": 7
         }
       },
       "vector": {
         "P": 0.0,
-        "K": 0.3,
-        "Q": 0.2,
-        "T": 0.2,
-        "S": 0.3,
+        "K": 0.2727272727272727,
+        "Q": 0.2727272727272727,
+        "T": 0.18181818181818182,
+        "S": 0.2727272727272727,
         "sum": 1.0
       },
       "rules_frozen": {
@@ -568,7 +568,7 @@
       "hmm": {
         "contained": [
           "Bridge uses thresholded L1 divergence and Pearson correlations.",
-          "Operator vectors aligned to behavioral round_ids via per-turn sum."
+          "Operator vectors aligned by behavioral window round_ids via per-turn aggregation."
         ],
         "deferred": [
           "Statistical significance / p-values.",

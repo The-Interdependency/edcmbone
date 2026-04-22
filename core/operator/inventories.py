@@ -1,54 +1,53 @@
 # core/operator/inventories.py
-# hmmm: flexible loader; supports either {"map":{...}} or flat dict.
+# hmmm: flexible loader; supports canon_eng bones/affixes JSON shapes.
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Tuple
 
 FAMILIES = ("P", "K", "Q", "T", "S")
 
-def _as_map(inv: Dict[str, Any]) -> Dict[str, str]:
-    if "map" in inv and isinstance(inv["map"], dict):
-        return {str(k): str(v) for k, v in inv["map"].items()}
-    # allow direct mapping
-    return {str(k): str(v) for k, v in inv.items() if isinstance(v, str)}
 
 def load_bones_map(bones_inv: Dict[str, Any]) -> Dict[str, str]:
     """
-    Build a token->family map from bones inventory.
-    Prefers closed_class_mapping (family -> subcategory -> [tokens]) structure,
-    with fallback to {"map": {...}} or flat string-valued dict.
+    Build token→family map from bones_v1.json closed_class_mapping and
+    contraction fragment_family_map.
     """
-    ccm = bones_inv.get("closed_class_mapping")
-    if isinstance(ccm, dict):
-        result: Dict[str, str] = {}
-        for family, subcats in ccm.items():
-            if not isinstance(subcats, dict):
+    result: Dict[str, str] = {}
+
+    ccm = bones_inv.get("closed_class_mapping", {})
+    for family, subcats in ccm.items():
+        if not isinstance(subcats, dict):
+            continue
+        for subcat, tokens in subcats.items():
+            if subcat == "notes":
                 continue
-            for subcat_key, tokens in subcats.items():
-                if subcat_key == "notes":
-                    continue
-                if isinstance(tokens, list):
-                    for tok in tokens:
-                        if isinstance(tok, str):
-                            result[tok.lower()] = str(family)
-        return result
-    m = _as_map(bones_inv)
-    return {k.lower(): v for k, v in m.items()}
+            if isinstance(tokens, list):
+                for tok in tokens:
+                    if isinstance(tok, str):
+                        result[tok.lower()] = str(family)
+
+    # contraction fragments (n't → Q, 'll → T, etc.)
+    fragment_map = bones_inv.get("contractions", {}).get("fragment_family_map", {})
+    for frag, family in fragment_map.items():
+        result[str(frag).lower()] = str(family)
+
+    return result
+
 
 def load_affixes(affixes_inv: Dict[str, Any]) -> Tuple[Dict[str, str], Dict[str, str]]:
     """
-    Returns (prefix_map, suffix_map) mapping affix->family.
+    Returns (prefix_map, suffix_map) mapping affix→family.
     Accepts:
-      {"prefixes": [{affix, family}, ...], "suffixes": [{affix, family}, ...]}  (list-of-objects)
-      {"prefixes": {...}, "suffixes": {...}}                                      (dict)
-    or flat dict with keys like "pre:un" / "suf:ing" (fallback).
+      list form: [{"affix": "un", "family": "Q"}, ...]  (canon_eng/affixes_v1.json)
+      dict form: {"un": "Q", ...}
+      flat keys: {"pre:un": "Q", "suf:ing": "S", ...}  (fallback)
     """
     pref: Dict[str, str] = {}
     suf: Dict[str, str] = {}
 
-    raw_pref = affixes_inv.get("prefixes")
-    raw_suf = affixes_inv.get("suffixes")
+    raw_pref = affixes_inv.get("prefixes", {})
+    raw_suf = affixes_inv.get("suffixes", {})
 
     if isinstance(raw_pref, list):
         for item in raw_pref:
@@ -65,7 +64,7 @@ def load_affixes(affixes_inv: Dict[str, Any]) -> Tuple[Dict[str, str], Dict[str,
         suf = {k.lower(): str(v) for k, v in raw_suf.items()}
 
     if not pref and not suf:
-        # fallback: flat keys
+        # fallback: flat keys like "pre:un" / "suf:ing"
         for k, v in affixes_inv.items():
             if not isinstance(v, str):
                 continue

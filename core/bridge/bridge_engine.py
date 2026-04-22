@@ -7,87 +7,102 @@ from typing import Any, Dict, List, Optional
 
 from .math_utils import pearson, l1
 
-OFAMS = ["P","K","Q","T","S"]
-BMETS = ["C","R","D","N","L","O","F","E","I"]
+OFAMS = ["P", "K", "Q", "T", "S"]
+BMETS = ["C", "R", "D", "N", "L", "O", "F", "E", "I"]
 
-def _op_vec(o: Dict[str, Any]) -> List[float]:
-    v = o["vector"]
-    return [float(v[f]) for f in OFAMS]
 
 def _b_vec(b: Dict[str, Any]) -> List[float]:
     m = b["metrics"]
     return [float(m[k]) for k in BMETS]
 
-def _op_round_vec(
+
+def _aggregate_op_vec_for_rounds(
     round_ids: List[str],
-    round_lookup: Dict[str, Dict[str, Any]],
-    turn_op_lookup: Dict[str, Dict[str, Any]],
+    rounds: List[Dict[str, Any]],
+    turn_op_map: Dict[str, Dict[str, Any]],
 ) -> List[float]:
-    """
-    Sum per-turn operator counts across all turns belonging to the given round_ids,
-    then renormalize to get a proportional vector aligned to this behavioral window.
-    """
-    counts = {f: 0 for f in OFAMS}
-    b_total = 0
+    """Sum per-turn operator counts for all turns in the given rounds, then renormalize."""
+    r_lookup = {r["round_id"]: r for r in rounds}
+    agg = {f: 0 for f in OFAMS}
+    total = 0
     for rid in round_ids:
-        r = round_lookup.get(rid, {})
+        r = r_lookup.get(rid)
+        if not r:
+            continue
         for tid in r.get("turn_ids", []):
-            op = turn_op_lookup.get(tid)
-            if op:
-                for f in OFAMS:
-                    counts[f] += op["counts"].get(f, 0)
-                b_total += op["counts"].get("B_total", 0)
-    if b_total <= 0:
+            op = turn_op_map.get(tid)
+            if not op:
+                continue
+            counts = op["counts"]
+            bt = int(counts.get("B_total", 0))
+            total += bt
+            for f in OFAMS:
+                agg[f] += int(counts.get(f, 0))
+    if total <= 0:
         return [0.0] * len(OFAMS)
-    return [counts[f] / b_total for f in OFAMS]
+    return [agg[f] / total for f in OFAMS]
+
 
 def compute_bridge_windows(
     *,
     rounds: List[Dict[str, Any]],
     turns: List[Dict[str, Any]],
     operator_outputs: List[Dict[str, Any]],
-    per_turn_operator_outputs: List[Dict[str, Any]],
     behavioral_outputs: List[Dict[str, Any]],
+    per_turn_operator: Optional[List[Dict[str, Any]]] = None,
     divergence_threshold: float = 0.20,
     closed_rounds_only: bool = True,
 ) -> List[Dict[str, Any]]:
-    # Build lookups for round-aligned operator computation
-    round_lookup: Dict[str, Dict[str, Any]] = {r["round_id"]: r for r in rounds}
-    # per_turn_operator_outputs use window_ids[0] as the turn_id key
-    turn_op_lookup: Dict[str, Dict[str, Any]] = {
-        o["window_ids"][0]: o for o in per_turn_operator_outputs
-    }
+    """
+    Align bridge windows by behavioral window round_ids.
 
-    # Precompute round-aligned operator vectors for each behavioral window
-    round_op_vecs = [
-        _op_round_vec(b["round_ids"], round_lookup, turn_op_lookup)
-        for b in behavioral_outputs
-    ]
+    When per_turn_operator is supplied (preferred), the operator vector for each
+    bridge window is computed by summing per-turn operator counts for every turn
+    that belongs to the rounds in that behavioral window, then renormalizing.
+    This avoids the mismatch between turn-windows and round-windows.
 
+    Falls back to index-based alignment when per_turn_operator is None.
+    """
+    n = len(behavioral_outputs)
     outs: List[Dict[str, Any]] = []
+
+    if per_turn_operator is not None:
+        turn_op_map = {o["window_ids"][0]: o for o in per_turn_operator}
+        aligned_op_vecs = [
+            _aggregate_op_vec_for_rounds(b["round_ids"], rounds, turn_op_map)
+            for b in behavioral_outputs
+        ]
+    else:
+        n = min(n, len(operator_outputs))
+
+        def _op_vec(o: Dict[str, Any]) -> List[float]:
+            v = o["vector"]
+            return [float(v[f]) for f in OFAMS]
+
+        aligned_op_vecs = [_op_vec(operator_outputs[i]) for i in range(n)]
+
     prev_o: Optional[List[float]] = None
     prev_b: Optional[List[float]] = None
 
-    for i, b in enumerate(behavioral_outputs):
-        ovec = round_op_vecs[i]
+    for i in range(n):
+        b = behavioral_outputs[i]
+        ovec = aligned_op_vecs[i]
         bvec = _b_vec(b)
 
-        # Correlations across the bridge window are underpowered in v1 (n observations small),
-        # so we compute correlation across time using accumulated history up to i.
-        # Deterministic and simple.
+        # Accumulated Pearson correlations (low n in v1; kept for consistency)
         corr_items = []
         for fi, f in enumerate(OFAMS):
-            xs = [round_op_vecs[j][fi] for j in range(i+1)]
-            for mi, m in enumerate(BMETS):
-                ys = [_b_vec(behavioral_outputs[j])[mi] for j in range(i+1)]
+            xs = [aligned_op_vecs[j][fi] for j in range(i + 1)]
+            for mi, m_key in enumerate(BMETS):
+                ys = [_b_vec(behavioral_outputs[j])[mi] for j in range(i + 1)]
                 if len(xs) >= 2:
                     val = pearson(xs, ys)
                     corr_items.append({
                         "operator_family": f,
-                        "behavioral_metric": m,
+                        "behavioral_metric": m_key,
                         "method": "pearson",
                         "value": val,
-                        "n": len(xs)
+                        "n": len(xs),
                     })
 
         divergences = []
@@ -105,10 +120,11 @@ def compute_bridge_windows(
                         "summary": "Operator shift exceeded threshold without Behavioral shift.",
                         "operator_delta_L1": dO,
                         "behavioral_delta_L1": dB,
-                        "thresholds_used": {"divergence_threshold": divergence_threshold}
-                    }
+                        "thresholds_used": {"divergence_threshold": divergence_threshold},
+                    },
                 })
-                flags.append({"level":"warn","code":"inspect_window","message":"Operator shifted without behavioral change; inspect tokenization/bones window."})
+                flags.append({"level": "warn", "code": "inspect_window",
+                              "message": "Operator shifted without behavioral change; inspect tokenization/bones window."})
 
             elif dB >= divergence_threshold and dO < divergence_threshold:
                 divergences.append({
@@ -118,10 +134,11 @@ def compute_bridge_windows(
                         "summary": "Behavioral spike exceeded threshold without Operator shift.",
                         "operator_delta_L1": dO,
                         "behavioral_delta_L1": dB,
-                        "thresholds_used": {"divergence_threshold": divergence_threshold}
-                    }
+                        "thresholds_used": {"divergence_threshold": divergence_threshold},
+                    },
                 })
-                flags.append({"level":"warn","code":"inspect_window","message":"Behavioral spiked without operator shift; inspect marker hits / constraint proxy."})
+                flags.append({"level": "warn", "code": "inspect_window",
+                              "message": "Behavioral spiked without operator shift; inspect marker hits / constraint proxy."})
 
             elif dB >= divergence_threshold and dO >= divergence_threshold:
                 divergences.append({
@@ -131,10 +148,11 @@ def compute_bridge_windows(
                         "summary": "Both Operator and Behavioral shifted beyond threshold.",
                         "operator_delta_L1": dO,
                         "behavioral_delta_L1": dB,
-                        "thresholds_used": {"divergence_threshold": divergence_threshold}
-                    }
+                        "thresholds_used": {"divergence_threshold": divergence_threshold},
+                    },
                 })
-                flags.append({"level":"info","code":"inspect_window","message":"Both layers shifted; likely genuine interaction change."})
+                flags.append({"level": "info", "code": "inspect_window",
+                              "message": "Both layers shifted; likely genuine interaction change."})
 
         prev_o = ovec
         prev_b = bvec
@@ -153,13 +171,15 @@ def compute_bridge_windows(
                 "bridge_is_read_only": True,
                 "does_not_modify_O_or_B": True,
                 "operator_alignment_method": "sum_and_renormalize",
-                "exclude_open_rounds": True
+                "exclude_open_rounds": True,
             },
             "hmm": {
-                "contained": ["Bridge uses thresholded L1 divergence and Pearson correlations.",
-                              "Operator vectors aligned to behavioral round_ids via per-turn sum."],
-                "deferred": ["Statistical significance / p-values.", "Alt correlation methods."]
-            }
+                "contained": [
+                    "Bridge uses thresholded L1 divergence and Pearson correlations.",
+                    "Operator vectors aligned by behavioral window round_ids via per-turn aggregation.",
+                ],
+                "deferred": ["Statistical significance / p-values.", "Alt correlation methods."],
+            },
         })
 
     return outs

@@ -6,5 +6,10 @@ node_modules/
 .DS_Store
 *.log
 
-# Generated test artifacts (runtime outputs; golden files are kept under tests/golden/)
+# Build artifacts
+dist/
+*.egg-info/
+build/
+
+# Generated test artifacts (golden files kept under tests/golden/ only)
 tests/_artifacts/
