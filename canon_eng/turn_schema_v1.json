@@ -1,34 +1,62 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "EDCMBone Utterance Schema v1",
-  "description": "Canonical utterance object. Raw, lossless, speaker-attributed segment.",
+  "title": "EDCMBone Turn Schema v1",
+  "description": "Canonical turn object. One or more merged utterances from the same actor, bounded by actor change or forced boundary.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["utterance_id", "actor_id", "raw_text", "t_start", "t_end", "source_ref"],
+  "required": ["turn_id", "actor_id", "utterance_ids", "raw_text", "tokens_surface"],
   "properties": {
-    "utterance_id": {
+    "turn_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Unique turn identifier (e.g. 't0', 't1')."
     },
     "actor_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Actor who produced this turn (e.g. 'A', 'B', 'SYS', 'TOOL:name', 'UNK')."
+    },
+    "utterance_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Ordered list of utterance_ids merged into this turn."
     },
     "raw_text": {
       "type": "string",
-      "description": "Original raw text; never modified."
+      "description": "Concatenated raw text of all merged utterances (newline-separated)."
+    },
+    "tokens_surface": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Surface tokens produced by the tokenizer from raw_text."
     },
     "t_start": {
       "type": ["string", "null"],
-      "description": "Optional start timestamp (ISO 8601 preferred)."
+      "description": "Optional start timestamp of the earliest merged utterance."
     },
     "t_end": {
       "type": ["string", "null"],
-      "description": "Optional end timestamp (ISO 8601 preferred)."
+      "description": "Optional end timestamp of the latest merged utterance."
     },
-    "source_ref": {
-      "type": ["string", "null"],
-      "description": "Optional pointer to page/line/audio segment."
+    "source_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Source references from merged utterances."
+    },
+    "meta": {
+      "type": "object",
+      "description": "Turn metadata flags.",
+      "properties": {
+        "forced_boundary": { "type": "boolean" },
+        "contains_quote": { "type": "boolean" },
+        "overlap": { "type": "boolean" },
+        "interrupted_by": { "type": ["string", "null"] },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
     }
   }
 }

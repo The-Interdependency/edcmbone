@@ -18,27 +18,58 @@ def _b_vec(b: Dict[str, Any]) -> List[float]:
     m = b["metrics"]
     return [float(m[k]) for k in BMETS]
 
+def _op_round_vec(
+    round_ids: List[str],
+    round_lookup: Dict[str, Dict[str, Any]],
+    turn_op_lookup: Dict[str, Dict[str, Any]],
+) -> List[float]:
+    """
+    Sum per-turn operator counts across all turns belonging to the given round_ids,
+    then renormalize to get a proportional vector aligned to this behavioral window.
+    """
+    counts = {f: 0 for f in OFAMS}
+    b_total = 0
+    for rid in round_ids:
+        r = round_lookup.get(rid, {})
+        for tid in r.get("turn_ids", []):
+            op = turn_op_lookup.get(tid)
+            if op:
+                for f in OFAMS:
+                    counts[f] += op["counts"].get(f, 0)
+                b_total += op["counts"].get("B_total", 0)
+    if b_total <= 0:
+        return [0.0] * len(OFAMS)
+    return [counts[f] / b_total for f in OFAMS]
+
 def compute_bridge_windows(
     *,
     rounds: List[Dict[str, Any]],
     turns: List[Dict[str, Any]],
     operator_outputs: List[Dict[str, Any]],
+    per_turn_operator_outputs: List[Dict[str, Any]],
     behavioral_outputs: List[Dict[str, Any]],
     divergence_threshold: float = 0.20,
     closed_rounds_only: bool = True,
 ) -> List[Dict[str, Any]]:
-    # Align by window index (rolling stride=1 expected)
-    n = min(len(operator_outputs), len(behavioral_outputs))
-    outs: List[Dict[str, Any]] = []
+    # Build lookups for round-aligned operator computation
+    round_lookup: Dict[str, Dict[str, Any]] = {r["round_id"]: r for r in rounds}
+    # per_turn_operator_outputs use window_ids[0] as the turn_id key
+    turn_op_lookup: Dict[str, Dict[str, Any]] = {
+        o["window_ids"][0]: o for o in per_turn_operator_outputs
+    }
 
+    # Precompute round-aligned operator vectors for each behavioral window
+    round_op_vecs = [
+        _op_round_vec(b["round_ids"], round_lookup, turn_op_lookup)
+        for b in behavioral_outputs
+    ]
+
+    outs: List[Dict[str, Any]] = []
     prev_o: Optional[List[float]] = None
     prev_b: Optional[List[float]] = None
 
-    for i in range(n):
-        o = operator_outputs[i]
-        b = behavioral_outputs[i]
-
-        ovec = _op_vec(o)
+    for i, b in enumerate(behavioral_outputs):
+        ovec = round_op_vecs[i]
         bvec = _b_vec(b)
 
         # Correlations across the bridge window are underpowered in v1 (n observations small),
@@ -46,7 +77,7 @@ def compute_bridge_windows(
         # Deterministic and simple.
         corr_items = []
         for fi, f in enumerate(OFAMS):
-            xs = [_op_vec(operator_outputs[j])[fi] for j in range(i+1)]
+            xs = [round_op_vecs[j][fi] for j in range(i+1)]
             for mi, m in enumerate(BMETS):
                 ys = [_b_vec(behavioral_outputs[j])[mi] for j in range(i+1)]
                 if len(xs) >= 2:
@@ -125,7 +156,8 @@ def compute_bridge_windows(
                 "exclude_open_rounds": True
             },
             "hmm": {
-                "contained": ["Bridge uses thresholded L1 divergence and Pearson correlations."],
+                "contained": ["Bridge uses thresholded L1 divergence and Pearson correlations.",
+                              "Operator vectors aligned to behavioral round_ids via per-turn sum."],
                 "deferred": ["Statistical significance / p-values.", "Alt correlation methods."]
             }
         })

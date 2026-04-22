@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from math import sqrt
 
 from core.parsing.normalizer import normalize_text_for_matching
@@ -52,8 +52,8 @@ def compute_behavioral_for_window(
     rounds: List[Dict[str, Any]],
     turns: List[Dict[str, Any]],
     markers_inventory: Dict[str, Any],
-    prev_window_feature_vec: List[float] | None,
-    prev_intensity: float | None,
+    prev_window_feature_vec: Optional[List[float]],
+    prev_intensity: Optional[float],
 ) -> Tuple[Dict[str, Any], List[float], float]:
     # collect turn_ids in window
     r_lookup = {r["round_id"]: r for r in rounds}

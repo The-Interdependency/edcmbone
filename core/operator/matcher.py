@@ -17,10 +17,14 @@ def choose_family(families: List[str]) -> str:
 
 def contraction_split(tok: str) -> List[str]:
     """
-    Surface contraction splitting (frozen minimal):
+    Surface contraction splitting (frozen):
       don't -> do + n't
       I'll -> I + 'll
       I'd -> I + 'd
+      they're -> they + 're
+      I'm -> I + 'm
+      I've -> I + 've
+      it's -> it + 's
     """
     t = tok
     if not t or "'" not in t:
@@ -29,8 +33,8 @@ def contraction_split(tok: str) -> List[str]:
     low = t.lower()
     if low.endswith("n't") and len(t) > 3:
         return [t[:-3], "n't"]
-    # 'll, 'd
-    for suf in ("'ll", "'d"):
+    # ordered by length (longest first) to avoid prefix conflicts
+    for suf in ("'ll", "'re", "'ve", "'d", "'m", "'s"):
         if low.endswith(suf) and len(t) > len(suf):
             return [t[:-len(suf)], suf]
     return [tok]

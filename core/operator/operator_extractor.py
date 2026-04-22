@@ -131,6 +131,22 @@ def _sum_counts(operator_turn_outputs: List[Dict[str, Any]]) -> Dict[str, int]:
     c["audit"] = audit  # type: ignore
     return c
 
+def compute_per_turn_operator_outputs(
+    *,
+    turns: List[Dict[str, Any]],
+    bones_inventory: Dict[str, Any],
+    affixes_inventory: Dict[str, Any],
+) -> List[Dict[str, Any]]:
+    """
+    Returns per-turn operator output for each turn in order.
+    Used by bridge alignment to sum operator counts for a behavioral window's round_ids.
+    """
+    return [
+        compute_operator_for_turn(t, bones_inventory, affixes_inventory)
+        for t in turns
+    ]
+
+
 def compute_operator_windows(
     *,
     turns: List[Dict[str, Any]],

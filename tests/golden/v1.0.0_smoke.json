@@ -163,25 +163,25 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 1,
-        "P": 0,
-        "K": 0,
-        "Q": 1,
-        "T": 0,
-        "S": 0,
+        "B_total": 21,
+        "P": 1,
+        "K": 4,
+        "Q": 4,
+        "T": 5,
+        "S": 7,
         "audit": {
-          "matched_free_bones": 0,
+          "matched_free_bones": 20,
           "matched_affixes": 0,
           "matched_punct": 1,
-          "excluded_tokens": 35
+          "excluded_tokens": 15
         }
       },
       "vector": {
-        "P": 0.0,
-        "K": 0.0,
-        "Q": 1.0,
-        "T": 0.0,
-        "S": 0.0,
+        "P": 0.047619047619047616,
+        "K": 0.19047619047619047,
+        "Q": 0.19047619047619047,
+        "T": 0.23809523809523808,
+        "S": 0.3333333333333333,
         "sum": 1.0
       },
       "rules_frozen": {
@@ -223,26 +223,26 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 0,
-        "P": 0,
-        "K": 0,
-        "Q": 0,
-        "T": 0,
-        "S": 0,
+        "B_total": 14,
+        "P": 1,
+        "K": 4,
+        "Q": 3,
+        "T": 2,
+        "S": 4,
         "audit": {
-          "matched_free_bones": 0,
+          "matched_free_bones": 14,
           "matched_affixes": 0,
           "matched_punct": 0,
-          "excluded_tokens": 26
+          "excluded_tokens": 12
         }
       },
       "vector": {
-        "P": 0.0,
-        "K": 0.0,
-        "Q": 0.0,
-        "T": 0.0,
-        "S": 0.0,
-        "sum": 0.0
+        "P": 0.07142857142857142,
+        "K": 0.2857142857142857,
+        "Q": 0.21428571428571427,
+        "T": 0.14285714285714285,
+        "S": 0.2857142857142857,
+        "sum": 1.0
       },
       "rules_frozen": {
         "lowercase_before_match": true,
@@ -282,26 +282,26 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 0,
+        "B_total": 10,
         "P": 0,
-        "K": 0,
-        "Q": 0,
-        "T": 0,
-        "S": 0,
+        "K": 3,
+        "Q": 2,
+        "T": 2,
+        "S": 3,
         "audit": {
-          "matched_free_bones": 0,
+          "matched_free_bones": 10,
           "matched_affixes": 0,
           "matched_punct": 0,
-          "excluded_tokens": 18
+          "excluded_tokens": 8
         }
       },
       "vector": {
         "P": 0.0,
-        "K": 0.0,
-        "Q": 0.0,
-        "T": 0.0,
-        "S": 0.0,
-        "sum": 0.0
+        "K": 0.3,
+        "Q": 0.2,
+        "T": 0.2,
+        "S": 0.3,
+        "sum": 1.0
       },
       "rules_frozen": {
         "lowercase_before_match": true,
@@ -340,26 +340,26 @@
       ],
       "is_partial": true,
       "counts": {
-        "B_total": 0,
+        "B_total": 5,
         "P": 0,
-        "K": 0,
-        "Q": 0,
+        "K": 2,
+        "Q": 2,
         "T": 0,
-        "S": 0,
+        "S": 1,
         "audit": {
-          "matched_free_bones": 0,
+          "matched_free_bones": 5,
           "matched_affixes": 0,
           "matched_punct": 0,
-          "excluded_tokens": 9
+          "excluded_tokens": 4
         }
       },
       "vector": {
         "P": 0.0,
-        "K": 0.0,
-        "Q": 0.0,
+        "K": 0.4,
+        "Q": 0.4,
         "T": 0.0,
-        "S": 0.0,
-        "sum": 0.0
+        "S": 0.2,
+        "sum": 1.0
       },
       "rules_frozen": {
         "lowercase_before_match": true,
@@ -567,7 +567,8 @@
       },
       "hmm": {
         "contained": [
-          "Bridge uses thresholded L1 divergence and Pearson correlations."
+          "Bridge uses thresholded L1 divergence and Pearson correlations.",
+          "Operator vectors aligned to behavioral round_ids via per-turn sum."
         ],
         "deferred": [
           "Statistical significance / p-values.",

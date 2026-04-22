@@ -99,7 +99,8 @@ def analyze_transcript(
     # ---- Import core components (implement these modules in edcmbone/core/...) ----
     # hmmm: keep these pure; no IO; no global state.
     from core.parsing.parsing_pipeline import parse_utterances_to_turns_rounds
-    from core.operator.operator_extractor import compute_operator_windows
+    from core.parsing.round_builder import _is_sys_tool
+    from core.operator.operator_extractor import compute_operator_windows, compute_per_turn_operator_outputs
     from core.behavioral.behavioral_window import compute_behavioral_windows
     from core.bridge.bridge_engine import compute_bridge_windows
 
@@ -118,9 +119,16 @@ def analyze_transcript(
         for r in rounds:
             _validate(round_schema, r, "round")
 
-    # ---- Operator (turn-native; may also emit O_round alignment outputs) ----
+    # ---- Operator (turn-native; SYS/TOOL excluded per canon windowing_policy) ----
+    # Per canon, SYS/TOOL turns are excluded from Operator by default.
+    op_turns = [t for t in turns if not _is_sys_tool(t["actor_id"])]
+    per_turn_op_outputs = compute_per_turn_operator_outputs(
+        turns=op_turns,
+        bones_inventory=canon["bones"],
+        affixes_inventory=canon["affixes"],
+    )
     operator_outputs = compute_operator_windows(
-        turns=turns,
+        turns=op_turns,
         bones_inventory=canon["bones"],
         affixes_inventory=canon["affixes"],
         k_turns=cfg.operator_k_turns,
@@ -152,6 +160,7 @@ def analyze_transcript(
         rounds=rounds,
         turns=turns,
         operator_outputs=operator_outputs,
+        per_turn_operator_outputs=per_turn_op_outputs,
         behavioral_outputs=behavioral_outputs,
         divergence_threshold=cfg.divergence_threshold,
         closed_rounds_only=True,
