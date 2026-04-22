@@ -170,7 +170,7 @@ def compute_bridge_windows(
             "rules_frozen": {
                 "bridge_is_read_only": True,
                 "does_not_modify_O_or_B": True,
-                "operator_alignment_method": "sum_and_renormalize_by_round_turn_ids",
+                "operator_alignment_method": "sum_and_renormalize",
                 "exclude_open_rounds": True,
             },
             "hmm": {
