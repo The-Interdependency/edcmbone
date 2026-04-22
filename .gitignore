@@ -13,3 +13,6 @@ build/
 
 # Generated test artifacts (golden files kept under tests/golden/ only)
 tests/_artifacts/
+
+# Stale lowercase backend stub (canonical package lives in Backend/)
+backend/
