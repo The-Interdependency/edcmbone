@@ -10,11 +10,11 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 - A **Python backend** (`Backend/`) — core logic, transcript parsing, and canon data library
 - A **React frontend** (`Frontend/`) — UI layer styled with Tailwind CSS
-- An **AI Multimodel Hub** (`ammh/`) — sub-project for multi-model AI orchestration
+- An **AI Multimodel Hub** (`aimmh-lib/`) — sub-project for multi-model AI orchestration
 - A **Tests** directory (`Tests/`) — test suite (currently being bootstrapped)
 - A **Documentation** directory (`Documentation/`) — specs and design guidelines
 
-**Current status**: Version 0.1.0. Four library modules are implemented and tested (87 tests, all passing). The frontend and AMMH server remain stubs.
+**Current status**: Version 0.1.0. Four library modules are implemented and tested (87 tests, all passing). The frontend and AIMMH-LIB server remain stubs.
 
 ---
 
@@ -60,10 +60,10 @@ edcmbone/
 │   └── tailwind.config.js      # Tailwind config (stub)
 ├── Tests/
 │   └── test_backend.py         # Backend tests (stub)
-├── ammh/
+├── aimmh-lib/
 │   ├── README.md
 │   └── backend/
-│       └── server.py           # AMMH server (stub)
+│       └── server.py           # AIMMH-LIB server (stub)
 ├── Documentation/
 │   ├── README.md               # Documentation directory index
 │   ├── spec.md                 # EDCM-PCNA-PCTA framework specification + math
@@ -86,7 +86,7 @@ edcmbone/
 |-----------|-------------------------------------|
 | Backend   | Python >= 3.8, Hatchling packaging  |
 | Frontend  | React 18.2.0, Tailwind CSS          |
-| AMMH      | Python (server.py)                  |
+| AIMMH-LIB | Python (server.py)                  |
 | Tests     | pytest >= 7.0 (configured via `Backend/pyproject.toml`) |
 | Build     | Hatchling (Python), npm (Frontend)  |
 
@@ -212,7 +212,7 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 | `Backend/src/edcmbone/compress.py` | Lossless codec + Huffman compression stats |
 | `Tests/test_backend.py` | 87-test suite (canon, parser, metrics, compress, projection, matrix) |
 | `Frontend/package.json` | Frontend dependencies and scripts |
-| `ammh/backend/server.py` | AMMH multi-model hub server (stub) |
+| `aimmh-lib/backend/server.py` | AIMMH-LIB multi-model hub server (stub) |
 | `Documentation/spec.md` | Full framework specification including mathematics |
 | `Documentation/GCIP.md` | Global Cognitive Interaction Profiles proposal |
 | `Documentation/evidence_log.md` | Three EDCM-measured evidence entries |
@@ -229,7 +229,7 @@ The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative
 - `Backend/requirements.txt` is the dev/test requirements file (currently `pytest>=7.0`); add further dev/test deps here and runtime deps to `[project.dependencies]` in `pyproject.toml`
 - pytest IS configured: `[tool.pytest.ini_options]` in `Backend/pyproject.toml` sets `testpaths = ["../Tests"]`
 - `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
-- `ammh/backend/server.py` is a stub — no routes implemented
+- `aimmh-lib/backend/server.py` is a stub — no routes implemented
 
 When implementing any of the above, use the most current conventions for the respective toolchain.
 
