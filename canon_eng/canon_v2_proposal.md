@@ -41,7 +41,7 @@ Canon v1 (`canon_eng/spec.md`, `canon_eng/spec_hard_freeze_appendix_v1.md`, `can
 | Behavioral (markers) | curated phrasal markers | 11D (snapshot 9 + trajectory 2) | none — embedding-free | unbounded (frozen, v1) |
 | Content (flesh) | open-class lexical content, per claim | 10D (4 status + 6 rating) | ZFAE (ContentEmbedder) | TBD per layer |
 
-The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Unit Circle Number System; technically hypercylindrical, with unit hypercircle cross-sections) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
+The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Unit Circle Number System; technically hypercylindrical with unit hypercircle cross-sections, nested recursion capped at depth 3) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
 
 ### 1.2 Lensing-as-structure principle
 
@@ -236,22 +236,23 @@ Operator has Σ_f O_f = 1. Behavioral has no conservation (snapshot vector is un
 
 What does edcmbone need from UCNS?
 
-UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The name "Unit Circle" is retained as the graspable handle; the underlying geometry is richer. A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks.
+UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The name "Unit Circle" is retained as the graspable handle; the underlying geometry is richer. A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks. Nested recursion is capped at depth 3, bounding the hypercylinder's z-axis to z ∈ {0, 1, 2, 3}.
 
 Per-disk coordinates are on the unit hypercircle: angular position (multi-dimensional), residue, rotation, chirality, local relation — each a dimension of the hypercircle's parametric structure, not properties attached to a single angle.
 
-Additionally, zero is non-scalar: it is the contact event at the base of the hypercylinder, the anchoring event from which the hypercylindrical field unfurls. The bone embedding for an empty or baseline state is not a zero vector; it is a contact-event representation.
+Additionally, zero is non-scalar: it is the contact event at the base of the hypercylinder (z=0), the anchoring event from which the hypercylindrical field unfurls. The bone embedding for an empty or baseline state is not a zero vector; it is a contact-event representation.
 
 BoneEmbedder must therefore expose:
 
 - **Per-disk coordinates:** unit hypercircle parametrization (angular position, residue, rotation, chirality, local relation)
-- **Hypercylindrical coordinates:** sequence position (z), depth, recurrence, phase memory, traversal index
-- **Zero as contact event:** initialization anchors to the hypercylinder base, not to the zero scalar
+- **Depth coordinate:** z ∈ {0, 1, 2, 3} — fixed, not parametric
+- **Cylindrical coordinates:** sequence position, recurrence, phase memory, traversal index
+- **Zero as contact event:** initialization anchors to the hypercylinder base (z=0), not to the zero scalar
 - **Distance:** hyperspherical or hypercylindrical geodesic distance between two bone embeddings
 
-**Provisional default:** Hypercylindrical-disk-located event vector (per-disk hypercircle coordinates + cylindrical coordinates) with geodesic distance; zero-origin as contact event, not zero vector. Override if UCNS's actual API constrains the coordinate exposure or dimensionality differently.
+**Provisional default:** Hypercylindrical-disk-located event vector with fixed depth range (z ≤ 3), geodesic distance, zero-origin as contact event. Override if UCNS's actual API constrains the coordinate exposure differently.
 
-**hmm:** Whether the unit hypercircle dimension (n) is fixed for UCNS or parametric — a fixed n constrains the BoneEmbedder coordinate shape; a parametric n makes the protocol shape depend on configuration. See `ucns-embedding-correction.md` in erinepshovel-code/unitcircle.
+**hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — the traversal depth is now resolved as fixed (≤3), but the per-disk cross-section dimensionality remains open. See `ucns-embedding-correction.md` in erinepshovel-code/unitcircle.
 
 ### 3.7 ContentEmbedder protocol shape
 
@@ -328,6 +329,7 @@ Per canon convention, items marked `hmm:` are deferred decisions preserved as vi
 - **hmm:** Whether `speech_act = quoted` requires a recursive Content reading on the quoted material (claim-within-claim)
 - **hmm:** Whether the three-way Bridge requires a fourth coupling — A↔A across windows for each layer — for full temporal coverage, or whether trajectory metrics inside Behavioral cover this adequately
 - **hmm:** Whether the Content layer's per-claim granularity collides with v1's per-turn / per-round granularity in a way that requires a new aggregation rule beyond simple averaging
-- **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — affects BoneEmbedder coordinate shape and distance metric selection (see `ucns-embedding-correction.md` in erinepshovel-code/unitcircle)
+- **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — traversal depth is resolved (fixed at ≤3) but per-disk cross-section dimensionality remains open
 
-**Resolved:** The system name "Unit Circle" is retained. Names are for minds to grasp; the circle is the graspable cross-sectional handle for the full hypercylindrical structure. Technical geometry is richer than the name; the name is not a technical specification of the full topology.
+**Resolved:** The system name "Unit Circle" is retained. Names are for minds to grasp.  
+**Resolved:** Nested recursion is capped at depth 3. General recursive completeness is not a goal. Hypercylinder z-axis is fixed: z ∈ {0, 1, 2, 3}.
