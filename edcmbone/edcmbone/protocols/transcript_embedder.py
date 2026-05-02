@@ -1,5 +1,5 @@
 from typing import Protocol, Sequence, NamedTuple, Tuple
-from .bone_embedder import BoneEmbedding
+from .bone_embd_v1_1_0alpha import BoneEmbedding
 
 
 class TranscriptEmbedding(NamedTuple):
