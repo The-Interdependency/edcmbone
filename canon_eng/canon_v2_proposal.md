@@ -41,7 +41,7 @@ Canon v1 (`canon_eng/spec.md`, `canon_eng/spec_hard_freeze_appendix_v1.md`, `can
 | Behavioral (markers) | curated phrasal markers | 11D (snapshot 9 + trajectory 2) | none — embedding-free | unbounded (frozen, v1) |
 | Content (flesh) | open-class lexical content, per claim | 10D (4 status + 6 rating) | ZFAE (ContentEmbedder) | TBD per layer |
 
-The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Unit Circle Number System; technically hypercylindrical with unit hypercircle cross-sections, nested recursion capped at depth 3, next magnitude of note at depth 5) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
+The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Unit Circle Number System; technically hypercylindrical with unit hypercircle cross-sections, nested recursion capped at depth 3) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
 
 ### 1.2 Lensing-as-structure principle
 
@@ -236,7 +236,9 @@ Operator has Σ_f O_f = 1. Behavioral has no conservation (snapshot vector is un
 
 What does edcmbone need from UCNS?
 
-UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The name "Unit Circle" is retained as the graspable handle; the underlying geometry is richer. A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks. Nested recursion is capped at depth 3, bounding the hypercylinder's z-axis to z ∈ {0, 1, 2, 3}. The next recursion magnitude of note is depth 5; depth 4 is not a magnitude of note.
+UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The name "Unit Circle" is retained as the graspable handle; the underlying geometry is richer. A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks.
+
+Nested recursion is capped at depth 3. Depth 3 is only just within conceptual reach — it is the first level at which variable ordering (concatenation potentiality after the second recursion) becomes a first-class problem. Depth 4 is not a magnitude of note. Depth 5 is the next magnitude of note but will prove problematic without a solid foundation at depth 3 first. The hypercylinder z-axis is accordingly bounded: z ∈ {0, 1, 2, 3}.
 
 Per-disk coordinates are on the unit hypercircle: angular position (multi-dimensional), residue, rotation, chirality, local relation — each a dimension of the hypercircle's parametric structure, not properties attached to a single angle.
 
@@ -330,7 +332,7 @@ Per canon convention, items marked `hmm:` are deferred decisions preserved as vi
 - **hmm:** Whether the three-way Bridge requires a fourth coupling — A↔A across windows for each layer — for full temporal coverage, or whether trajectory metrics inside Behavioral cover this adequately
 - **hmm:** Whether the Content layer's per-claim granularity collides with v1's per-turn / per-round granularity in a way that requires a new aggregation rule beyond simple averaging
 - **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — traversal depth is resolved (fixed at ≤3) but per-disk cross-section dimensionality remains open
-- **hmm:** The generative rule for the recursion magnitude sequence — {3, 5, ...} is stated; whether the rule is prime, structural, or empirical is open
+- **hmm:** The precise formal name for the new complexity class at depth 3 — "variable ordering / concatenation potentiality after the second recursion" is the working description
 
 **Resolved:** The system name "Unit Circle" is retained. Names are for minds to grasp.  
-**Resolved:** Nested recursion is capped at depth 3. Depth 5 is the next magnitude of note. Depth 4 is not. General recursive completeness is not a goal.
+**Resolved:** Nested recursion is capped at depth 3. Depth 3 is only just within conceptual reach; it is the first level where variable ordering / concatenation potentiality becomes a first-class problem. Depth 4 is not a magnitude of note. Depth 5 is the next magnitude of note but requires depth-3 foundation. General recursive completeness is not a goal.
