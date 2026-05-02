@@ -41,7 +41,7 @@ Canon v1 (`canon_eng/spec.md`, `canon_eng/spec_hard_freeze_appendix_v1.md`, `can
 | Behavioral (markers) | curated phrasal markers | 11D (snapshot 9 + trajectory 2) | none — embedding-free | unbounded (frozen, v1) |
 | Content (flesh) | open-class lexical content, per claim | 10D (4 status + 6 rating) | ZFAE (ContentEmbedder) | TBD per layer |
 
-The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (hypercylindrical, unit hypercircle base) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
+The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Unit Circle Number System; technically hypercylindrical, with unit hypercircle cross-sections) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
 
 ### 1.2 Lensing-as-structure principle
 
@@ -236,7 +236,7 @@ Operator has Σ_f O_f = 1. Behavioral has no conservation (snapshot vector is un
 
 What does edcmbone need from UCNS?
 
-UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The base unit is the unit hypercircle (an n-sphere), not a unit circle (S¹). A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks.
+UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The name "Unit Circle" is retained as the graspable handle; the underlying geometry is richer. A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks.
 
 Per-disk coordinates are on the unit hypercircle: angular position (multi-dimensional), residue, rotation, chirality, local relation — each a dimension of the hypercircle's parametric structure, not properties attached to a single angle.
 
@@ -328,5 +328,6 @@ Per canon convention, items marked `hmm:` are deferred decisions preserved as vi
 - **hmm:** Whether `speech_act = quoted` requires a recursive Content reading on the quoted material (claim-within-claim)
 - **hmm:** Whether the three-way Bridge requires a fourth coupling — A↔A across windows for each layer — for full temporal coverage, or whether trajectory metrics inside Behavioral cover this adequately
 - **hmm:** Whether the Content layer's per-claim granularity collides with v1's per-turn / per-round granularity in a way that requires a new aggregation rule beyond simple averaging
-- **hmm:** Whether the UCNS system name should be updated to reflect the unit hypercircle base and hypercylindrical full topology — candidates include "Unit Hypercircle Number System" and "Unit Hypercylinder Number System"; see `ucns-embedding-correction.md` in erinepshovel-code/unitcircle
-- **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — affects BoneEmbedder coordinate shape and distance metric selection
+- **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — affects BoneEmbedder coordinate shape and distance metric selection (see `ucns-embedding-correction.md` in erinepshovel-code/unitcircle)
+
+**Resolved:** The system name "Unit Circle" is retained. Names are for minds to grasp; the circle is the graspable cross-sectional handle for the full hypercylindrical structure. Technical geometry is richer than the name; the name is not a technical specification of the full topology.
