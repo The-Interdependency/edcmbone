@@ -347,3 +347,11 @@ Per canon convention, items marked `hmm:` are deferred decisions preserved as vi
 - **hmm:** Whether `speech_act = quoted` requires a recursive Content reading on the quoted material (claim-within-claim)
 - **hmm:** Whether the three-way Bridge requires a fourth coupling — A↔A across windows for each layer — for full temporal coverage, or whether trajectory metrics inside Behavioral cover this adequately
 - **hmm:** Whether the Content layer's per-claim granularity collides with v1's per-turn / per-round granularity in a way that requires a new aggregation rule beyond simple averaging
+- **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — traversal depth is resolved (implementation cap ≤3, theoretical ceiling 7) but per-disk cross-section dimensionality remains open
+- **hmm:** The precise formal name for the new complexity class at depth 3 — “variable ordering / concatenation potentiality after the second recursion” is the working description
+- **hmm:** What structural property of the Möbius cylinder makes depths 4 and 6 not magnitudes — is it topological (odd = same chirality face as origin) or complexity-theoretic?
+
+**Resolved:** The system name “Unit Circle” is retained. Names are for minds to grasp.  
+**Resolved:** Nested recursion is capped at depth 3 (implementation). The magnitude sequence is 1, 3, 5, 7 — all odd depths are magnitudes of note; even depths are not. The full theoretical Möbius cylinder extends to depth 7. Depth 4 is not a magnitude of note. Depth 5 is the next magnitude of note but requires depth-3 foundation. Depth 7 is the full Möbius cylinder extent and requires depth-5 foundation. General recursive completeness is not a goal.  
+**Resolved:** Markers are depth-2 UCNS objects. The “embedding-free always” framing is superseded. Marker-match locates a depth-2 UCNS event deterministically. BoneEmbedder at depth=2 is the marker layer's embedding machinery.  
+**Resolved:** The three EDCM measurement layers ARE UCNS recursion depths: bones=depth-1, markers=depth-2, content=depth-3. A full transcript embedding is a depth-3 UCNS operation.
