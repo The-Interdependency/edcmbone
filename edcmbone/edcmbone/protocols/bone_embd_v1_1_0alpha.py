@@ -19,7 +19,7 @@ class DiskCoords(NamedTuple):
 
 class CylindricalCoords(NamedTuple):
     """Cross-disk coordinates along the hypercylinder's traversal axis."""
-    depth: int  # z in {0, 1, 2, 3}
+    depth: int  # z in {0,1,2,3}; implementation cap — theoretical Möbius cylinder extends to z=7
     sequence_position: int
     recurrence: float
     phase_memory: float
