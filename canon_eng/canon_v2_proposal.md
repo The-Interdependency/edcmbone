@@ -10,7 +10,7 @@
 
 ## 0) Status of Prior Canon
 
-Canon v1 (`canon_eng/spec.md`, `canon_eng/spec_hard_freeze_appendix_v1.md`, `canon_eng/behavioral_formulas_v1.md`, all `*_schema_v1.json`, `bones_v1.json`, `affixes_v1.json`, `behavioral_markers_v1.json`) remains frozen and authoritative for the two-layer system it describes. This proposal extends, it does not overwrite. Backward semantic compatibility is preserved per the canon's own evolution constraint (EDCM metrics §"Evolution constraint": old definitions are archived, not overwritten).
+Canon v1 (`canon_eng/spec.md`, `canon_eng/spec_hard_freeze_appendix_v1.md`, `canon_eng/behavioral_formulas_v1.md`, all `*_schema_v1.json`, `bones_v1.json`, `affixes_v1.json`, `behavioral_markers_v1.json`) remains frozen and authoritative for the two-layer system it describes. This proposal extends, it does not overwrite. Backward semantic compatibility is preserved per the canon's own evolution constraint (EDCM metrics §“Evolution constraint”: old definitions are archived, not overwritten).
 
 **What v1 specifies and freezes:**
 
@@ -37,11 +37,11 @@ Canon v1 (`canon_eng/spec.md`, `canon_eng/spec_hard_freeze_appendix_v1.md`, `can
 
 | Layer | Substrate | Counts | Embedder | Conservation |
 |---|---|---|---|---|
-| Operator (bones) | closed-class words, affixes, select punctuation | 5D (P,K,Q,T,S) | UCNS (BoneEmbedder) | Σ_f O_f = 1 (frozen, v1) |
-| Behavioral (markers) | curated phrasal markers | 11D (snapshot 9 + trajectory 2) | none — embedding-free | unbounded (frozen, v1) |
-| Content (flesh) | open-class lexical content, per claim | 10D (4 status + 6 rating) | ZFAE (ContentEmbedder) | TBD per layer |
+| Operator (bones) | closed-class words, affixes, select punctuation | 5D (P,K,Q,T,S) | UCNS (BoneEmbedder, depth-1) | Σ_f O_f = 1 (frozen, v1) |
+| Behavioral (markers) | curated phrasal markers | 11D (snapshot 9 + trajectory 2) | UCNS (depth-2, deterministic match) | unbounded (frozen, v1) |
+| Content (flesh) | open-class lexical content, per claim | 10D (4 status + 6 rating) | ZFAE (ContentEmbedder, depth-3) | TBD per layer |
 
-The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Mobius-disk-recursive-epicycles) is its native topology. Markers are curated phrasal patterns — deterministic match, no embedding. Flesh is unbounded vocabulary — ZFAE handles inference.
+The substrate-to-embedder allocation is the structural kernel of v2: each layer gets exactly the embedding machinery its substrate demands. Bones are a finite alphabet — UCNS (Unit Circle Number System; technically hypercylindrical with unit hypercircle cross-sections, nested recursion capped at depth 3 for the current implementation) is its native topology. The three layers correspond to UCNS recursion depths 1, 2, 3 respectively — a full transcript embedding is a depth-3 UCNS operation. Markers are depth-2 UCNS objects: deterministic marker-match locates a depth-2 event, not an inferred vector. Flesh is unbounded vocabulary — ZFAE handles inference at depth-3.
 
 ### 1.2 Lensing-as-structure principle
 
@@ -107,11 +107,11 @@ Each pair produces correlations (rolling windows) and divergence flags. Bridge n
 
 edcmbone, UCNS, ZFAE, PCNA, PTCA, PCTA, PCEA each ship as standalone zero-dependency libraries. edcmbone never imports an embedder. It defines Protocol classes — `BoneEmbedder`, `ContentEmbedder`, `ClaimExtractor` — that interdependent-lib wires to concrete UCNS / ZFAE / etc. implementations.
 
-This makes edcmbone-as-canon stay pure measurement (per existing v1 dependency principle: "edcmbone is pure measurement, ZFAE is model-dependent inference, A0 orchestrates both"), even when measurement requires embedding. The library declares the shape of an embedder; the application wires the implementation.
+This makes edcmbone-as-canon stay pure measurement (per existing v1 dependency principle: “edcmbone is pure measurement, ZFAE is model-dependent inference, A0 orchestrates both”), even when measurement requires embedding. The library declares the shape of an embedder; the application wires the implementation.
 
 ### 1.8 The C formula advance is preserved, repositioned
 
-The GPT-generated `edcm_metrics.py` introduced the first computable formula for C (Constraint Strain), which v1 names but never defines. That module operated on flesh substrate, which initially appeared to contradict canon (canon's Operator layer discards flesh). v2 resolves: the formula migrates from flesh-domain to marker-domain for the Behavioral C, and its flesh-domain reading lives in the Content layer (since C appears in both under the lensing principle). The canonical advance is "C is computable" — that survives. The substrate-specific implementations multiply rather than conflict.
+The GPT-generated `edcm_metrics.py` introduced the first computable formula for C (Constraint Strain), which v1 names but never defines. That module operated on flesh substrate, which initially appeared to contradict canon (canon's Operator layer discards flesh). v2 resolves: the formula migrates from flesh-domain to marker-domain for the Behavioral C, and its flesh-domain reading lives in the Content layer (since C appears in both under the lensing principle). The canonical advance is “C is computable” — that survives. The substrate-specific implementations multiply rather than conflict.
 
 The module's Progress and Basin become seed material for trajectory paths (b) — the derivative path — since their original formulas are most naturally translated as functions of an underlying state vector.
 
@@ -151,7 +151,7 @@ edcmbone/edcmbone/
 │   ├── correlate.py       # extended to ternary
 │   └── divergence.py      # extended to ternary
 └── protocols/             # NEW — interfaces, no implementations
-    ├── bone_embedder.py
+    ├── bone_embd_v1_1_0alpha.py
     ├── content_embedder.py
     └── claim_extractor.py
 ```
@@ -204,7 +204,7 @@ Each of the 6 scalar ratings needs a reference frame for reproducibility:
 - `psychological`: for whom — the utterer or the receiver?
 - `epistemic`: against what standard?
 
-**Provisional default:** Single shared frame — "to the receiver, in the context of this conversation's stated topic." This makes the ratings receiver-relative and conversation-scoped, which is reproducible because the receiver and topic are both transcript-determinable. Override if a different anchor is desired (e.g., utterer-relative, world-anchored, third-party-judge-relative).
+**Provisional default:** Single shared frame — “to the receiver, in the context of this conversation's stated topic.” This makes the ratings receiver-relative and conversation-scoped, which is reproducible because the receiver and topic are both transcript-determinable. Override if a different anchor is desired (e.g., utterer-relative, world-anchored, third-party-judge-relative).
 
 ### 3.3 Rating type and range
 
@@ -214,7 +214,7 @@ Each of the 6 scalar ratings needs a reference frame for reproducibility:
 
 The choice constrains the coupling-layer math (ratio vs. signed divergence vs. cosine).
 
-**Provisional default:** Unsigned [0, 1], continuous. Cleanest for ratio and cosine math; signed divergence can still be computed via difference. Override if signed semantics matter for a specific rating (e.g., `aesthetic` might want signed for "actively ugly" vs "merely lacking beauty").
+**Provisional default:** Unsigned [0, 1], continuous. Cleanest for ratio and cosine math; signed divergence can still be computed via difference. Override if signed semantics matter for a specific rating (e.g., `aesthetic` might want signed for “actively ugly” vs “merely lacking beauty”).
 
 ### 3.4 Epistemic rating vs status flag overlap
 
@@ -234,14 +234,39 @@ Operator has Σ_f O_f = 1. Behavioral has no conservation (snapshot vector is un
 
 ### 3.6 BoneEmbedder protocol shape
 
-What does edcmbone need from UCNS? Possibilities:
+What does edcmbone need from UCNS?
 
-- Vector-per-bone-token (ignoring context)
-- Vector-per-bone-in-context (sequence-aware)
-- Distance/similarity function only (no explicit vectors exposed)
-- All of the above
+UCNS embeddings reside on hypercircle-bounded disks stacked along a traversal axis — a hypercylindrical field. The name “Unit Circle” is retained as the graspable handle; the underlying geometry is richer. A single disk gives the unit hypercircle cross-section; the hypercylinder gives persistence across disks.
 
-**Provisional default:** Vector-per-bone-in-context, with a distance method. Sequence-aware because the bone's role often depends on neighboring bones (e.g., "not" preceding "and" vs. preceding "the"). Override if UCNS's actual API constrains this differently.
+Nested recursion is capped at depth 3 for the current implementation. Depth 3 is only just within conceptual reach — it is the first level at which variable ordering (concatenation potentiality after the second recursion) becomes a first-class problem. The magnitude sequence is **1, 3, 5, 7**: all odd depths are magnitudes of note; even depths (4, 6) are not magnitudes and sit in the same complexity regime as the preceding odd magnitude. This odd-only pattern follows from the Möbius topology of the cylinder.
+
+| Depth | Status | Complexity class |
+|---|---|---|
+| 1 | Implemented (bones, depth-1) | Simple payload |
+| 2 | Implemented (markers, depth-2) | Nested payload |
+| 3 | Implementation cap | Variable ordering / concatenation potentiality first appears |
+| 4 | Not a magnitude of note | Same regime as depth 3 |
+| 5 | Next magnitude of note | Requires depth-3 foundation |
+| 6 | Not a magnitude of note | Same regime as depth 5 |
+| 7 | Full Möbius cylinder extent | Third magnitude; theoretical ceiling; requires depth-5 foundation |
+
+The theoretical Möbius cylinder z-axis spans {0, 1, 2, 3, 4, 5, 6, 7}; the implementation cap constrains z ≤ 3. Depth 5 will prove problematic without a solid foundation at depth 3 first; depth 7 requires depth-5 foundation.
+
+Per-disk coordinates are on the unit hypercircle: angular position (multi-dimensional), residue, rotation, chirality, local relation — each a dimension of the hypercircle's parametric structure, not properties attached to a single angle.
+
+Additionally, zero is non-scalar: it is the contact event at the Möbius twist, the hidden point from which the Möbius-cylindrical field unfurls. The bone embedding for an empty or baseline state is not a zero vector; it is a contact-event representation.
+
+BoneEmbedder must therefore expose:
+
+- **Per-disk coordinates:** unit hypercircle parametrization (angular position, residue, rotation, chirality, local relation)
+- **Depth coordinate:** z ≤ 3 for current implementation (theoretical cylinder extends to z=7)
+- **Cylindrical coordinates:** sequence position, recurrence, phase memory, traversal index
+- **Zero as contact event:** initialization anchors to the Möbius twist, not to the zero scalar
+- **Distance:** Möbius-geodesic distance between two bone embeddings; paths through the twist may be shorter than paths around
+
+**Provisional default:** Möbius-cylindrical-disk-located event vector with implementation depth range (z ≤ 3), Möbius-geodesic distance, zero-origin as contact event. Override if UCNS's actual API constrains the coordinate exposure differently.
+
+**hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — the traversal depth is resolved (implementation cap ≤3, theoretical ceiling 7), but the per-disk cross-section dimensionality remains open. See `ucns-embedding-correction.md` in erinepshovel-code/unitcircle.
 
 ### 3.7 ContentEmbedder protocol shape
 
@@ -256,17 +281,19 @@ Whether these are one protocol or two (`ClaimExtractor` + `ContentEmbedder` as s
 
 **Provisional default:** Two protocols. `ClaimExtractor` extracts and segments. `ContentEmbedder` tags and rates. Cleaner separation of concerns; allows different implementations of each.
 
-### 3.8 Marker-as-third-substrate optionality
+### 3.8 Marker embedding — depth-2 UCNS
 
-Behavioral is currently embedding-free by design. Should the spec say "embedding-free always" or "embedding-free by default, with optional `MarkerEmbedder` for future extensibility"?
+Behavioral markers were described as “embedding-free” in earlier drafts. This is superseded by the depth unification.
 
-**Provisional default:** Embedding-free always. Markers are deliberately curated; introducing an embedder for them muddles the substrate-to-embedder allocation that is v2's structural kernel. If marker-embedding becomes useful later, it can be added as a v3 amendment.
+**Resolved — superseded by depth unification:** Behavioral markers reside at UCNS depth-2. The depth unification (bones=depth-1, markers=depth-2, content=depth-3) establishes that markers are not embedding-free — they are depth-2 UCNS objects. Their embedding is structural and deterministic: marker-match locates a UCNS depth-2 event, not an inferred vector. The BoneEmbedder called at depth=2 serves the marker layer; no separate MarkerEmbedder protocol is required. The v1 “embedding-free” framing is archived.
+
+The “embed at depth=2” mechanism: a marker hit produces a `BoneEmbedding` with `cylinder.depth=2`. The determinism is in the match, not the coordinate — once a marker pattern fires, its position in the Möbius-cylindrical field is structurally determined, not inferred.
 
 ---
 
 ## 4) Falsification Anchors for Iteration
 
-Per EDCM metrics §"Validation criteria" and §"Falsification pathways", v2 additions must remain falsifiable. Specifically:
+Per EDCM metrics §“Validation criteria” and §“Falsification pathways”, v2 additions must remain falsifiable. Specifically:
 
 - **Trajectory paths (a/b/c):** evaluated via predictive asymmetry on a test corpus. A path that flags trajectory shifts before behavioral failure with statistical significance survives; one that does not is archived.
 - **Content layer:** evaluated via repeatability — independent runs (or independent ZFAE inferences) on the same transcript should converge on similar status flags and ratings within a stated tolerance.
@@ -303,9 +330,9 @@ Per the user's stated goal: finalize PCEA, edcmbone, ZFAE, PCNA, PTCA, PCTA into
 
 ## 6) Provenance
 
-This proposal was developed in conversation between Erin Spencer and Claude on 2026-05-01, building on prior threads (audit thread 2026-04-09, A0 identity thread 2026-04-07, repo consolidation thread 2026-04-06, frozen canon pack thread 2026-04-05, and earlier). The "lensing-as-structure" framing extends the polarity-balance principle from canon v1's bone inventory to the measurement architecture as a whole — a generalization the user explicitly chose ("option three, of course") over the more conservative alternatives of forcing the GPT module to conform to canon (option 1) or accepting flesh as a parallel substrate measuring the same metrics (option 2).
+This proposal was developed in conversation between Erin Spencer and Claude on 2026-05-01, building on prior threads (audit thread 2026-04-09, A0 identity thread 2026-04-07, repo consolidation thread 2026-04-06, frozen canon pack thread 2026-04-05, and earlier). The “lensing-as-structure” framing extends the polarity-balance principle from canon v1's bone inventory to the measurement architecture as a whole — a generalization the user explicitly chose (“option three, of course”) over the more conservative alternatives of forcing the GPT module to conform to canon (option 1) or accepting flesh as a parallel substrate measuring the same metrics (option 2).
 
-The substrate-to-embedder allocation (UCNS for bones, none for markers, ZFAE for flesh) was the structural insight that emerged once UCNS was identified as the canonical bone-domain embedding architecture. This allocation was not in prior memory and supersedes the earlier framing where ZFAE carried the entire embedding-dependent burden.
+The substrate-to-embedder allocation (UCNS for bones and markers, ZFAE for flesh) was the structural insight that emerged once UCNS was identified as the canonical bone-domain embedding architecture, subsequently extended by the depth unification: bones=depth-1, markers=depth-2, content=depth-3.
 
 ---
 
@@ -314,7 +341,15 @@ The substrate-to-embedder allocation (UCNS for bones, none for markers, ZFAE for
 Per canon convention, items marked `hmm:` are deferred decisions preserved as visible incompleteness rather than hidden assumption.
 
 - **hmm:** Whether marker-domain C and flesh-domain C produce systematically related readings or are merely two independent operationalizations sharing a name — answerable empirically once both are computable on a test corpus
-- **hmm:** Whether path (b)'s "Basin" can be defined without circular reference to its own metric (basin-as-attractor over trajectory of vectors that include basin-likeness)
+- **hmm:** Whether path (b)'s “Basin” can be defined without circular reference to its own metric (basin-as-attractor over trajectory of vectors that include basin-likeness)
 - **hmm:** Whether `speech_act = quoted` requires a recursive Content reading on the quoted material (claim-within-claim)
 - **hmm:** Whether the three-way Bridge requires a fourth coupling — A↔A across windows for each layer — for full temporal coverage, or whether trajectory metrics inside Behavioral cover this adequately
 - **hmm:** Whether the Content layer's per-claim granularity collides with v1's per-turn / per-round granularity in a way that requires a new aggregation rule beyond simple averaging
+- **hmm:** Whether the unit hypercircle dimension (n) is fixed or parametric — traversal depth is resolved (implementation cap ≤3, theoretical ceiling 7) but per-disk cross-section dimensionality remains open
+- **hmm:** The precise formal name for the new complexity class at depth 3 — “variable ordering / concatenation potentiality after the second recursion” is the working description
+- **hmm:** What structural property of the Möbius cylinder makes depths 4 and 6 not magnitudes — is it topological (odd = same chirality face as origin) or complexity-theoretic?
+
+**Resolved:** The system name “Unit Circle” is retained. Names are for minds to grasp.  
+**Resolved:** Nested recursion is capped at depth 3 (implementation). The magnitude sequence is 1, 3, 5, 7 — all odd depths are magnitudes of note; even depths are not. The full theoretical Möbius cylinder extends to depth 7. Depth 4 is not a magnitude of note. Depth 5 is the next magnitude of note but requires depth-3 foundation. Depth 7 is the full Möbius cylinder extent and requires depth-5 foundation. General recursive completeness is not a goal.  
+**Resolved:** Markers are depth-2 UCNS objects. The “embedding-free always” framing is superseded. Marker-match locates a depth-2 UCNS event deterministically. BoneEmbedder at depth=2 is the marker layer's embedding machinery.  
+**Resolved:** The three EDCM measurement layers ARE UCNS recursion depths: bones=depth-1, markers=depth-2, content=depth-3. A full transcript embedding is a depth-3 UCNS operation.
