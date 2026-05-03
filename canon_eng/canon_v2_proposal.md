@@ -340,9 +340,10 @@ The substrate-to-embedder allocation (UCNS for bones and markers, ZFAE for flesh
 
 Per canon convention, items marked `hmm:` are deferred decisions preserved as visible incompleteness rather than hidden assumption.
 
+**Convention:** `hmmm` is the mandatory boundary object for this section: it records unresolved constraints, preserves honest incompletion, and marks the transition between delivered output and living continuation.
+
 - **hmm:** Whether marker-domain C and flesh-domain C produce systematically related readings or are merely two independent operationalizations sharing a name — answerable empirically once both are computable on a test corpus
 - **hmm:** Whether path (b)'s “Basin” can be defined without circular reference to its own metric (basin-as-attractor over trajectory of vectors that include basin-likeness)
 - **hmm:** Whether `speech_act = quoted` requires a recursive Content reading on the quoted material (claim-within-claim)
 - **hmm:** Whether the three-way Bridge requires a fourth coupling — A↔A across windows for each layer — for full temporal coverage, or whether trajectory metrics inside Behavioral cover this adequately
 - **hmm:** Whether the Content layer's per-claim granularity collides with v1's per-turn / per-round granularity in a way that requires a new aggregation rule beyond simple averaging
-- **hmm:** `hmmm` is the mandatory boundary object that records unresolved constraint, preserves honest incompletion, and marks the transition between delivered output and living continuation
