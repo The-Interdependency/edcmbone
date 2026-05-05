@@ -6,21 +6,11 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 ## Project Overview
 
-**edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Extended Distributed Cognitive Model with PCNA/PCTA framework). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input. It consists of:
+**edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Extended Distributed Cognitive Model with PCNA/PCTA framework). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input.
 
-- A **Python backend** (`Backend/`) — core logic, transcript parsing, and canon data library
-- A **React frontend** (`Frontend/`) — UI layer styled with Tailwind CSS
-- An **AI Multimodel Hub** (`aimmh-lib/`) — sub-project for multi-model AI orchestration
-- A **Tests** directory (`Tests/`) — test suite (currently being bootstrapped)
-- A **Documentation** directory (`Documentation/`) — specs and design guidelines
+**Current status**: Version 0.1.0. The library ships four tested modules (canon, parser, metrics, compress). The repo also carries a newer in-progress package refactoring (`edcmbone/` root-level) and a `core/` framework package — both are partially scaffolded (see below).
 
-**Current status**: Version 0.1.0. Four library modules are implemented and tested (87 tests, all passing). The frontend and AIMMH-LIB server remain stubs.
-
----
-
-## Current Use Case — GCIP Submission
-
-edcmbone is now functioning as a civil rights evidence instrument in addition to its role as a research library. The **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to Google, OpenAI, Anthropic, xAI, Meta, Microsoft, and regulatory bodies including the FTC, DOJ ADA Unit, EU AI Office, and the UN CRPD Committee — cites edcmbone as the measurement instrument for cognitive accessibility failures in AI systems. `Documentation/GCIP.md` contains the full proposal. `Documentation/evidence_log.md` contains three EDCM-measured evidence entries showing F-loss between 49.7% and 65.3%. `Documentation/neurodivergence_handling.md` is the source interaction rubric and AI skill specification underlying the proposal. The MIT license applies to all content; everything is open source.
+The project also functions as a civil rights evidence instrument in the **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to major AI labs and regulatory bodies. `Documentation/GCIP.md` contains the full proposal.
 
 ---
 
@@ -28,55 +18,105 @@ edcmbone is now functioning as a civil rights evidence instrument in addition to
 
 ```
 edcmbone/
-├── README.md                   # Library overview, quickstart, evidence log, failure taxonomy
-├── Backend/
-│   ├── pyproject.toml          # Python package config (Hatchling, src layout)
-│   ├── README.md               # PyPI long description (copy of root README.md — keep in sync)
-│   ├── requirements.txt        # Dev/test dependencies (currently: pytest>=7.0)
+├── README.md
+├── CLAUDE.md                        # This file
+├── LICENSE                          # MIT License
+├── .gitignore
+├── __init__.py                      # Root package marker
+├── version.py                       # Version stub
+│
+├── Backend/                         # Original pip package (stable, tested)
+│   ├── pyproject.toml               # Package config (Hatchling, src layout)
+│   ├── README.md                    # PyPI long description (keep in sync with root README)
+│   ├── requirements.txt             # Dev/test deps (pytest>=7.0)
 │   └── src/
 │       └── edcmbone/
 │           ├── __init__.py
 │           ├── canon/
-│           │   ├── __init__.py         # exports CanonLoader
-│           │   ├── loader.py           # CanonLoader — bone/marker lookup API
+│           │   ├── loader.py        # CanonLoader — bone/marker lookup API
 │           │   └── data/
-│           │       ├── bones_words_v1.json     # 253 free-word bones (PKQTS families)
-│           │       ├── bones_affixes_v1.json   # 79 affix bones
-│           │       ├── bones_punct_v1.json     # 13 punctuation bones
-│           │       └── markers_v1.json         # 9-metric behavioral markers
+│           │       ├── bones_words_v1.json    # 253 free-word bones (PKQTS families)
+│           │       ├── bones_affixes_v1.json  # 79 affix bones
+│           │       ├── bones_punct_v1.json    # 13 punctuation bones
+│           │       └── markers_v1.json        # 9-metric behavioral markers
 │           ├── parser/
-│           │   ├── __init__.py         # exports parse_transcript + data classes
-│           │   └── turns_rounds.py     # Embedded-model transcript parser
+│           │   └── turns_rounds.py  # Embedded-model transcript parser
 │           ├── metrics/
-│           │   ├── __init__.py         # exports all public symbols
-│           │   ├── stats.py            # tokenise, TTR, entropy, novelty, cosine…
-│           │   ├── risk.py             # four risk proxies (fixation/escalation/…)
-│           │   ├── compute.py          # RoundMetrics, compute_round/transcript
-│           │   ├── matrix.py           # A_MATRIX, PROJECTION_MAP, freeze/diff
-│           │   └── projection.py       # AgentMetrics (CM,DA,DRIFT,DVG,INT,TBF), fire_alerts
-│           └── compress.py             # Lossless codec + compression_stats
-├── Frontend/
-│   ├── package.json            # npm config (React 18.2.0 + Tailwind CSS)
-│   └── tailwind.config.js      # Tailwind config (stub)
-├── Tests/
-│   └── test_backend.py         # Backend tests (stub)
-├── aimmh-lib/
+│           │   ├── stats.py         # tokenise, TTR, entropy, novelty, cosine
+│           │   ├── risk.py          # four risk proxies
+│           │   ├── compute.py       # RoundMetrics, compute_round/transcript
+│           │   ├── matrix.py        # A_MATRIX, PROJECTION_MAP, freeze/diff
+│           │   └── projection.py    # AgentMetrics (CM,DA,DRIFT,DVG,INT,TBF), fire_alerts
+│           └── compress.py          # Lossless codec + Huffman compression stats
+│
+├── backend/                         # Lowercase alias / restructured package layout
+│   ├── pyproject.toml
 │   ├── README.md
-│   └── backend/
-│       └── server.py           # AIMMH-LIB server (stub)
+│   ├── requirements.txt
+│   └── src/                         # Mirror of Backend/src — evolving
+│
+├── edcmbone/                        # Root-level refactored package (IN PROGRESS — stubs)
+│   ├── __init__.py
+│   ├── config.py                    # stub
+│   ├── engine.py                    # stub
+│   ├── errors.py                    # stub
+│   ├── types.py                     # stub
+│   ├── behavioral/                  # behavioral metrics module (scaffolded)
+│   ├── bridge/                      # bridge layer (scaffolded)
+│   ├── canon/                       # canon loader (scaffolded)
+│   ├── cli/                         # CLI interface (scaffolded)
+│   ├── edcmbone/                    # nested edcmbone package (scaffolded)
+│   ├── ingest/                      # transcript ingestion (scaffolded)
+│   ├── operator/                    # operator logic (scaffolded)
+│   ├── parse/                       # parser refactor (scaffolded)
+│   └── routing/                     # routing layer (scaffolded)
+│
+├── core/                            # Core framework package (IN PROGRESS — stubs)
+│   ├── __init__.py
+│   ├── behavioral/
+│   ├── bridge/
+│   ├── operator/
+│   ├── parsing/
+│   ├── pcna/
+│   └── windowing/
+│
+├── canon_eng/                       # Canon engine utilities
+├── aimmh-lib/
+│   └── backend/server.py            # AIMMH-LIB multi-model hub server (stub)
+├── Frontend/
+│   ├── package.json                 # React 18.2.0 + Tailwind CSS
+│   └── tailwind.config.js
+├── frontend/                        # Lowercase alias / evolving frontend
+│
 ├── Documentation/
-│   ├── README.md               # Documentation directory index
-│   ├── spec.md                 # EDCM-PCNA-PCTA framework specification + math
-│   ├── GCIP.md                 # Global Cognitive Interaction Profiles proposal
-│   ├── evidence_log.md         # Three EDCM-measured evidence entries
-│   ├── neurodivergence_handling.md  # Interaction rubric and AI skill specification
-│   ├── auth_testing.md         # Authentication testing notes
-│   └── design_guidelines.json  # Design guidelines
-├── edcmbone_canon_data_v1.zip  # Source zip for canon data files (keep as reference)
-├── .gitignore
-├── LICENSE                     # MIT License, Copyright 2026
-└── CLAUDE.md                   # This file
+│   ├── spec.md                      # Full framework specification
+│   ├── GCIP.md                      # Global Cognitive Interaction Profiles proposal
+│   ├── evidence_log.md              # Three EDCM-measured evidence entries
+│   └── neurodivergence_handling.md  # Interaction rubric and AI skill specification
+├── docs/                            # Additional docs (evolving)
+│
+├── Tests/                           # Original test suite
+│   └── test_backend.py              # 87-test suite (all pass)
+├── tests/                           # Lowercase alias / new test location
+│
+├── engine.py                        # Top-level engine entry point
+├── closed_tokens.py                 # Closed-token vocabulary
+├── ucns_v04.py                      # UCNS v0.4 reference implementation
+└── edcmbone_canon_data_v1.zip       # Source zip for canon data files (reference only)
 ```
+
+---
+
+## Dual Package Layout — What to Use
+
+The repo currently has **two parallel package structures**:
+
+| Layout | Path | Status | When to Use |
+|--------|------|--------|-------------|
+| **Stable** | `Backend/src/edcmbone/` | 87 tests passing, production-ready | Installing and consuming the library |
+| **Refactor** | `edcmbone/` (root) and `core/` | Scaffolded stubs, 0-byte files | Adding new architecture — fill in stubs here |
+
+Do not assume files in `edcmbone/` (root) or `core/` contain working implementations — most are 0-byte stubs. The **stable** code lives under `Backend/src/edcmbone/`.
 
 ---
 
@@ -86,28 +126,35 @@ edcmbone/
 |-----------|-------------------------------------|
 | Backend   | Python >= 3.8, Hatchling packaging  |
 | Frontend  | React 18.2.0, Tailwind CSS          |
-| AIMMH-LIB | Python (server.py)                  |
-| Tests     | pytest >= 7.0 (configured via `Backend/pyproject.toml`) |
+| AIMMH-LIB | Python (server.py stub)             |
+| Tests     | pytest >= 7.0                       |
 | Build     | Hatchling (Python), npm (Frontend)  |
 
 ---
 
 ## Development Workflows
 
-### Backend (Python)
+### Backend (Python — stable path)
 
 ```bash
-# From the repo root (recommended)
+# Install from Backend/ (stable, tested)
 pip install -e ./Backend
 pip install -r Backend/requirements.txt
 
-# Or from the Backend directory
-cd Backend
-pip install -e .
-pip install -r requirements.txt
+# Run tests
+pytest Tests/
+# or from Backend/:
+cd Backend && pytest
 ```
 
-The Python package is named `edcmbone`. Full pipeline:
+### Backend (Python — refactor path)
+
+```bash
+# Install from backend/ (lowercase — evolving)
+pip install -e ./backend
+```
+
+### Full pipeline (stable)
 
 ```python
 from edcmbone.canon import CanonLoader
@@ -116,21 +163,10 @@ from edcmbone.metrics import compute_transcript
 import edcmbone.compress as codec
 
 canon = CanonLoader()
-
-# 1. Parse transcript -> turns, rounds, bone/flesh tokens
 pt = parse_transcript(transcript, canon=canon)
-
-# 2. Compute 11-component metric vector per round
 metrics = compute_transcript(pt, canon=canon)
-# -> [RoundMetrics(C, R, F, E, D, N, I, O, L, P, kappa), ...]
-
-# 3. Lossless encode + compress
 compressed = codec.to_bytes(pt, metrics)
-pt2, metrics2 = codec.from_bytes(compressed)   # exact reconstruction
-
-# 4. Compression-metric statistics
 stats = codec.compression_stats(transcript, compressed, pt)
-# -> {structural_density, bone_entropy_bits, huffman_codes, ...}
 ```
 
 ### Frontend (React)
@@ -138,106 +174,79 @@ stats = codec.compression_stats(transcript, compressed, pt)
 ```bash
 cd Frontend
 npm install
-npm start      # dev server
-npm run build  # production build
+npm start
+npm run build
 ```
-
-Tailwind CSS is included; configure `tailwind.config.js` with `content` paths before using utility classes.
-
-### Running Tests
-
-```bash
-# From repo root
-pytest Tests/
-
-# Or from Backend/ (pytest.ini_options points to ../Tests)
-cd Backend && pytest
-```
-
-87 tests covering canon, parser, metrics, compress, projection, and matrix. All pass. pytest >= 7.0 is the only test dependency (listed in `requirements.txt`).
 
 ---
 
 ## Key Conventions
 
 ### Python
-- Package lives under `Backend/src/edcmbone/` — standard `src/` layout; wheel built via `packages = ["src/edcmbone"]` in `[tool.hatch.build.targets.wheel]`
-- Python 3.8+ compatible code required (no 3.9+ syntax like `list[int]` type hints without `from __future__ import annotations`)
-- `pyproject.toml` is the source of truth for metadata and runtime deps (`[project.dependencies]`); `requirements.txt` is for dev/test deps
-- JSON data files under `src/edcmbone/canon/data/` are included automatically via the `packages` directive — no separate include needed
-- `Backend/README.md` is a copy of the root `README.md` used as the PyPI long description; keep them in sync when the root README changes
-- No linter configured yet — when adding one, prefer `ruff` for linting/formatting
+- Stable package lives under `Backend/src/edcmbone/` — standard `src/` layout
+- Python 3.8+ compatible (no 3.9+ syntax without `from __future__ import annotations`)
+- `pyproject.toml` is source of truth for metadata; `requirements.txt` for dev/test deps
+- JSON canon data files under `src/edcmbone/canon/data/` are versioned (`_v1`) — do not edit manually
+- `Backend/README.md` mirrors root `README.md` for PyPI — keep in sync
+- When filling in stubs in `edcmbone/` (root): follow the same conventions as `Backend/src/edcmbone/`
 
 ### JavaScript / React
-- React 18.2.0, functional components and hooks (no class components)
-- Tailwind CSS for styling — no inline styles or CSS modules unless there's a specific reason
-- No TypeScript configured — use plain JS unless the project explicitly migrates
-- No ESLint configured yet — when adding one, prefer `eslint` with `eslint-plugin-react`
+- React 18.2.0, functional components and hooks
+- Tailwind CSS for styling
+- No TypeScript, no ESLint configured yet
 
 ### General
-- Keep stub/placeholder files until they are implemented; do not delete them prematurely
-- Documentation lives in `Documentation/` — update `spec.md` and `README.md` as the domain model evolves
-- MIT License; all new files should be consistent with open-source expectations
+- MIT License; all new files consistent with open-source expectations
+- `Documentation/` is the authoritative docs directory; `docs/` is supplementary
 
 ---
 
 ## Domain Model — Key Concepts
 
-Read `Documentation/spec.md` for the full framework specification. Short orientation:
-
-- **Bones**: operator tokens that carry structural constraint weight, classified into PKQTS families (Polarity, Quantification, Qualification, Topology, Structuring)
+- **Bones**: operator tokens carrying structural constraint weight — classified into PKQTS families (Polarity, Quantification, Qualification, Topology, Structuring)
 - **Flesh**: tokens that modulate magnitude only — excluded from bone inventory
 - **Markers**: phrase-level signals for the 9 behavioral metrics (C, R, D, N, L, O, F, E, I)
-- **Metrics**: the 9-component vector **M**_t measuring system state per round; see spec.md §3 for the full formulation
 - **Rounds vs Turns**: rounds are the unit of metric computation; turns are speaker utterances within a round
-
-The canon data files in `Backend/src/edcmbone/canon/data/` are the authoritative inventory. Do not edit them manually — they are versioned (`_v1`) and will be superseded by new versions.
+- **F-loss**: structural fidelity loss metric — quantifies meaning deletion by an AI system
 
 ---
 
-## Important Files to Know
+## Important Files
 
 | File | Purpose |
 |------|---------|
-| `README.md` | Library overview, quickstart, evidence log, failure taxonomy |
-| `Backend/pyproject.toml` | Python package metadata, build system, data-file inclusion |
+| `README.md` | Library overview, quickstart, evidence log |
+| `Backend/pyproject.toml` | Python package metadata and build config |
 | `Backend/src/edcmbone/canon/loader.py` | `CanonLoader` — bone/marker lookup API |
-| `Backend/src/edcmbone/canon/data/*.json` | Authoritative canon data (bones + markers) |
-| `Backend/src/edcmbone/parser/turns_rounds.py` | Embedded-model transcript parser |
-| `Backend/src/edcmbone/metrics/stats.py` | Text statistics (TTR, entropy, cosine, …) |
-| `Backend/src/edcmbone/metrics/risk.py` | Four risk proxies |
-| `Backend/src/edcmbone/metrics/compute.py` | Metric vector + RC-circuit energy |
-| `Backend/src/edcmbone/metrics/matrix.py` | A_MATRIX, PROJECTION_MAP, ALERT_THRESHOLDS, freeze/diff |
-| `Backend/src/edcmbone/metrics/projection.py` | AgentMetrics (CM, DA, DRIFT, DVG, INT, TBF), fire_alerts |
-| `Backend/src/edcmbone/compress.py` | Lossless codec + Huffman compression stats |
-| `Tests/test_backend.py` | 87-test suite (canon, parser, metrics, compress, projection, matrix) |
-| `Frontend/package.json` | Frontend dependencies and scripts |
-| `aimmh-lib/backend/server.py` | AIMMH-LIB multi-model hub server (stub) |
-| `Documentation/spec.md` | Full framework specification including mathematics |
+| `Backend/src/edcmbone/canon/data/*.json` | Authoritative canon data (do not edit) |
+| `Backend/src/edcmbone/parser/turns_rounds.py` | Transcript parser |
+| `Backend/src/edcmbone/metrics/compute.py` | Metric vector computation |
+| `Backend/src/edcmbone/metrics/projection.py` | AgentMetrics and alert firing |
+| `Backend/src/edcmbone/compress.py` | Lossless codec + compression stats |
+| `Tests/test_backend.py` | 87-test suite (canon, parser, metrics, compress) |
+| `Documentation/spec.md` | Full framework specification with mathematics |
 | `Documentation/GCIP.md` | Global Cognitive Interaction Profiles proposal |
-| `Documentation/evidence_log.md` | Three EDCM-measured evidence entries |
-| `Documentation/neurodivergence_handling.md` | Interaction rubric and AI skill specification |
+| `closed_tokens.py` | Closed-token vocabulary (top-level) |
+| `ucns_v04.py` | UCNS v0.4 reference (top-level) |
+| `engine.py` | Top-level engine entry point |
 
 ---
 
-## What Does Not Exist Yet (Do Not Assume)
+## What Does Not Exist Yet
 
-- No CI/CD pipeline (no `.github/workflows/`)
-- No environment variable file (`.env` or `.env.example`)
-- No linting or formatting configs (`pyproject.toml [tool.ruff]`, `.eslintrc`, `.prettierrc`)
+- No CI/CD pipeline
+- No linting configs (prefer `ruff` when adding)
 - No pre-commit hooks
-- `Backend/requirements.txt` is the dev/test requirements file (currently `pytest>=7.0`); add further dev/test deps here and runtime deps to `[project.dependencies]` in `pyproject.toml`
-- pytest IS configured: `[tool.pytest.ini_options]` in `Backend/pyproject.toml` sets `testpaths = ["../Tests"]`
-- `tailwind.config.js` is empty — add `content` globs before using Tailwind classes
-- `aimmh-lib/backend/server.py` is a stub — no routes implemented
-
-When implementing any of the above, use the most current conventions for the respective toolchain.
+- `edcmbone/` (root) and `core/` modules are stubs — not yet implemented
+- `aimmh-lib/backend/server.py` is a stub
+- `tailwind.config.js` needs `content` globs before use
+- Frontend tests
 
 ---
 
 ## Git Workflow
 
 - Main branch: `master`
-- Feature branches follow the pattern: `<type>/<description>-<id>` (e.g., `claude/add-claude-documentation-hl6si`)
-- Commit messages should be clear and descriptive
+- Feature branches: `<type>/<description>-<id>` (e.g., `claude/add-feature-abc123`)
 - Author: Erin Patrick Spencer (erin.eps.hovel@gmail.com)
+- License: MIT
