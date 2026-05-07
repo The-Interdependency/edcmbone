@@ -8,14 +8,15 @@ version = "0.1.0"
 authors = [{ name = "Erin Patrick Spencer", email = "erin.eps.hovel@gmail.com" }]
 description = "Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 requires-python = ">=3.8"
+dependencies = []
 keywords = ["AI", "measurement", "structural fidelity", "cognitive accessibility", "NLP", "EDCM"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
@@ -42,8 +43,9 @@ include = [
 
 [tool.hatch.build.targets.sdist]
 include = [
-  "/src",
-  "/pyproject.toml",
-  "/requirements.txt",
-  "../README.md",
+  "src",
+  "pyproject.toml",
+  "requirements.txt",
+  "README.md",
+  "LICENSE",
 ]

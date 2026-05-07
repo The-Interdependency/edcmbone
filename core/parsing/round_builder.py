@@ -66,7 +66,7 @@ def build_rounds_from_turns(
             "round_id": f"r{r_idx}",
             "initiator_actor_id": initiator,
             "turn_ids": open_round_turn_ids,
-            "status": "open" if True else "closed",  # default: last may be open
+            "status": "open",  # initiator's return never arrived before transcript end
             "meta": {
                 "closure_rule": "initiator_return_v1",
                 "excluded_sys_tool": exclude_sys_tool_from_rounds,
