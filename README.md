@@ -6,6 +6,21 @@
 
 ---
 
+## Collaboration wanted
+
+We are currently looking for collaborators to validate EDCMBONE on public transcripts.
+
+Start here:
+
+- Collaboration issue: https://github.com/The-Interdependency/edcmbone/issues/27
+- Starter task: add one public transcript source note with source URL, date, speaker-label notes, formatting notes, and any visible procedural events.
+
+The ask is bounded: help make EDCMBONE reproducible, testable, and reviewable as a non-neural dialogue-structure instrument.
+
+GPT generated; context, prompt Erin Spencer.
+
+---
+
 ## Evidence Log
 
 Three exchanges measured April 17, 2026 using `edcmbone.metrics.compute_transcript`. Numbers are exact instrument output.
