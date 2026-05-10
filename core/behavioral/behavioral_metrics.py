@@ -14,6 +14,12 @@ from .structural_proxies import (
     count_question_marks,
 )
 
+try:
+    from .ucns_marker_store import ucns_hits_for_turn as _ucns_hits_for_turn
+    _UCNS_AVAILABLE = True
+except ImportError:
+    _UCNS_AVAILABLE = False
+
 def sat(x: float, cap: float) -> float:
     if cap <= 0:
         return 1.0 if x > 0 else 0.0
@@ -54,6 +60,7 @@ def compute_behavioral_for_window(
     markers_inventory: Dict[str, Any],
     prev_window_feature_vec: Optional[List[float]],
     prev_intensity: Optional[float],
+    ucns_store: Optional[Any] = None,
 ) -> Tuple[Dict[str, Any], List[float], float]:
     # collect turn_ids in window
     r_lookup = {r["round_id"]: r for r in rounds}
@@ -186,6 +193,24 @@ def compute_behavioral_for_window(
             marker_prefix="C.mod", tier="A_structural", weight=0.25
         )
 
+    # Phase 1: UCNS algebraic marker lookup (parallel comparison, no metric formula changes)
+    ucns_raw: Dict[str, int] = {}
+    if _UCNS_AVAILABLE and ucns_store is not None:
+        for tid in turn_ids:
+            t = t_lookup.get(tid)
+            if not t:
+                continue
+            toks = t.get("tokens_surface", [])
+            for key, cnt in _ucns_hits_for_turn(ucns_store, toks).items():
+                ucns_raw[key] = ucns_raw.get(key, 0) + cnt
+
+    # Aggregate UCNS raw hits by metric letter ("R.hard:phrase" -> "R")
+    ucns_hits_by_metric: Dict[str, int] = {k: 0 for k in ["C","R","D","N","L","O","F","E","I"]}
+    for key, cnt in ucns_raw.items():
+        metric = key.split(".")[0]  # "R.hard:..." -> "R"
+        if metric in ucns_hits_by_metric:
+            ucns_hits_by_metric[metric] += cnt
+
     # Shared counts
     CS = constraint_statement_proxy_count(
         turns, turn_ids,
@@ -296,7 +321,8 @@ def compute_behavioral_for_window(
                 "F": {"count": 0, "hits": []},
                 "E": _pack_hits(hits_by_metric["E"]),
                 "I": _pack_hits(hits_by_metric["I"]),
-            }
+            },
+            "ucns_hits_by_metric": ucns_hits_by_metric,
         },
         "hmm": {
             "contained": [
@@ -306,7 +332,8 @@ def compute_behavioral_for_window(
             "deferred": [
                 "Pattern-based evasion detection (D_qev).",
                 "List growth detector (O_list) with user/assistant role separation.",
-                "Punctuation intensity (!!) handling."
+                "Punctuation intensity (!!) handling.",
+                "UCNSStore overlap enforcement and weight integration (Phase 2).",
             ]
         }
     }
