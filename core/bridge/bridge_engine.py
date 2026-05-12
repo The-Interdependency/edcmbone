@@ -173,7 +173,7 @@ def compute_bridge_windows(
                 "operator_alignment_method": "sum_and_renormalize",
                 "exclude_open_rounds": True,
             },
-            "hmm": {
+            "hmmm": {
                 "contained": [
                     "Bridge uses thresholded L1 divergence and Pearson correlations.",
                     "Operator vectors aligned by behavioral window round_ids via per-turn aggregation.",

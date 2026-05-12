@@ -233,6 +233,18 @@ class TestStats:
         assert "hello" in tokens
         assert "world" in tokens
 
+    def test_tokenize_ascii_apostrophe_contraction(self):
+        """Regression for issue #37: ASCII apostrophe (U+0027) must not split contractions.
+
+        Before the fix, _WORD_RE lacked U+0027 so "don't" tokenized as
+        ["don", "'", "t"] instead of ["don't"].
+        """
+        from edcmbone.metrics import tokenize
+        tokens = tokenize("don't can't it's")
+        assert tokens == ["don't", "can't", "it's"], (
+            f"Expected 3 contraction tokens, got: {tokens}"
+        )
+
     def test_ttr_all_unique(self):
         from edcmbone.metrics import ttr
         assert ttr(["a", "b", "c"]) == pytest.approx(1.0)
@@ -507,7 +519,7 @@ class TestProjection:
 
     def test_fire_alerts_high_values(self):
         from edcmbone.metrics import AgentMetrics, fire_alerts
-        # All metrics above threshold → all alerts fire
+        # All metrics above threshold -> all alerts fire
         am = AgentMetrics(CM=0.9, DA=0.9, DRIFT=0.9, DVG=0.9, INT=0.9, TBF=0.9)
         alerts = fire_alerts(am)
         assert "ALERT_CM_HIGH" in alerts
