@@ -71,7 +71,7 @@ edcmbone/
 │   ├── parse/                       # parser refactor (scaffolded)
 │   └── routing/                     # routing layer (scaffolded)
 │
-├── core/                            # Core framework package (IN PROGRESS — stubs)
+├── core/                            # Core framework package (IN PROGRESS — partially implemented)
 │   ├── __init__.py
 │   ├── behavioral/
 │   ├── bridge/
@@ -114,9 +114,9 @@ The repo currently has **two parallel package structures**:
 | Layout | Path | Status | When to Use |
 |--------|------|--------|-------------|
 | **Stable** | `Backend/src/edcmbone/` | 87 tests passing, production-ready | Installing and consuming the library |
-| **Refactor** | `edcmbone/` (root) and `core/` | Scaffolded stubs, 0-byte files | Adding new architecture — fill in stubs here |
+| **Refactor** | `edcmbone/` (root) and `core/` | Partially implemented refactor-in-progress; see individual module docstrings for what is and isn't complete | Adding new architecture — fill in stubs here |
 
-Do not assume files in `edcmbone/` (root) or `core/` contain working implementations — most are 0-byte stubs. The **stable** code lives under `Backend/src/edcmbone/`.
+Do not assume all files in `edcmbone/` (root) or `core/` contain working implementations. `core/parsing/`, `core/operator/`, and `core/bridge/` now contain substantive implementations; other subdirectories may still be stubs. The **stable** code lives under `Backend/src/edcmbone/`.
 
 ---
 
@@ -237,7 +237,8 @@ npm run build
 - No CI/CD pipeline
 - No linting configs (prefer `ruff` when adding)
 - No pre-commit hooks
-- `edcmbone/` (root) and `core/` modules are stubs — not yet implemented
+- `edcmbone/` (root) stubs — not yet fully implemented (see individual module docstrings)
+- `core/` — partially implemented refactor-in-progress; `core/parsing/`, `core/operator/`, and `core/bridge/` contain substantive implementations; other subdirectories may still be stubs
 - `aimmh-lib/backend/server.py` is a stub
 - `tailwind.config.js` needs `content` globs before use
 - Frontend tests
