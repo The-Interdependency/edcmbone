@@ -76,8 +76,7 @@ def gini_tbf(turns):
     Normalised to [0, 1] (not [0, 1-1/n]).
     """
     from collections import Counter
-    counts = Counter(t.token_count for t in turns)
-    # Re-count per speaker
+    # Count tokens per speaker
     speaker_counts = Counter()
     for turn in turns:
         speaker_counts[turn.speaker] += turn.token_count
@@ -148,6 +147,14 @@ def fire_alerts(agent_metrics):
         val = getattr(agent_metrics, spec["metric"])
         if spec["direction"] == "above" and val > spec["threshold"]:
             fired.append(name)
+        elif spec["direction"] == "below" and val < spec["threshold"]:
+            fired.append(name)
+        elif spec["direction"] not in ("above", "below"):
+            raise ValueError(
+                "Unknown alert direction {!r} for alert {!r}".format(
+                    spec["direction"], name
+                )
+            )
     return fired
 
 

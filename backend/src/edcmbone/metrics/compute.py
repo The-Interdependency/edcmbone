@@ -23,17 +23,15 @@ Public API
 ----------
 RoundMetrics          — data class holding all computed values
 compute_round(round_, prev_round, canon, alpha, delta_max) -> RoundMetrics
-energy_step(prev, metrics, alpha, delta_max)               -> (E_t, s_t)
+energy_step(prev_kappa, dissonance, alpha, delta_max)      -> (E_t, s_t)
 """
 
 from __future__ import annotations
 
-import math
 import re
-from collections import Counter
 
 from edcmbone.canon import CanonLoader
-from edcmbone.parser.turns_rounds import Round, BoneToken
+from edcmbone.parser.turns_rounds import Round
 
 from .stats import (
     clamp,
@@ -81,7 +79,8 @@ class RoundMetrics:
 
     def __init__(self, **kwargs):
         for k in self.__slots__:
-            setattr(self, k, kwargs.get(k, 0.0))
+            default = 0 if k in ("round_index", "token_count", "bone_count") else 0.0
+            setattr(self, k, kwargs.get(k, default))
 
     def as_dict(self):
         return {k: getattr(self, k) for k in self.__slots__}
@@ -125,7 +124,7 @@ def _count_marker_hits(text, pattern):
 # Circuit dynamics
 # ---------------------------------------------------------------------------
 
-def energy_step(prev_energy, prev_kappa, dissonance, alpha=0.85, delta_max=0.3):
+def energy_step(prev_kappa, dissonance, alpha=0.85, delta_max=0.3):
     """Compute one step of the RC-circuit energy model.
 
     s_{t+1} = alpha * s_t + E_t - delta_t
@@ -235,9 +234,11 @@ def _compute_C(round_text, canon):
 
 
 def _compute_D(tokens_b, tokens_a, round_text, canon):
-    """Deflection — partial; low bone density as proxy."""
-    # Deflection = 1 - (tokens about constraints / total).
-    # Proxy: low cosine overlap with prior round = deflecting.
+    """Deflection — partial; 1 - cosine similarity with prior round as proxy.
+
+    Low cosine overlap with the prior round is treated as deflection:
+    high similarity = on-topic = low deflection.
+    """
     if not tokens_a:
         return 0.0
     cos = cosine_sim(tokens_b, tokens_a)
@@ -305,7 +306,7 @@ def compute_round(round_, prev_round=None, canon=None,
     dissonance = clamp((C + R + F + E + N + I + L) / 7.0)
 
     # Circuit dynamics
-    _, new_kappa = energy_step(prev_energy, prev_kappa, dissonance, alpha, delta_max)
+    _, new_kappa = energy_step(prev_kappa, dissonance, alpha, delta_max)
 
     return RoundMetrics(
         C=C, R=R, F=F, E=E, D=D, N=N, I=I, O=O, L=L, P=P,

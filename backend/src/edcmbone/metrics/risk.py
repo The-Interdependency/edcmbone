@@ -45,7 +45,7 @@ def fixation_risk(tokens_b, tokens_a):
 def broken_return(tokens_a, tokens_b, tokens_c):
     """Broken-return sub-component.
 
-    R_broken = 0.55 * cos(c_A, c_B) + 0.45 * (1 - J(T_C, T_B))
+    R_broken = clamp(0.55 * cos(c_A, c_B) + 0.45 * (1 - J(T_C, T_B)))
 
     tokens_a : original response A
     tokens_b : new response B
@@ -53,7 +53,7 @@ def broken_return(tokens_a, tokens_b, tokens_c):
     """
     cos = cosine_sim(tokens_a, tokens_b)
     j = jaccard(set(tokens_c), set(tokens_b))
-    return 0.55 * cos + 0.45 * (1.0 - j)
+    return clamp(0.55 * cos + 0.45 * (1.0 - j))
 
 
 def escalation_risk(tokens_a, tokens_b, tokens_c, refusal_density, hedge_density):

@@ -21,8 +21,9 @@ Notes on invariants
   It is the only signed metric.  Callers that need [0, 1] should use
   abs(O) or (O + 1) / 2 as appropriate; the signed range is preserved
   here for full fidelity.
-- κ (kappa) is ≥ 0, unbounded.  It is a state variable (RC-circuit
-  stored tension), not a metric in the strict [0,1] sense.
+- κ (kappa) ∈ [0, 1].  It is a state variable (RC-circuit stored
+  tension) clamped to [0, 1] by energy_step().  PROJECTION_MAP["DA"]
+  also requires κ ∈ [0, 1].
 - P (Progress) is the only health metric; it is *subtracted* in
   composite risk (−β₆P in the logistic formulation).
 
@@ -30,6 +31,15 @@ Freezing
 --------
 Call freeze(matrix) to produce an immutable, version-stamped copy
 suitable for embedding in compressed artefacts.
+
+Note on A_MATRIX vs compute.py
+------------------------------
+A_MATRIX is currently documentation-shaped: it records the intended
+weights and primitive inputs for each Layer 1 metric, but the actual
+computation weights are hardcoded in compute.py (functions _compute_*).
+A_MATRIX should eventually become the single source of truth so that
+changing a weight here automatically changes the computation.  Until
+that refactor is complete, keep both in sync manually.
 """
 
 from __future__ import annotations
@@ -86,6 +96,7 @@ A_MATRIX: dict = {
             "non_novelty": 0.40,
         },
         # E: escalation — refusal signal + loop risk
+        # NOTE: E depends on Layer 1 metric R — Layer mixing; see issue #38
         "E": {
             "R":         0.60,   # R is itself a Layer 1 metric here
             "loop_risk": 0.40,
