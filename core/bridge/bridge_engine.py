@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from .math_utils import pearson, l1
+from .math_utils import l1
 
 OFAMS = ["P", "K", "Q", "T", "S"]
 BMETS = ["C", "R", "D", "N", "L", "O", "F", "E", "I"]
@@ -43,6 +43,24 @@ def _aggregate_op_vec_for_rounds(
     return [agg[f] / total for f in OFAMS]
 
 
+def _pearson_from_accumulators(
+    n: int,
+    sum_x: float,
+    sum_y: float,
+    sum_xx: float,
+    sum_yy: float,
+    sum_xy: float,
+) -> float:
+    """Compute Pearson r from running accumulators in O(1)."""
+    if n < 2:
+        return 0.0
+    num = n * sum_xy - sum_x * sum_y
+    den = ((n * sum_xx - sum_x ** 2) * (n * sum_yy - sum_y ** 2)) ** 0.5
+    if den == 0:
+        return 0.0
+    return num / den
+
+
 def compute_bridge_windows(
     *,
     rounds: List[Dict[str, Any]],
@@ -62,6 +80,10 @@ def compute_bridge_windows(
     This avoids the mismatch between turn-windows and round-windows.
 
     Falls back to index-based alignment when per_turn_operator is None.
+
+    Pearson correlations are computed via O(1) online accumulators rather than
+    rebuilding full prefix slices on every window, reducing overall complexity
+    from O(n²·|families|·|metrics|) to O(n·|families|·|metrics|).
     """
     n = len(behavioral_outputs)
     outs: List[Dict[str, Any]] = []
@@ -81,6 +103,14 @@ def compute_bridge_windows(
 
         aligned_op_vecs = [_op_vec(operator_outputs[i]) for i in range(n)]
 
+    # Online accumulators for Pearson: indexed by (fi, mi)
+    # Each entry holds [n, sum_x, sum_y, sum_xx, sum_yy, sum_xy]
+    acc: Dict[tuple, List[float]] = {
+        (fi, mi): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        for fi in range(len(OFAMS))
+        for mi in range(len(BMETS))
+    }
+
     prev_o: Optional[List[float]] = None
     prev_b: Optional[List[float]] = None
 
@@ -89,20 +119,35 @@ def compute_bridge_windows(
         ovec = aligned_op_vecs[i]
         bvec = _b_vec(b)
 
-        # Accumulated Pearson correlations (low n in v1; kept for consistency)
+        # Update all accumulators with the new data point in O(|families|·|metrics|)
+        for fi in range(len(OFAMS)):
+            x = ovec[fi]
+            for mi in range(len(BMETS)):
+                y = bvec[mi]
+                a = acc[(fi, mi)]
+                a[0] += 1      # n
+                a[1] += x      # sum_x
+                a[2] += y      # sum_y
+                a[3] += x * x  # sum_xx
+                a[4] += y * y  # sum_yy
+                a[5] += x * y  # sum_xy
+
+        # Compute Pearson correlations from accumulators (low n in v1; kept for consistency)
         corr_items = []
         for fi, f in enumerate(OFAMS):
-            xs = [aligned_op_vecs[j][fi] for j in range(i + 1)]
             for mi, m_key in enumerate(BMETS):
-                ys = [_b_vec(behavioral_outputs[j])[mi] for j in range(i + 1)]
-                if len(xs) >= 2:
-                    val = pearson(xs, ys)
+                a = acc[(fi, mi)]
+                n_acc, sum_x, sum_y, sum_xx, sum_yy, sum_xy = a
+                if n_acc >= 2:
+                    val = _pearson_from_accumulators(
+                        int(n_acc), sum_x, sum_y, sum_xx, sum_yy, sum_xy
+                    )
                     corr_items.append({
                         "operator_family": f,
                         "behavioral_metric": m_key,
                         "method": "pearson",
                         "value": val,
-                        "n": len(xs),
+                        "n": int(n_acc),
                     })
 
         divergences = []
