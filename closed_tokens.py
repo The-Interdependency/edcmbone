@@ -41,6 +41,7 @@ determiner sense wins.
 """
 
 from __future__ import annotations
+
 import warnings
 from fractions import Fraction
 from typing import Dict, List, Optional, Tuple
