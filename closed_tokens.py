@@ -30,9 +30,8 @@ Each token encodes as a UCNSObject with:
 
 The pairing-mark rule: smart open quote and curly open brackets go in class 10;
 their close counterparts in class 11. The disk-flip property (open-mark ↔
-close-mark symmetry) is currently stated as a design invariant only; there is
-no explicit disk-flip operation documented here yet (TODO: add the op + explicit
-test).
+close-mark symmetry) is a design invariant with no implementation yet
+(TODO: add disk-flip op + explicit test).
 
 Dispatch collision convention: when a token appears in multiple class tables,
 the first table wins by ordering. Specifically: for 'since' and 'until' the
@@ -42,7 +41,6 @@ determiner sense wins.
 
 from __future__ import annotations
 
-import warnings
 from fractions import Fraction
 from typing import Dict, List, Optional, Tuple
 
@@ -429,7 +427,8 @@ def _build_dispatch_table():
     same UCNS object since they differ only in surface phonology.
 
     Collision convention: when a token appears in multiple class tables the
-    first entry wins and a warning is emitted. By table-ordering convention:
+    first entry wins (silent; collisions are documented in the module docstring).
+    By table-ordering convention:
       - 'since' and 'until' resolve to the preposition sense
       - 'as' resolves to the preposition sense
       - 'that' resolves to the determiner sense
@@ -443,10 +442,6 @@ def _build_dispatch_table():
             # Skip — variant will be aliased after the canonical is in place.
             return
         if token in out:
-            warnings.warn(
-                f"closed_tokens: dispatch collision on {token!r}; keeping first entry",
-                stacklevel=2,
-            )
             return
         out[token] = (class_idx, feats)
 

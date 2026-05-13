@@ -6,6 +6,7 @@ Covers:
   - edcmbone.parser     (parse_transcript, Turn, Round, BoneToken, FleshToken)
   - edcmbone.metrics    (stats, risk, compute, projection, matrix)
   - edcmbone.compress   (encode/decode round-trip, compression_stats)
+  - closed_tokens       (dispatch collision resolution)
 """
 
 import math
@@ -585,3 +586,35 @@ class TestMatrix:
         changes = diff(A_MATRIX, modified)
         assert ("F", "rep_b") in changes
         assert changes[("F", "rep_b")] == (0.30, 0.99)
+
+
+# ---------------------------------------------------------------------------
+# closed_tokens
+# ---------------------------------------------------------------------------
+
+class TestClosedTokens:
+    """Verify collision-resolution convention for the DISPATCH table."""
+
+    def test_since_resolves_to_preposition(self):
+        pytest.importorskip("ucns_v04")
+        from closed_tokens import DISPATCH, CLASS_PREPOSITION
+        class_idx, _ = DISPATCH["since"]
+        assert class_idx == CLASS_PREPOSITION
+
+    def test_until_resolves_to_preposition(self):
+        pytest.importorskip("ucns_v04")
+        from closed_tokens import DISPATCH, CLASS_PREPOSITION
+        class_idx, _ = DISPATCH["until"]
+        assert class_idx == CLASS_PREPOSITION
+
+    def test_as_resolves_to_preposition(self):
+        pytest.importorskip("ucns_v04")
+        from closed_tokens import DISPATCH, CLASS_PREPOSITION
+        class_idx, _ = DISPATCH["as"]
+        assert class_idx == CLASS_PREPOSITION
+
+    def test_that_resolves_to_determiner(self):
+        pytest.importorskip("ucns_v04")
+        from closed_tokens import DISPATCH, CLASS_DETERMINER
+        class_idx, _ = DISPATCH["that"]
+        assert class_idx == CLASS_DETERMINER
