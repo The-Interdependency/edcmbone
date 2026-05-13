@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any, Dict, List, Optional
 
 from .math_utils import l1
@@ -55,10 +56,12 @@ def _pearson_from_accumulators(
     if n < 2:
         return 0.0
     num = n * sum_xy - sum_x * sum_y
-    den = ((n * sum_xx - sum_x ** 2) * (n * sum_yy - sum_y ** 2)) ** 0.5
-    if den == 0:
+    var_prod = (n * sum_xx - sum_x ** 2) * (n * sum_yy - sum_y ** 2)
+    den = math.sqrt(max(0.0, var_prod))
+    if den == 0.0:
         return 0.0
-    return num / den
+    r = num / den
+    return max(-1.0, min(1.0, r))
 
 
 def compute_bridge_windows(
@@ -104,9 +107,9 @@ def compute_bridge_windows(
         aligned_op_vecs = [_op_vec(operator_outputs[i]) for i in range(n)]
 
     # Online accumulators for Pearson: indexed by (fi, mi)
-    # Each entry holds [n, sum_x, sum_y, sum_xx, sum_yy, sum_xy]
-    acc: Dict[tuple, List[float]] = {
-        (fi, mi): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    # Each entry holds [n (int), sum_x, sum_y, sum_xx, sum_yy, sum_xy]
+    acc: Dict[tuple, List] = {
+        (fi, mi): [0, 0.0, 0.0, 0.0, 0.0, 0.0]
         for fi in range(len(OFAMS))
         for mi in range(len(BMETS))
     }
@@ -125,7 +128,7 @@ def compute_bridge_windows(
             for mi in range(len(BMETS)):
                 y = bvec[mi]
                 a = acc[(fi, mi)]
-                a[0] += 1      # n
+                a[0] += 1      # n (int)
                 a[1] += x      # sum_x
                 a[2] += y      # sum_y
                 a[3] += x * x  # sum_xx
@@ -140,14 +143,14 @@ def compute_bridge_windows(
                 n_acc, sum_x, sum_y, sum_xx, sum_yy, sum_xy = a
                 if n_acc >= 2:
                     val = _pearson_from_accumulators(
-                        int(n_acc), sum_x, sum_y, sum_xx, sum_yy, sum_xy
+                        n_acc, sum_x, sum_y, sum_xx, sum_yy, sum_xy
                     )
                     corr_items.append({
                         "operator_family": f,
                         "behavioral_metric": m_key,
                         "method": "pearson",
                         "value": val,
-                        "n": int(n_acc),
+                        "n": n_acc,
                     })
 
         divergences = []
