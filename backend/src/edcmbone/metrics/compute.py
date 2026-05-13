@@ -14,7 +14,7 @@ The metric vector M_t ∈ ℝ^11 covers:
   O  Overconfidence        [-1,1]
   L  Coherence loss        [0,1]
   P  Progress              [0,1]
-  k  Stored tension        ≥ 0
+  k  Stored tension        κ ∈ [0, 1]
 
 Most metrics are partially computable from markers (phrase-level signals).
 Some require embeddings / cross-turn semantic comparison (marked below).
@@ -22,18 +22,16 @@ Some require embeddings / cross-turn semantic comparison (marked below).
 Public API
 ----------
 RoundMetrics          — data class holding all computed values
-compute_round(round_, prev_round, canon, alpha, delta_max) -> RoundMetrics
-energy_step(prev, metrics, alpha, delta_max)               -> (E_t, s_t)
+compute_round(round_, prev_round, canon, alpha, delta_max[, prev_kappa, prev_entropy]) -> RoundMetrics
+energy_step(prev_kappa, dissonance, alpha, delta_max)      -> (E_t, s_t)
 """
 
 from __future__ import annotations
 
-import math
 import re
-from collections import Counter
 
 from edcmbone.canon import CanonLoader
-from edcmbone.parser.turns_rounds import Round, BoneToken
+from edcmbone.parser.turns_rounds import Round
 
 from .stats import (
     clamp,
@@ -81,7 +79,8 @@ class RoundMetrics:
 
     def __init__(self, **kwargs):
         for k in self.__slots__:
-            setattr(self, k, kwargs.get(k, 0.0))
+            default = 0 if k in ("round_index", "token_count", "bone_count") else 0.0
+            setattr(self, k, kwargs.get(k, default))
 
     def as_dict(self):
         return {k: getattr(self, k) for k in self.__slots__}
@@ -125,7 +124,7 @@ def _count_marker_hits(text, pattern):
 # Circuit dynamics
 # ---------------------------------------------------------------------------
 
-def energy_step(prev_energy, prev_kappa, dissonance, alpha=0.85, delta_max=0.3):
+def energy_step(prev_kappa, dissonance, alpha=0.85, delta_max=0.3):
     """Compute one step of the RC-circuit energy model.
 
     s_{t+1} = alpha * s_t + E_t - delta_t
@@ -235,9 +234,11 @@ def _compute_C(round_text, canon):
 
 
 def _compute_D(tokens_b, tokens_a, round_text, canon):
-    """Deflection — partial; low bone density as proxy."""
-    # Deflection = 1 - (tokens about constraints / total).
-    # Proxy: low cosine overlap with prior round = deflecting.
+    """Deflection — partial; 1 - cosine similarity with prior round as proxy.
+
+    Low cosine overlap with the prior round is treated as deflection:
+    high similarity = on-topic = low deflection.
+    """
     if not tokens_a:
         return 0.0
     cos = cosine_sim(tokens_b, tokens_a)
@@ -258,7 +259,7 @@ def _compute_E(round_text, tokens_b, tokens_a, canon):
 
 def compute_round(round_, prev_round=None, canon=None,
                   alpha=0.85, delta_max=0.3,
-                  prev_kappa=0.0, prev_energy=0.0, prev_entropy=0.0):
+                  prev_kappa=0.0, prev_entropy=0.0):
     """Compute the metric vector for a Round.
 
     Parameters
@@ -269,7 +270,6 @@ def compute_round(round_, prev_round=None, canon=None,
     alpha       : persistence coefficient for the RC circuit [0, 1]
     delta_max   : max resolution rate per step [0, 1]
     prev_kappa  : stored tension from previous step (κ_{t-1})
-    prev_energy : dissonance energy from previous step (ε_{t-1})
     prev_entropy: Shannon entropy of previous round (for progress computation)
 
     Returns
@@ -305,7 +305,7 @@ def compute_round(round_, prev_round=None, canon=None,
     dissonance = clamp((C + R + F + E + N + I + L) / 7.0)
 
     # Circuit dynamics
-    _, new_kappa = energy_step(prev_energy, prev_kappa, dissonance, alpha, delta_max)
+    _, new_kappa = energy_step(prev_kappa, dissonance, alpha, delta_max)
 
     return RoundMetrics(
         C=C, R=R, F=F, E=E, D=D, N=N, I=I, O=O, L=L, P=P,
@@ -328,7 +328,6 @@ def compute_transcript(parsed_transcript, canon=None, alpha=0.85, delta_max=0.3)
     results = []
     prev_round = None
     prev_kappa = 0.0
-    prev_energy = 0.0
     prev_entropy = 0.0
 
     for rnd in parsed_transcript.rounds:
@@ -339,14 +338,12 @@ def compute_transcript(parsed_transcript, canon=None, alpha=0.85, delta_max=0.3)
             alpha=alpha,
             delta_max=delta_max,
             prev_kappa=prev_kappa,
-            prev_energy=prev_energy,
             prev_entropy=prev_entropy,
         )
         results.append(m)
 
         prev_round = rnd
         prev_kappa = m.kappa
-        prev_energy = m.dissonance_energy
         prev_entropy = shannon_entropy(tokenize(" ".join(t.text for t in rnd.turns)))
 
     return results
