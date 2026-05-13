@@ -30,8 +30,9 @@ Each token encodes as a UCNSObject with:
 
 The pairing-mark rule: smart open quote and curly open brackets go in class 10;
 their close counterparts in class 11. The disk-flip property (open-mark ↔
-close-mark symmetry) is stated as a design invariant; implementation is in
-ucns_v04.py (TODO: add explicit test).
+close-mark symmetry) is currently stated as a design invariant only; there is
+no explicit disk-flip operation documented here yet (TODO: add the op + explicit
+test).
 
 Dispatch collision convention: when a token appears in multiple class tables,
 the first table wins by ordering. Specifically: for 'since' and 'until' the
