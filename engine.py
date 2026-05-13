@@ -1,7 +1,7 @@
 # engine.py
 # GPT generated; context, prompt Erin Spencer
 # EDCMBone v1.0.0 library engine (framework-agnostic).
-# hmmm: This file orchestrates; it must not “improve” canon—only consume it.
+# hmmm: This file orchestrates; it must not "improve" canon—only consume it.
 
 from __future__ import annotations
 
@@ -178,7 +178,7 @@ def analyze_transcript(
         "operator": operator_outputs,
         "behavioral": behavioral_outputs,
         "bridge": bridge_outputs,
-        "hmm": {
+        "hmmm": {
             "contained": [
                 "Canon is read-only; engine orchestrates only.",
                 "Schema validation optional if jsonschema not installed."
