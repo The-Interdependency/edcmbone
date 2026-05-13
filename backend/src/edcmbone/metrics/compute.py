@@ -22,7 +22,7 @@ Some require embeddings / cross-turn semantic comparison (marked below).
 Public API
 ----------
 RoundMetrics          — data class holding all computed values
-compute_round(round_, prev_round, canon, alpha, delta_max) -> RoundMetrics
+compute_round(round_, prev_round, canon, alpha, delta_max[, prev_kappa, prev_entropy]) -> RoundMetrics
 energy_step(prev_kappa, dissonance, alpha, delta_max)      -> (E_t, s_t)
 """
 
