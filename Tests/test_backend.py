@@ -371,7 +371,7 @@ class TestCompute:
     def test_kappa_increases_with_dissonance(self, parsed, canon):
         from edcmbone.metrics.compute import compute_round, energy_step
         # Artificially high dissonance -> kappa should grow
-        _, kappa = energy_step(0.0, 0.0, dissonance=0.9, alpha=0.9, delta_max=0.1)
+        _, kappa = energy_step(0.0, 0.9, alpha=0.9, delta_max=0.1)
         assert kappa > 0.0
 
 
