@@ -46,22 +46,21 @@ def _aggregate_op_vec_for_rounds(
 
 def _pearson_from_accumulators(
     n: int,
-    sum_x: float,
-    sum_y: float,
-    sum_xx: float,
-    sum_yy: float,
-    sum_xy: float,
+    S_xx: float,
+    S_yy: float,
+    S_xy: float,
 ) -> float:
-    """Compute Pearson r from running accumulators in O(1)."""
+    """Compute Pearson r from Welford online accumulators in O(1).
+
+    S_xx, S_yy, S_xy are sum-of-squared-deviations from running means,
+    accumulated via Welford's algorithm to avoid catastrophic cancellation.
+    """
     if n < 2:
         return 0.0
-    num = n * sum_xy - sum_x * sum_y
-    var_prod = (n * sum_xx - sum_x ** 2) * (n * sum_yy - sum_y ** 2)
-    den = math.sqrt(max(0.0, var_prod))
+    den = math.sqrt(max(0.0, S_xx * S_yy))
     if den == 0.0:
         return 0.0
-    r = num / den
-    return max(-1.0, min(1.0, r))
+    return max(-1.0, min(1.0, S_xy / den))
 
 
 def compute_bridge_windows(
@@ -84,9 +83,10 @@ def compute_bridge_windows(
 
     Falls back to index-based alignment when per_turn_operator is None.
 
-    Pearson correlations are computed via O(1) online accumulators rather than
-    rebuilding full prefix slices on every window, reducing overall complexity
-    from O(n²·|families|·|metrics|) to O(n·|families|·|metrics|).
+    Pearson correlations are computed via Welford's online algorithm: each
+    accumulator stores [n, mean_x, mean_y, S_xx, S_yy, S_xy] where S_xx/yy/xy
+    are sum-of-squared-deviations from running means, giving O(n) overall
+    complexity with numerical stability for near-constant windows.
     """
     n = len(behavioral_outputs)
     outs: List[Dict[str, Any]] = []
@@ -106,8 +106,9 @@ def compute_bridge_windows(
 
         aligned_op_vecs = [_op_vec(operator_outputs[i]) for i in range(n)]
 
-    # Online accumulators for Pearson: indexed by (fi, mi)
-    # Each entry holds [n (int), sum_x, sum_y, sum_xx, sum_yy, sum_xy]
+    # Welford online accumulators for Pearson, indexed by (fi, mi).
+    # Each entry: [n (int), mean_x, mean_y, S_xx, S_yy, S_xy]
+    # where S_xx = Σ(x_i - μ_x)^2, etc., accumulated via Welford's update.
     acc: Dict[tuple, List] = {
         (fi, mi): [0, 0.0, 0.0, 0.0, 0.0, 0.0]
         for fi in range(len(OFAMS))
@@ -122,28 +123,31 @@ def compute_bridge_windows(
         ovec = aligned_op_vecs[i]
         bvec = _b_vec(b)
 
-        # Update all accumulators with the new data point in O(|families|·|metrics|)
+        # Welford update: O(|families|·|metrics|) per window
         for fi in range(len(OFAMS)):
             x = ovec[fi]
             for mi in range(len(BMETS)):
                 y = bvec[mi]
                 a = acc[(fi, mi)]
-                a[0] += 1      # n (int)
-                a[1] += x      # sum_x
-                a[2] += y      # sum_y
-                a[3] += x * x  # sum_xx
-                a[4] += y * y  # sum_yy
-                a[5] += x * y  # sum_xy
+                n_new = a[0] + 1
+                dx = x - a[1]            # deviation from old mean_x
+                a[1] += dx / n_new       # update mean_x
+                dy = y - a[2]            # deviation from old mean_y
+                a[2] += dy / n_new       # update mean_y
+                a[3] += dx * (x - a[1]) # S_xx: dx * (x - new mean_x)
+                a[4] += dy * (y - a[2]) # S_yy: dy * (y - new mean_y)
+                a[5] += dx * (y - a[2]) # S_xy: dx * (y - new mean_y)
+                a[0] = n_new
 
-        # Compute Pearson correlations from accumulators (low n in v1; kept for consistency)
+        # Compute Pearson correlations from Welford accumulators
         corr_items = []
         for fi, f in enumerate(OFAMS):
             for mi, m_key in enumerate(BMETS):
                 a = acc[(fi, mi)]
-                n_acc, sum_x, sum_y, sum_xx, sum_yy, sum_xy = a
+                n_acc = a[0]
                 if n_acc >= 2:
                     val = _pearson_from_accumulators(
-                        n_acc, sum_x, sum_y, sum_xx, sum_yy, sum_xy
+                        n_acc, a[3], a[4], a[5]
                     )
                     corr_items.append({
                         "operator_family": f,
