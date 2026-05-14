@@ -20,7 +20,7 @@ hmmm: this document represents grading against held canon as of 2026-05-14; cano
 
 **Misplacement rule:** any L1/L2/L3 code currently inside edcmbone is **layer-misplaced**, not just internally drifting. Severity may rise on that basis.
 
-hmmm: the held canon does not yet name the future upstream package that consumes edcmbone + `ucns_recursive`. This re-grading writes against an unnamed `edcm` placeholder.
+hmmm: the held canon does not yet name the future upstream package that consumes edcmbone + `ucns`. This re-grading writes against an unnamed `edcm` placeholder.
 
 ---
 
@@ -46,7 +46,7 @@ hmmm: the held canon does not yet name the future upstream package that consumes
 **Description:** Bare top-level import to a module sitting at repo root. Works only when running with cwd at repo root. `pip install ./backend` followed by `import edcmbone.ucns` fails with `ModuleNotFoundError`. The "87 tests passing" claim is conditional on cwd, not on installed-package state.
 **Why severity changed (if it did):** unchanged. The misplacement rule does not apply — this is about importability of L0 code that legitimately lives in edcmbone.
 **Remediation pattern:** in-place fix — move `ucns_v04.py` and `closed_tokens.py` into the package proper, or rewrite imports to be package-relative.
-**hmmm:** unresolved — whether the canonical home of `ucns_v04.py` is inside edcmbone at all, or whether it migrates to `ucns_recursive` (the other upstream consumer named in held canon).
+**hmmm:** unresolved — whether the canonical home of `ucns_v04.py` is inside edcmbone at all, or whether it migrates to `ucns` (the other upstream consumer named in held canon).
 
 ### Finding 03 — Normalizer no-op
 
