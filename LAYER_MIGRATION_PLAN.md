@@ -19,7 +19,7 @@ hmmm: no files are moved by this document. No package is created. No Python code
 - **Bridge** — sideways, observational-only correlation between Operator (L0) and Behavioral concerns. Orthogonal to the layer stack.
 - The **9 Behavioral metrics** (C R D N L O F E I) are a slice across L1/L2; not a layer.
 
-The future upstream package `edcm` consumes edcmbone (L0) and `ucns_recursive` (recursive UCNS encoder) and produces L1/L2/L3.
+The future upstream package `edcm` consumes edcmbone (L0) and `ucns` (UCNS encoder) and produces L1/L2/L3.
 
 ---
 
@@ -28,7 +28,7 @@ The future upstream package `edcm` consumes edcmbone (L0) and `ucns_recursive` (
 These remain in edcmbone after migration. Within edcmbone, parallel implementations are consolidated to a single canonical version (Phase 1).
 
 - `closed_tokens.py` (repo root) — L0 closed-class token table.
-- `Backend/src/edcmbone/ucns/` — UCNS encoder. Stays here only if `ucns_v04.py` is canon-pinned as L0; otherwise migrates to `ucns_recursive`. (See `hmmm` below.)
+- `Backend/src/edcmbone/ucns/` — UCNS encoder. Stays here only if `ucns_v04.py` is canon-pinned as L0; otherwise migrates to `ucns`. (See `hmmm` below.)
 - `ucns_v04.py` (repo root) — same `hmmm`.
 - **One of** `Backend/src/edcmbone/parser/turns_rounds.py` **or** `core/parsing/{tokenizer,normalizer,turn_builder,round_builder}.py` — whichever wins Phase 1 consolidation. The losing side is retired.
 - `Backend/src/edcmbone/canon/loader.py` and `Backend/src/edcmbone/canon/data/*.json` — L0 canon data.
@@ -38,7 +38,7 @@ These remain in edcmbone after migration. Within edcmbone, parallel implementati
 
 hmmm: `metrics/stats.py` is grouped here under "L0 sub-primitives," but TTR / entropy / cosine are not bones; they are distributional measurements **over** L0 tokens. Whether canon classifies them as L0 (because they are pre-Arc-Style primitives) or as L1 base inputs (because they feed `M_t = A·φ`) is unresolved. Re-classify before migration if canon pins this.
 
-hmmm: if `ucns_v04` migrates to `ucns_recursive`, all of `Backend/src/edcmbone/ucns/` follows it. Then edcmbone's L0 surface shrinks to closed_tokens + canon + parser + compress + operator.
+hmmm: if `ucns_v04` migrates to `ucns`, all of `Backend/src/edcmbone/ucns/` follows it. Then edcmbone's L0 surface shrinks to closed_tokens + canon + parser + compress + operator.
 
 ---
 
@@ -220,7 +220,7 @@ Exit criteria: all test-gap findings closed; coverage measured against migrated 
 - **hmmm:** The 11 Arc Style metrics (L1) and the 9 Behavioral metrics list (C R D N L O F E I) overlap but aren't identical. Pin which letters are L1 Arc Style and which are L2 composites before Phase 2 begins.
 - **hmmm:** `P` metric (Finding 06) — which layer does it belong to once L1/L2/L3 are separated? Currently in `compute.py`. Cannot be Phase-5-migrated without a layer assignment.
 - **hmmm:** Bridge layer's physical home — edcmbone sideways, `edcm` sub-namespace, or a third package. Best fit pending.
-- **hmmm:** Whether `ucns_v04.py` is canonical L0 (stays in edcmbone) or migrates to `ucns_recursive` upstream. Affects edcmbone's L0 surface area.
+- **hmmm:** Whether `ucns_v04.py` is canonical L0 (stays in edcmbone) or migrates to `ucns` upstream. Affects edcmbone's L0 surface area.
 - **hmmm:** Which parser wins Phase 1 consolidation. Architectural separation (refactor) vs. test coverage (Backend).
 - **hmmm:** Whether `metrics/stats.py` is L0 sub-primitives (stay) or L1 base inputs (migrate). Canon does not pin this.
 - **hmmm:** Whether `edcm` exposes both `compute.py` and `engine.py` as orchestrators or unifies them.
