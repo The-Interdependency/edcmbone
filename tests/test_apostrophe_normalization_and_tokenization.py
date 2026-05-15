@@ -34,3 +34,8 @@ def test_parser_word_re_keeps_smart_contractions_whole_after_normalization():
     normalized = normalize_text_for_matching("don’t can’t it’s")
     tokens = _parser_raw_tokens_like_impl(normalized)
     assert tokens == ["don't", "can't", "it's"]
+
+
+def test_parser_word_re_keeps_hyphenated_compounds_as_one_surface_token():
+    tokens = _parser_raw_tokens_like_impl("state-of-the-art")
+    assert tokens == ["state-of-the-art"]

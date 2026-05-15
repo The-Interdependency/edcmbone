@@ -211,8 +211,9 @@ def _group_into_rounds(turns, strategy="cycle"):
 # Tokenizer — word + punctuation split
 # ---------------------------------------------------------------------------
 
-# Split into word-runs and individual punctuation characters
-_WORD_RE = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)*|[0-9]+|[^\w\s]")
+# Split into word-runs and individual punctuation characters.
+# Preserve hyphenated compounds as one token before punctuation handling.
+_WORD_RE = re.compile(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+|[A-Za-z]+(?:'[A-Za-z]+)*|[0-9]+|[^\w\s]")
 
 
 def _raw_tokens(text):
