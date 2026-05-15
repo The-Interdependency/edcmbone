@@ -212,11 +212,12 @@ def _group_into_rounds(turns, strategy="cycle"):
 # ---------------------------------------------------------------------------
 
 # Split into word-runs and individual punctuation characters
-_WORD_RE = re.compile(r"[A-Za-z''\-]+|[^\w\s]|\d+")
+_WORD_RE = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)*|[0-9]+|[^\w\s]")
 
 
 def _raw_tokens(text):
     """Return list of raw token strings from utterance text."""
+    text = (text or '').replace('’', "'").replace('‘', "'")
     return _WORD_RE.findall(text)
 
 
