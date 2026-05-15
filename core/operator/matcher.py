@@ -61,7 +61,7 @@ def hyphen_compound_emission(tok: str) -> List[str]:
         return ["K"]
     return []
 
-def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, str]) -> Tuple[List[str], str]:
+def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, str], valid_stems: set[str] | None = None) -> Tuple[List[str], str]:
     """
     Longest-match-first; prefix then suffix; emit ALL matched affixes.
     Returns (families_emitted, residual_root).
@@ -77,8 +77,11 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         changed = False
         for p in pref_list:
             if root.startswith(p) and len(root) > len(p):
+                residual = root[len(p):]
+                if valid_stems is not None and residual not in valid_stems:
+                    continue
                 fams.append(prefix_map[p])
-                root = root[len(p):]
+                root = residual
                 changed = True
                 break
 
@@ -88,8 +91,11 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         changed = False
         for s in suf_list:
             if root.endswith(s) and len(root) > len(s):
+                residual = root[:-len(s)]
+                if valid_stems is not None and residual not in valid_stems:
+                    continue
                 fams.append(suffix_map[s])
-                root = root[:-len(s)]
+                root = residual
                 changed = True
                 break
 
