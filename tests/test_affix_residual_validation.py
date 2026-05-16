@@ -19,11 +19,27 @@ def test_backend_parser_affix_does_not_fire_on_invalid_residuals():
     assert all((not hasattr(x, "bone_type") or x.bone_type != "affix") for x in out)
 
 
-def test_backend_parser_affix_positive_cases_still_emit():
+def test_backend_parser_affix_positive_cases_still_emit_for_canon_valid_stems():
     canon = CanonLoader()
     c = _BoneClassifier(canon)
+
+    # Guaranteed by current canon word inventory: "redo" -> residual "do" exists.
     out = c.classify_sequence(["redo"])
     assert [getattr(x, "bone_type", None) for x in out] == ["affix"]
+
+
+def test_backend_parser_examples_unhappy_and_linking_are_canon_dependent():
+    canon = CanonLoader()
+    c = _BoneClassifier(canon)
+
+    # These examples are morphologically valid in English, but backend affix emission
+    # depends on whether residual stems are present in the canon word index.
+    # This test documents that parser behavior remains canon-driven, not heuristic.
+    for tok, residual in (("unhappy", "happy"), ("linking", "link")):
+        out = c.classify_sequence([tok])[0]
+        emits_affix = getattr(out, "bone_type", None) == "affix"
+        residual_in_canon = canon.lookup_word(residual) is not None
+        assert emits_affix == residual_in_canon
 
 
 def test_core_matcher_affix_respects_valid_stems_negative_and_positive():
@@ -36,3 +52,29 @@ def test_core_matcher_affix_respects_valid_stems_negative_and_positive():
 
     fams2, root2 = match_affixes("uncle", prefix_map, suffix_map, valid_stems=valid_stems)
     assert fams2 == [] and root2 == "uncle"
+
+
+def test_core_matcher_multi_affix_words_validate_final_root_only():
+    """
+    Regression test for issue where intermediate residuals were validated too early.
+    For "redoing" (re+do+ing), the intermediate "doing" is not a valid stem, but
+    the final root "do" is. Validation should be deferred until all affixes are stripped.
+    """
+    prefix_map = {"re": "K", "un": "P"}
+    suffix_map = {"ing": "K", "ed": "K"}
+    valid_stems = {"do", "happy"}
+
+    # "redoing" -> strip "re" -> "doing" -> strip "ing" -> "do" (valid!)
+    fams, root = match_affixes("redoing", prefix_map, suffix_map, valid_stems=valid_stems)
+    assert fams == ["K", "K"], f"Expected ['K', 'K'] but got {fams}"
+    assert root == "do", f"Expected 'do' but got {root}"
+
+    # "unhappying" -> strip "un" -> "happying" -> strip "ing" -> "happy" (valid!)
+    fams2, root2 = match_affixes("unhappying", prefix_map, suffix_map, valid_stems=valid_stems)
+    assert fams2 == ["P", "K"], f"Expected ['P', 'K'] but got {fams2}"
+    assert root2 == "happy", f"Expected 'happy' but got {root2}"
+
+    # "rethinking" -> strip "re" -> "thinking" -> strip "ing" -> "think" (NOT valid!)
+    fams3, root3 = match_affixes("rethinking", prefix_map, suffix_map, valid_stems=valid_stems)
+    assert fams3 == [], f"Expected [] but got {fams3}"
+    assert root3 == "rethinking", f"Expected 'rethinking' but got {root3}"

@@ -65,6 +65,10 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
     """
     Longest-match-first; prefix then suffix; emit ALL matched affixes.
     Returns (families_emitted, residual_root).
+    
+    When valid_stems is provided, validation is deferred until after all affixes
+    are stripped. This allows multi-affix words like "redoing" (re+do+ing) to work
+    correctly even when intermediate forms like "doing" are not in valid_stems.
     """
     t = normalize_text_for_matching(tok)
     fams: List[str] = []
@@ -78,8 +82,6 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         for p in pref_list:
             if root.startswith(p) and len(root) > len(p):
                 residual = root[len(p):]
-                if valid_stems is not None and residual not in valid_stems:
-                    continue
                 fams.append(prefix_map[p])
                 root = residual
                 changed = True
@@ -92,11 +94,14 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         for s in suf_list:
             if root.endswith(s) and len(root) > len(s):
                 residual = root[:-len(s)]
-                if valid_stems is not None and residual not in valid_stems:
-                    continue
                 fams.append(suffix_map[s])
                 root = residual
                 changed = True
                 break
+
+    # Validate final root against valid_stems if provided.
+    # If validation fails, return no affixes (treat as unmatched).
+    if valid_stems is not None and fams and root not in valid_stems:
+        return [], t
 
     return fams, root
