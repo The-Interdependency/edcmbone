@@ -3,6 +3,19 @@ edcmbone.metrics.compute
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Computes the EDCM metric vector M_t and dissonance energy for a round.
 
+Layer designation
+-----------------
+Decision: A — behavioral/orchestration layer, not Operator L0.
+
+This module is retained temporarily inside edcmbone for compatibility, but
+canonically belongs upstream in the future `edcm` package. It consumes parsed
+round text, token statistics, marker phrases, and prior-round comparisons. It
+may carry `bone_count` through its result container for audit continuity, but it
+does not compute the L0 Operator vector and must not be treated as the
+bones-only Operator substrate.
+
+The L0 Operator entry point remains separate: `core/operator/operator_extractor.py`.
+
 The metric vector M_t ∈ ℝ^11 covers:
   C  Constraint strain     [0,1]
   R  Refusal density       [0,1]
@@ -45,6 +58,20 @@ from .stats import (
     pattern_density,
 )
 from .risk import fixation_risk, loop_risk
+
+
+# ---------------------------------------------------------------------------
+# Layer contract
+# ---------------------------------------------------------------------------
+
+LAYER_DECISION = "A_BEHAVIORAL_ORCHESTRATION"
+LAYER_DESIGNATION = "L1_L2_L3_ORCHESTRATOR_PENDING_EDCM_MIGRATION"
+LAYER_INPUT_SUBSTRATE = "round_text_tokens_marker_stats_prior_round_context"
+OPERATOR_LAYER_SUBSTRATE = "bones_only"
+OPERATES_ON_OPERATOR_BONES = False
+CONSUMES_BONE_COUNT_FOR_AUDIT = True
+MIGRATION_TARGET = "edcm"
+OPERATOR_ENTRYPOINT = "core.operator.operator_extractor"
 
 
 # ---------------------------------------------------------------------------
@@ -257,7 +284,8 @@ def _compute_E(round_text, tokens_b, tokens_a, canon):
 # Public compute function
 # ---------------------------------------------------------------------------
 
-def compute_round(round_, prev_round=None, canon=None,
+def compute_round(round_, prev_round=None,
+                  canon=None,
                   alpha=0.85, delta_max=0.3,
                   prev_kappa=0.0, prev_entropy=0.0):
     """Compute the metric vector for a Round.
