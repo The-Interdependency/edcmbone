@@ -115,7 +115,7 @@ Theorem N retracts Theorem 8c (vacuously true — multiplicative-D'' = ∅, sinc
 Does UCNS-G (§1–§9) **derive from** UCNS-A's algebra, or is it a parallel construction sharing a name? Connections suggest shared roots: face-flip ↔ chirality/sheet-flip; angle ↔ θ; recursive payload nesting ↔ epicyclic/recursion-depth ladder. But UCNS-A's core object is `(angle, payload, face-flip)` sequences under `multiply`; UCNS-G's `(r, θ, z)` / area-percent / drift-divergence coordinates are **not visibly present** in that algebra. Until this is resolved, UCNS-G claims must be presented as unproven regardless of UCNS-A's proof status. **This is the item to resolve before any unified public release.**
 
 ### 11.5 UCNS-A PyPI status
-Per theorem-n.md §7.3, blockers are store non-uniqueness (Theorem N finds *a* factorization, not canonical), carrier widening (out of scope), snapshot-file-at-root. Recommended additional gate before public weight: human-mathematician review of Theorem N; resolution of §11.4 so UCNS-A and UCNS-G are not shipped under one name with one (mis-attributed) proof status.
+Current documented blockers for a UCNS-A PyPI release are: store non-uniqueness (Theorem N establishes existence of *a* factorization, not a canonical one), carrier widening (explicitly out of scope for the present result), and the snapshot-file-at-root packaging issue. Recommended additional gate before public weight: human-mathematician review of Theorem N, plus resolution of §11.4 so UCNS-A and UCNS-G are not shipped under one name with one mis-attributed proof status.
 
 ---
 
