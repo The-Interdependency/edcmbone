@@ -99,7 +99,7 @@ UCNS-A is a research-stage Python package with a defined algebra (`multiply`/⊠
 ### 11.1 What is proven
 **Theorem N (catalogue-sufficient factorization):** if catalogue `C` contains every payload appearing recursively in A or B (incl. `None`), then for `P = multiply(A,B)`, `factor_search_v08(P,C)` returns `(A',B')` with `multiply(A',B') = P`. **Depth-agnostic** — one theorem all depths; depth enters only via catalogue selection. `multiply(depth-k, depth-k)` = depth-k; depth lifts only when one factor carries deeper payloads.
 
-Status table (from theorem-n.md §7.1): cancellativity ✅, right-quotient completeness ✅, depth-2 oracle (Lemma 7) ✅, soundness all depths (8b) ✅, depth-3 asymmetric (Thm 9 = Thm N instance) ✅ empirical 6/6, **Theorem N ✅ proven**. Tractable sub-catalogues 🟡 open. Carrier widening 🔴 out of scope.
+Status table (from [`The-Interdependency/ucns/ucns-theorem-n.md` §7.1 @ `eab6aaa`](https://github.com/The-Interdependency/ucns/blob/eab6aaa7351375cdde7f91a0113ab0a7a1d63051/ucns-theorem-n.md)): cancellativity ✅, right-quotient completeness ✅, depth-2 oracle (Lemma 7) ✅, soundness all depths (8b) ✅, depth-3 asymmetric (Thm 9 = Thm N instance) ✅ empirical 6/6, **Theorem N ✅ proven**. Tractable sub-catalogues 🟡 open. Carrier widening 🔴 out of scope.
 
 ### 11.2 What is NOT proven (scope discipline — carry this verbatim externally)
 - Theorem N is a **soundness / algorithmic-completeness** guarantee: the search will not miss a factorization its catalogue can express. It is **NOT** a general factoring or primality result.
@@ -115,7 +115,7 @@ Theorem N retracts Theorem 8c (vacuously true — multiplicative-D'' = ∅, sinc
 Does UCNS-G (§1–§9) **derive from** UCNS-A's algebra, or is it a parallel construction sharing a name? Connections suggest shared roots: face-flip ↔ chirality/sheet-flip; angle ↔ θ; recursive payload nesting ↔ epicyclic/recursion-depth ladder. But UCNS-A's core object is `(angle, payload, face-flip)` sequences under `multiply`; UCNS-G's `(r, θ, z)` / area-percent / drift-divergence coordinates are **not visibly present** in that algebra. Until this is resolved, UCNS-G claims must be presented as unproven regardless of UCNS-A's proof status. **This is the item to resolve before any unified public release.**
 
 ### 11.5 UCNS-A PyPI status
-Current documented blockers for a UCNS-A PyPI release are: store non-uniqueness (Theorem N establishes existence of *a* factorization, not a canonical one), carrier widening (explicitly out of scope for the present result), and the snapshot-file-at-root packaging issue. Recommended additional gate before public weight: human-mathematician review of Theorem N, plus resolution of §11.4 so UCNS-A and UCNS-G are not shipped under one name with one mis-attributed proof status.
+Per [`The-Interdependency/ucns/ucns-theorem-n.md` §7.3 @ `eab6aaa`](https://github.com/The-Interdependency/ucns/blob/eab6aaa7351375cdde7f91a0113ab0a7a1d63051/ucns-theorem-n.md), blockers are store non-uniqueness (Theorem N finds *a* factorization, not canonical), carrier widening (out of scope), snapshot-file-at-root. Recommended additional gate before public weight: human-mathematician review of Theorem N; resolution of §11.4 so UCNS-A and UCNS-G are not shipped under one name with one (mis-attributed) proof status.
 
 ---
 
