@@ -2,7 +2,7 @@
 
 **Status:** canon pins from session. Lossless of concepts, process stripped. For Claude Code commit.
 **Date pinned:** 2026-05-21
-**Supersedes:** v1 of this handoff. Changes in v2 are confined to §0 (new), §10 (rewritten), §11 (new). §1–§9 unchanged.
+**Revision note:** Changes in this revision are confined to §0 (new), §10 (rewritten), §11 (new). §1–§9 unchanged.
 **Reading order:** read §0 first. It governs how everything below is scoped.
 
 ---
