@@ -1,13 +1,54 @@
-from pathlib import Path
+import importlib.util
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKEND_SRC = ROOT / "backend" / "src"
-if str(BACKEND_SRC) not in sys.path:
-    sys.path.insert(0, str(BACKEND_SRC))
 
-from edcmbone.metrics import compute
-from core.operator import operator_extractor
+
+def _load_package(package_name: str, package_dir: Path):
+    existing = sys.modules.get(package_name)
+    if existing is not None:
+        return existing
+
+    spec = importlib.util.spec_from_file_location(
+        package_name,
+        package_dir / "__init__.py",
+        submodule_search_locations=[str(package_dir)],
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[package_name] = module
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+def _load_module(module_name: str, module_path: Path):
+    existing = sys.modules.get(module_name)
+    if existing is not None:
+        return existing
+
+    spec = importlib.util.spec_from_file_location(module_name, module_path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+_load_package("edcmbone", BACKEND_SRC / "edcmbone")
+_load_package("edcmbone.metrics", BACKEND_SRC / "edcmbone" / "metrics")
+compute = _load_module(
+    "edcmbone.metrics.compute",
+    BACKEND_SRC / "edcmbone" / "metrics" / "compute.py",
+)
+
+_load_package("core", ROOT / "core")
+_load_package("core.operator", ROOT / "core" / "operator")
+operator_extractor = _load_module(
+    "core.operator.operator_extractor",
+    ROOT / "core" / "operator" / "operator_extractor.py",
+)
 
 
 def test_metrics_compute_is_behavioral_orchestration_not_operator_l0():
