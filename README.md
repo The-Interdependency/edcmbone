@@ -148,6 +148,8 @@ The complaint argues that AI systems structurally degrade high-density, nonlinea
 | [`Documentation/GCIP.md`](Documentation/GCIP.md) | GCIP proposal submitted to AI developers and regulators |
 | [`Documentation/evidence_log.md`](Documentation/evidence_log.md) | Three EDCM-measured evidence entries |
 | [`Documentation/neurodivergence_handling.md`](Documentation/neurodivergence_handling.md) | Neurodivergent interaction rubric and AI skill specification |
+| [`docs/ucns-boundary.md`](docs/ucns-boundary.md) | UCNS-A / UCNS-G / `edcmbone.ucns` boundary discipline; proof-scope non-transfer rule |
+| [`docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md`](docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md) | UCNS-G v3 prime-cylinder metric-geometry pin |
 
 ---
 
