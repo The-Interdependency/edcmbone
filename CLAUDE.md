@@ -208,6 +208,7 @@ npm run build
 - **Markers**: phrase-level signals for the 9 behavioral metrics (C, R, D, N, L, O, F, E, I)
 - **Rounds vs Turns**: rounds are the unit of metric computation; turns are speaker utterances within a round
 - **F-loss**: structural fidelity loss metric — quantifies meaning deletion by an AI system
+- **UCNS boundary**: `edcmbone.ucns` (this repo) is a local closed-token / marker encoding layer. **UCNS-A** lives in `The-Interdependency/ucns` as a recursive factorization algebra; **UCNS-G** is the EDCM metric geometry (see `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md`). No UCNS-A theorem/proof status transfers to EDCM, edcmbone, or UCNS-G unless an explicit source-backed bridge is added. See `docs/ucns-boundary.md`.
 
 ---
 
@@ -229,6 +230,9 @@ npm run build
 | `closed_tokens.py` | Closed-token vocabulary (top-level) |
 | `ucns_v04.py` | UCNS v0.4 reference (top-level) |
 | `engine.py` | Top-level engine entry point |
+| `docs/ucns-boundary.md` | UCNS-A / UCNS-G / `edcmbone.ucns` boundary discipline; proof-scope non-transfer rule |
+| `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md` | UCNS-G v3 prime-cylinder metric-geometry pin |
+| `edcmbone/ucns_g/` | UCNS-G v3 schema (Python); additive to scalar metrics |
 
 ---
 
