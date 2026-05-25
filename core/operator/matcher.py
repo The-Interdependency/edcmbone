@@ -61,10 +61,14 @@ def hyphen_compound_emission(tok: str) -> List[str]:
         return ["K"]
     return []
 
-def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, str]) -> Tuple[List[str], str]:
+def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, str], valid_stems: set[str] | None = None) -> Tuple[List[str], str]:
     """
     Longest-match-first; prefix then suffix; emit ALL matched affixes.
     Returns (families_emitted, residual_root).
+    
+    When valid_stems is provided, validation is deferred until after all affixes
+    are stripped. This allows multi-affix words like "redoing" (re+do+ing) to work
+    correctly even when intermediate forms like "doing" are not in valid_stems.
     """
     t = normalize_text_for_matching(tok)
     fams: List[str] = []
@@ -77,8 +81,9 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         changed = False
         for p in pref_list:
             if root.startswith(p) and len(root) > len(p):
+                residual = root[len(p):]
                 fams.append(prefix_map[p])
-                root = root[len(p):]
+                root = residual
                 changed = True
                 break
 
@@ -88,9 +93,15 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         changed = False
         for s in suf_list:
             if root.endswith(s) and len(root) > len(s):
+                residual = root[:-len(s)]
                 fams.append(suffix_map[s])
-                root = root[:-len(s)]
+                root = residual
                 changed = True
                 break
+
+    # Validate final root against valid_stems if provided.
+    # If validation fails, return no affixes (treat as unmatched).
+    if valid_stems is not None and fams and root not in valid_stems:
+        return [], t
 
     return fams, root

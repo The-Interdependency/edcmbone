@@ -3,6 +3,19 @@ edcmbone.metrics.compute
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Computes the EDCM metric vector M_t and dissonance energy for a round.
 
+Layer designation
+-----------------
+Decision: A — behavioral/orchestration layer, not Operator L0.
+
+This module is retained temporarily inside edcmbone for compatibility, but
+canonically belongs upstream in the future `edcm` package. It consumes parsed
+round text, token statistics, marker phrases, and prior-round comparisons. It
+may carry `bone_count` through its result container for audit continuity, but it
+does not compute the L0 Operator vector and must not be treated as the
+bones-only Operator substrate.
+
+The L0 Operator entry point remains separate: `core/operator/operator_extractor.py`.
+
 The metric vector M_t ∈ ℝ^11 covers:
   C  Constraint strain     [0,1]
   R  Refusal density       [0,1]
@@ -14,7 +27,7 @@ The metric vector M_t ∈ ℝ^11 covers:
   O  Overconfidence        [-1,1]
   L  Coherence loss        [0,1]
   P  Progress              [0,1]
-  k  Stored tension        [0,1]
+  k  Stored tension        κ ∈ [0, 1]
 
 Most metrics are partially computable from markers (phrase-level signals).
 Some require embeddings / cross-turn semantic comparison (marked below).
@@ -22,7 +35,7 @@ Some require embeddings / cross-turn semantic comparison (marked below).
 Public API
 ----------
 RoundMetrics          — data class holding all computed values
-compute_round(round_, prev_round, canon, alpha, delta_max) -> RoundMetrics
+compute_round(round_, prev_round, canon, alpha, delta_max[, prev_kappa, prev_entropy]) -> RoundMetrics
 energy_step(prev_kappa, dissonance, alpha, delta_max)      -> (E_t, s_t)
 energy_step(prev_energy, prev_kappa, dissonance, ...)      -> (E_t, s_t)  # legacy
 """
@@ -46,6 +59,20 @@ from .stats import (
     pattern_density,
 )
 from .risk import fixation_risk, loop_risk
+
+
+# ---------------------------------------------------------------------------
+# Layer contract
+# ---------------------------------------------------------------------------
+
+LAYER_DECISION = "A_BEHAVIORAL_ORCHESTRATION"
+LAYER_DESIGNATION = "L1_L2_L3_ORCHESTRATOR_PENDING_EDCM_MIGRATION"
+LAYER_INPUT_SUBSTRATE = "round_text_tokens_marker_stats_prior_round_context"
+OPERATOR_LAYER_SUBSTRATE = "bones_only"
+OPERATES_ON_OPERATOR_BONES = False
+CONSUMES_BONE_COUNT_FOR_AUDIT = True
+MIGRATION_TARGET = "edcm"
+OPERATOR_ENTRYPOINT = "core.operator.operator_extractor"
 
 
 # ---------------------------------------------------------------------------
@@ -278,9 +305,10 @@ def _compute_E(round_text, tokens_b, tokens_a, canon):
 # Public compute function
 # ---------------------------------------------------------------------------
 
-def compute_round(round_, prev_round=None, canon=None,
+def compute_round(round_, prev_round=None,
+                  canon=None,
                   alpha=0.85, delta_max=0.3,
-                  prev_kappa=0.0, prev_energy=0.0, prev_entropy=0.0):
+                  prev_kappa=0.0, prev_entropy=0.0):
     """Compute the metric vector for a Round.
 
     Parameters
@@ -291,7 +319,6 @@ def compute_round(round_, prev_round=None, canon=None,
     alpha       : persistence coefficient for the RC circuit [0, 1]
     delta_max   : max resolution rate per step [0, 1]
     prev_kappa  : stored tension from previous step (κ_{t-1})
-    prev_energy : dissonance energy from previous step (ε_{t-1})
     prev_entropy: Shannon entropy of previous round (for progress computation)
 
     Returns
@@ -350,7 +377,6 @@ def compute_transcript(parsed_transcript, canon=None, alpha=0.85, delta_max=0.3)
     results = []
     prev_round = None
     prev_kappa = 0.0
-    prev_energy = 0.0
     prev_entropy = 0.0
 
     for rnd in parsed_transcript.rounds:
@@ -361,14 +387,12 @@ def compute_transcript(parsed_transcript, canon=None, alpha=0.85, delta_max=0.3)
             alpha=alpha,
             delta_max=delta_max,
             prev_kappa=prev_kappa,
-            prev_energy=prev_energy,
             prev_entropy=prev_entropy,
         )
         results.append(m)
 
         prev_round = rnd
         prev_kappa = m.kappa
-        prev_energy = m.dissonance_energy
         prev_entropy = shannon_entropy(tokenize(" ".join(t.text for t in rnd.turns)))
 
     return results

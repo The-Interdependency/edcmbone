@@ -71,7 +71,7 @@ edcmbone/
 │   ├── parse/                       # parser refactor (scaffolded)
 │   └── routing/                     # routing layer (scaffolded)
 │
-├── core/                            # Core framework package (IN PROGRESS — stubs)
+├── core/                            # Core framework package (IN PROGRESS — partially implemented)
 │   ├── __init__.py
 │   ├── behavioral/
 │   ├── bridge/
@@ -114,9 +114,9 @@ The repo currently has **two parallel package structures**:
 | Layout | Path | Status | When to Use |
 |--------|------|--------|-------------|
 | **Stable** | `Backend/src/edcmbone/` | 87 tests passing, production-ready | Installing and consuming the library |
-| **Refactor** | `edcmbone/` (root) and `core/` | Scaffolded stubs, 0-byte files | Adding new architecture — fill in stubs here |
+| **Refactor** | `edcmbone/` (root) and `core/` | Partially implemented refactor-in-progress; see individual module docstrings for what is and isn't complete | Adding new architecture — fill in stubs here |
 
-Do not assume files in `edcmbone/` (root) or `core/` contain working implementations — most are 0-byte stubs. The **stable** code lives under `Backend/src/edcmbone/`.
+Do not assume all files in `edcmbone/` (root) or `core/` contain working implementations. `core/parsing/`, `core/operator/`, and `core/bridge/` now contain substantive implementations; other subdirectories may still be stubs. The **stable** code lives under `Backend/src/edcmbone/`.
 
 ---
 
@@ -208,6 +208,7 @@ npm run build
 - **Markers**: phrase-level signals for the 9 behavioral metrics (C, R, D, N, L, O, F, E, I)
 - **Rounds vs Turns**: rounds are the unit of metric computation; turns are speaker utterances within a round
 - **F-loss**: structural fidelity loss metric — quantifies meaning deletion by an AI system
+- **UCNS boundary**: `edcmbone.ucns` (this repo) is a local closed-token / marker encoding layer. **UCNS-A** lives in `The-Interdependency/ucns` as a recursive factorization algebra; **UCNS-G** is the EDCM metric geometry (see `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md`). No UCNS-A theorem/proof status transfers to EDCM, edcmbone, or UCNS-G unless an explicit source-backed bridge is added. See `docs/ucns-boundary.md`.
 
 ---
 
@@ -229,6 +230,9 @@ npm run build
 | `closed_tokens.py` | Closed-token vocabulary (top-level) |
 | `ucns_v04.py` | UCNS v0.4 reference (top-level) |
 | `engine.py` | Top-level engine entry point |
+| `docs/ucns-boundary.md` | UCNS-A / UCNS-G / `edcmbone.ucns` boundary discipline; proof-scope non-transfer rule |
+| `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md` | UCNS-G v3 prime-cylinder metric-geometry pin |
+| `edcmbone/ucns_g/` | UCNS-G v3 schema (Python); additive to scalar metrics |
 
 ---
 
@@ -237,7 +241,8 @@ npm run build
 - No CI/CD pipeline
 - No linting configs (prefer `ruff` when adding)
 - No pre-commit hooks
-- `edcmbone/` (root) and `core/` modules are stubs — not yet implemented
+- `edcmbone/` (root) stubs — not yet fully implemented (see individual module docstrings)
+- `core/` — partially implemented refactor-in-progress; `core/parsing/`, `core/operator/`, and `core/bridge/` contain substantive implementations; other subdirectories may still be stubs
 - `aimmh-lib/backend/server.py` is a stub
 - `tailwind.config.js` needs `content` globs before use
 - Frontend tests
@@ -250,3 +255,13 @@ npm run build
 - Feature branches: `<type>/<description>-<id>` (e.g., `claude/add-feature-abc123`)
 - Author: Erin Patrick Spencer (erin.eps.hovel@gmail.com)
 - License: MIT
+
+## Agent module-build doctrine
+
+Before adding a new module, route, service, adapter, schema, worker, engine,
+UI panel, migration, or experiment, read:
+
+`./.agents/skills/meta-module-build/SKILL.md`
+
+New module work should start with a `MODULE_BUILD` block. Unknown fields must
+be marked `hmmm`, not guessed.

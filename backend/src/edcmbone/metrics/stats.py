@@ -34,7 +34,7 @@ from collections import Counter
 # Tokenisation
 # ---------------------------------------------------------------------------
 
-_WORD_RE = re.compile(r"[a-z''\-]+|\d+|[^\w\s]")
+_WORD_RE = re.compile(r"[a-z''‘’\-]+|\d+|[^\w\s]")
 
 
 def tokenize(text):
