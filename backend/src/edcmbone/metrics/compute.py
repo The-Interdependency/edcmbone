@@ -37,6 +37,7 @@ Public API
 RoundMetrics          — data class holding all computed values
 compute_round(round_, prev_round, canon, alpha, delta_max[, prev_kappa, prev_entropy]) -> RoundMetrics
 energy_step(prev_kappa, dissonance, alpha, delta_max)      -> (E_t, s_t)
+energy_step(prev_energy, prev_kappa, dissonance, ...)      -> (E_t, s_t)  # legacy
 """
 
 from __future__ import annotations
@@ -151,7 +152,11 @@ def _count_marker_hits(text, pattern):
 # Circuit dynamics
 # ---------------------------------------------------------------------------
 
-def energy_step(prev_kappa, dissonance, alpha=0.85, delta_max=0.3):
+def energy_step(prev_energy_or_prev_kappa,
+                prev_kappa_or_dissonance=None,
+                dissonance=None,
+                alpha=0.85,
+                delta_max=0.3):
     """Compute one step of the RC-circuit energy model.
 
     s_{t+1} = alpha * s_t + E_t - delta_t
@@ -160,8 +165,24 @@ def energy_step(prev_kappa, dissonance, alpha=0.85, delta_max=0.3):
     Here g is approximated as delta_max * (1 - dissonance), i.e. the
     system resolves more when dissonance is lower.
 
+    Supports both current and legacy call signatures:
+      - energy_step(prev_kappa, dissonance, alpha=..., delta_max=...)
+      - energy_step(prev_energy, prev_kappa, dissonance=..., alpha=..., delta_max=...)
+
+    `prev_energy` is accepted for backward compatibility and ignored.
     Returns (E_t, s_{t+1}).
     """
+    if dissonance is None:
+        # Current signature: (prev_kappa, dissonance, ...)
+        prev_kappa = prev_energy_or_prev_kappa
+        dissonance = prev_kappa_or_dissonance
+    else:
+        # Legacy signature: (prev_energy, prev_kappa, dissonance=..., ...)
+        prev_kappa = prev_kappa_or_dissonance
+
+    if prev_kappa is None or dissonance is None:
+        raise TypeError("energy_step requires prev_kappa and dissonance")
+
     g = delta_max * max(0.0, 1.0 - dissonance)
     delta = min(delta_max, g)
     new_kappa = clamp(alpha * prev_kappa + dissonance - delta)
