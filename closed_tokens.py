@@ -29,17 +29,23 @@ Each token encodes as a UCNSObject with:
   - face bit unused at the host level (set to 0)
 
 The pairing-mark rule: smart open quote and curly open brackets go in class 10;
-their close counterparts in class 11. The disk-flip of an open-mark UCNS
-object equals the close-mark object (verified by test).
+their close counterparts in class 11. The disk-flip property (open-mark ↔
+close-mark symmetry) is a design invariant with no implementation yet
+(TODO: add disk-flip op + explicit test).
+
+Dispatch collision convention: when a token appears in multiple class tables,
+the first table wins by ordering. Specifically: for 'since' and 'until' the
+preposition sense wins; for 'as' the preposition sense wins; for 'that' the
+determiner sense wins.
 """
 
 from __future__ import annotations
+
 from fractions import Fraction
 from typing import Dict, List, Optional, Tuple
 
 from ucns_v04 import (
     UCNSObject, AnchorPayload,
-    unit_obj, multiply,
 )
 
 
@@ -57,7 +63,7 @@ CLASS_PUNCT_TERMINAL = 8
 CLASS_PUNCT_JUNCTURE = 9
 CLASS_PUNCT_OPEN     = 10
 CLASS_PUNCT_CLOSE    = 11
-CLASS_PUNCT_QUOTE    = 12   # reserved; quote glyphs are routed to OPEN/CLOSE
+CLASS_PUNCT_QUOTE    = 12   # reserved but unpopulated; quote glyphs are routed to OPEN/CLOSE
 CLASS_PUNCT_AFFIX    = 13
 CLASS_PUNCT_MODAL    = 14
 CLASS_NUMERAL        = 15
@@ -75,25 +81,20 @@ HOST_CARRIER = 16  # 16-gonal lattice for the host class anchor
 
 # ---------- helpers ----------
 
-def _class_anchor(class_idx: int) -> Fraction:
-    """Anchor position on the 16-gonal lattice (in turns)."""
-    return Fraction(class_idx, HOST_CARRIER)
-
-
 def _wrap_with_class(class_idx: int, payload: Optional[UCNSObject]) -> UCNSObject:
     """
     Encode class and feature payload as a 2-anchor object on a 32-gonal lattice.
 
     Anchor 0: at position 0 (structural marker, no payload).
-    Anchor 1: at position (class_idx + 1) / 32, carrying the feature payload.
+    Anchor 1: at position (class_idx + 1) / (2 * HOST_CARRIER), carrying the feature payload.
 
     After normalize, the first anchor stays at 0 (it's already there), and
-    the second stays at (class_idx + 1) / 32 — a relative offset that
+    the second stays at (class_idx + 1) / (2 * HOST_CARRIER) — a relative offset that
     encodes the class index uniquely for class_idx ∈ {0..15}.
     """
-    class_offset = Fraction(class_idx + 1, 32)
+    class_offset = Fraction(class_idx + 1, 2 * HOST_CARRIER)
     return UCNSObject(
-        n_dec=32,
+        n_dec=2 * HOST_CARRIER,
         n_min=1,  # normalize will recompute
         anchors_pos=(
             AnchorPayload(Fraction(0), None),
@@ -352,11 +353,11 @@ INTERJECTION_LIST = [
 
 # Whitespace: kind 0=space, 1=tab, 2=newline, 3=double-newline, 4=non-breaking
 WHITESPACE_TABLE = {
-    " ":   {"kind": (0, 5), "breaking": (0, 2)},
-    "\t":  {"kind": (1, 5), "breaking": (0, 2)},
-    "\n":  {"kind": (2, 5), "breaking": (0, 2)},
+    " ":    {"kind": (0, 5), "breaking": (0, 2)},
+    "\t":   {"kind": (1, 5), "breaking": (0, 2)},
+    "\n":   {"kind": (2, 5), "breaking": (0, 2)},
     "\n\n":{"kind": (3, 5), "breaking": (0, 2)},
-    " ": {"kind": (4, 5), "breaking": (1, 2)},  # NBSP
+    "\xa0": {"kind": (4, 5), "breaking": (1, 2)},  # U+00A0 NON-BREAKING SPACE
 }
 
 # Sentence terminals (modality)
@@ -379,15 +380,15 @@ PAIR_OPEN_TABLE = {
     "(": {"shape": (0, 5)},
     "[": {"shape": (1, 5)},
     "{": {"shape": (2, 5)},
-    "“": {"shape": (3, 5)},  # “
-    "‘": {"shape": (4, 5)},  # ‘
+    "“": {"shape": (3, 5)},  # “ LEFT DOUBLE QUOTATION MARK
+    "‘": {"shape": (4, 5)},  # ‘ LEFT SINGLE QUOTATION MARK
 }
 PAIR_CLOSE_TABLE = {
     ")": {"shape": (0, 5)},
     "]": {"shape": (1, 5)},
     "}": {"shape": (2, 5)},
-    "”": {"shape": (3, 5)},  # ”
-    "’": {"shape": (4, 5)},  # ’
+    "”": {"shape": (3, 5)},  # ” RIGHT DOUBLE QUOTATION MARK
+    "’": {"shape": (4, 5)},  # ’ RIGHT SINGLE QUOTATION MARK
 }
 
 # Affix and connective marks
@@ -424,8 +425,15 @@ def _build_dispatch_table():
 
     Phonetic variants ('a' / 'an') are canonically merged: both produce the
     same UCNS object since they differ only in surface phonology.
+
+    Collision convention: when a token appears in multiple class tables the
+    first entry wins (silent; collisions are documented in the module docstring).
+    By table-ordering convention:
+      - 'since' and 'until' resolve to the preposition sense
+      - 'as' resolves to the preposition sense
+      - 'that' resolves to the determiner sense
     """
-    PHONETIC_VARIANTS = {"an": "a"}  # an → a as canonical encoding
+    PHONETIC_VARIANTS = {"an": "a"}  # an -> a as canonical encoding
 
     out: Dict[str, Tuple[int, Dict[str, Tuple[int, int]]]] = {}
 
@@ -434,7 +442,7 @@ def _build_dispatch_table():
             # Skip — variant will be aliased after the canonical is in place.
             return
         if token in out:
-            return  # earlier class entry wins
+            return
         out[token] = (class_idx, feats)
 
     for w, feats in PRONOUN_TABLE.items():
@@ -530,11 +538,10 @@ def class_of(obj: UCNSObject) -> Optional[int]:
         return None
     if obj.anchors_pos[0].payload is not None:
         return None
-    # Second anchor's theta is (class_idx + 1) / 32 by construction.
+    # Second anchor's theta is (class_idx + 1) / (2 * HOST_CARRIER) by construction.
     second_theta = obj.anchors_pos[1].theta
-    expected_denominator_factor = 32
-    # Reconstruct class_idx: theta * 32 - 1.
-    # Use exact rational arithmetic: theta = (k+1)/32 → k = theta*32 - 1.
+    expected_denominator_factor = 2 * HOST_CARRIER
+    # Reconstruct class_idx: theta * (2 * HOST_CARRIER) - 1.
     candidate = second_theta * expected_denominator_factor - 1
     if candidate.denominator != 1:
         return None
