@@ -125,11 +125,7 @@ def _count_marker_hits(text, pattern):
 # Circuit dynamics
 # ---------------------------------------------------------------------------
 
-def energy_step(prev_energy_or_prev_kappa,
-                prev_kappa_or_dissonance=None,
-                dissonance=None,
-                alpha=0.85,
-                delta_max=0.3):
+def energy_step(*args, dissonance=None, alpha=0.85, delta_max=0.3):
     """Compute one step of the RC-circuit energy model.
 
     s_{t+1} = alpha * s_t + E_t - delta_t
@@ -145,21 +141,31 @@ def energy_step(prev_energy_or_prev_kappa,
     `prev_energy` is accepted for backward compatibility and ignored.
     Returns (E_t, s_{t+1}).
     """
-    if dissonance is None:
-        # Current signature: (prev_kappa, dissonance, ...)
-        prev_kappa = prev_energy_or_prev_kappa
-        dissonance = prev_kappa_or_dissonance
+    if len(args) == 2:
+        # Current signature: (prev_kappa, dissonance)
+        prev_kappa, resolved_dissonance = args
+    elif len(args) == 3:
+        # Legacy positional form: (prev_energy, prev_kappa, dissonance)
+        _, prev_kappa, resolved_dissonance = args
+    elif len(args) == 4:
+        # Current 4-positional form: (prev_kappa, dissonance, alpha, delta_max)
+        prev_kappa, resolved_dissonance, alpha, delta_max = args
+    elif len(args) == 0:
+        prev_kappa = None
+        resolved_dissonance = dissonance
     else:
-        # Legacy signature: (prev_energy, prev_kappa, dissonance=..., ...)
-        prev_kappa = prev_kappa_or_dissonance
+        raise TypeError("energy_step accepts 2, 3, or 4 positional arguments")
 
-    if prev_kappa is None or dissonance is None:
+    if dissonance is not None:
+        resolved_dissonance = dissonance
+
+    if prev_kappa is None or resolved_dissonance is None:
         raise TypeError("energy_step requires prev_kappa and dissonance")
 
-    g = delta_max * max(0.0, 1.0 - dissonance)
+    g = delta_max * max(0.0, 1.0 - resolved_dissonance)
     delta = min(delta_max, g)
-    new_kappa = clamp(alpha * prev_kappa + dissonance - delta)
-    return dissonance, new_kappa
+    new_kappa = clamp(alpha * prev_kappa + resolved_dissonance - delta)
+    return resolved_dissonance, new_kappa
 
 
 # ---------------------------------------------------------------------------
