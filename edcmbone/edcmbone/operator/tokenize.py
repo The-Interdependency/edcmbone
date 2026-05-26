@@ -11,6 +11,7 @@
 #   network_boundary: none
 #   user_data_boundary: read
 #   admin_only: false
+#   tests: tests/test_apostrophe_normalization_and_tokenization.py,tests/test_backend.py
 #   tests: hmmm
 #   rollout: default_enabled
 #   rollback: swap callers to legacy tokenizer and remove export
