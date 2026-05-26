@@ -20,7 +20,7 @@ The project also functions as a civil rights evidence instrument in the **Global
 edcmbone/
 ├── README.md
 ├── CLAUDE.md                        # This file
-├── LICENSE                          # MIT License
+├── LICENSE                          # Apache 2.0
 ├── .gitignore
 ├── __init__.py                      # Root package marker
 ├── version.py                       # Version stub
@@ -196,7 +196,7 @@ npm run build
 - No TypeScript, no ESLint configured yet
 
 ### General
-- MIT License; all new files consistent with open-source expectations
+- Apache 2.0 license; all new files consistent with open-source expectations
 - `Documentation/` is the authoritative docs directory; `docs/` is supplementary
 
 ---
@@ -251,10 +251,11 @@ npm run build
 
 ## Git Workflow
 
-- Main branch: `master`
-- Feature branches: `<type>/<description>-<id>` (e.g., `claude/add-feature-abc123`)
-- Author: Erin Patrick Spencer (erin.eps.hovel@gmail.com)
-- License: MIT
+- Main branch: `main`
+- Feature branches: `feat/<description>`, `fix/<description>`, `docs/<description>`, `chore/<description>` (e.g., `claude/add-feature-abc123`)
+- Commit style: Conventional Commits (`feat(metrics):`, `fix(canon):`, etc.)
+- Author: Erin Patrick Spencer (wayseer@interdependentway.org)
+- License: Apache 2.0
 
 ## Agent module-build doctrine
 
