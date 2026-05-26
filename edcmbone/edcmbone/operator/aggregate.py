@@ -1,3 +1,20 @@
+# === MODULE_BUILD ===
+# id: operator_vector_aggregate
+#   module_name: operator aggregate
+#   module_kind: engine
+#   summary: normalizes operator family counts into a stable 5D unit-sum vector.
+#   owner: edcmbone-maintainers
+#   public_surface: aggregate,OperatorVector
+#   internal_surface: FAMILIES
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: read
+#   admin_only: false
+#   tests: tests/test_backend.py
+#   rollout: default_enabled
+#   rollback: route callers back to raw counts
+# === END MODULE_BUILD ===
 """
 Operator-layer 5D vector assembly.
 Implements Sigma_f O_f = 1 (frozen v1 conservation constraint).

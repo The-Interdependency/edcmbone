@@ -1,3 +1,20 @@
+# === MODULE_BUILD ===
+# id: operator_tokenization
+#   module_name: operator tokenizer
+#   module_kind: engine
+#   summary: tokenizes turns and maps closed-class tokens into operator families with canon-priority rules.
+#   owner: edcmbone-maintainers
+#   public_surface: tokenize_turn
+#   internal_surface: _family,_normalize_apos,_WORD_FAMILY,_FRAG_FAMILY,_STANDALONE_PUNCT
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: read
+#   admin_only: false
+#   tests: tests/test_apostrophe_normalization_and_tokenization.py,tests/test_backend.py
+#   rollout: default_enabled
+#   rollback: swap callers to legacy tokenizer and remove export
+# === END MODULE_BUILD ===
 """
 Operator-layer tokenizer.
 Maps surface tokens to bone families per bones_v1.json (frozen v1.0.0).
