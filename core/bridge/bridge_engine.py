@@ -3,9 +3,10 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any, Dict, List, Optional
 
-from .math_utils import pearson, l1
+from .math_utils import l1
 
 OFAMS = ["P", "K", "Q", "T", "S"]
 BMETS = ["C", "R", "D", "N", "L", "O", "F", "E", "I"]
@@ -43,6 +44,25 @@ def _aggregate_op_vec_for_rounds(
     return [agg[f] / total for f in OFAMS]
 
 
+def _pearson_from_accumulators(
+    n: int,
+    S_xx: float,
+    S_yy: float,
+    S_xy: float,
+) -> float:
+    """Compute Pearson r from Welford online accumulators in O(1).
+
+    S_xx, S_yy, S_xy are sum-of-squared-deviations from running means,
+    accumulated via Welford's algorithm to avoid catastrophic cancellation.
+    """
+    if n < 2:
+        return 0.0
+    den = math.sqrt(max(0.0, S_xx * S_yy))
+    if den == 0.0:
+        return 0.0
+    return max(-1.0, min(1.0, S_xy / den))
+
+
 def compute_bridge_windows(
     *,
     rounds: List[Dict[str, Any]],
@@ -62,6 +82,11 @@ def compute_bridge_windows(
     This avoids the mismatch between turn-windows and round-windows.
 
     Falls back to index-based alignment when per_turn_operator is None.
+
+    Pearson correlations are computed via Welford's online algorithm: each
+    accumulator stores [n, mean_x, mean_y, S_xx, S_yy, S_xy] where S_xx/yy/xy
+    are sum-of-squared-deviations from running means, giving O(n) overall
+    complexity with numerical stability for near-constant windows.
     """
     n = len(behavioral_outputs)
     outs: List[Dict[str, Any]] = []
@@ -81,6 +106,15 @@ def compute_bridge_windows(
 
         aligned_op_vecs = [_op_vec(operator_outputs[i]) for i in range(n)]
 
+    # Welford online accumulators for Pearson, indexed by (fi, mi).
+    # Each entry: [n (int), mean_x, mean_y, S_xx, S_yy, S_xy]
+    # where S_xx = Σ(x_i - μ_x)^2, etc., accumulated via Welford's update.
+    acc: Dict[tuple, List] = {
+        (fi, mi): [0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        for fi in range(len(OFAMS))
+        for mi in range(len(BMETS))
+    }
+
     prev_o: Optional[List[float]] = None
     prev_b: Optional[List[float]] = None
 
@@ -89,20 +123,38 @@ def compute_bridge_windows(
         ovec = aligned_op_vecs[i]
         bvec = _b_vec(b)
 
-        # Accumulated Pearson correlations (low n in v1; kept for consistency)
+        # Welford update: O(|families|·|metrics|) per window
+        for fi in range(len(OFAMS)):
+            x = ovec[fi]
+            for mi in range(len(BMETS)):
+                y = bvec[mi]
+                a = acc[(fi, mi)]
+                n_new = a[0] + 1
+                dx = x - a[1]            # deviation from old mean_x
+                a[1] += dx / n_new       # update mean_x
+                dy = y - a[2]            # deviation from old mean_y
+                a[2] += dy / n_new       # update mean_y
+                a[3] += dx * (x - a[1]) # S_xx: dx * (x - new mean_x)
+                a[4] += dy * (y - a[2]) # S_yy: dy * (y - new mean_y)
+                a[5] += dx * (y - a[2]) # S_xy: dx * (y - new mean_y)
+                a[0] = n_new
+
+        # Compute Pearson correlations from Welford accumulators
         corr_items = []
         for fi, f in enumerate(OFAMS):
-            xs = [aligned_op_vecs[j][fi] for j in range(i + 1)]
             for mi, m_key in enumerate(BMETS):
-                ys = [_b_vec(behavioral_outputs[j])[mi] for j in range(i + 1)]
-                if len(xs) >= 2:
-                    val = pearson(xs, ys)
+                a = acc[(fi, mi)]
+                n_acc = a[0]
+                if n_acc >= 2:
+                    val = _pearson_from_accumulators(
+                        n_acc, a[3], a[4], a[5]
+                    )
                     corr_items.append({
                         "operator_family": f,
                         "behavioral_metric": m_key,
                         "method": "pearson",
                         "value": val,
-                        "n": len(xs),
+                        "n": n_acc,
                     })
 
         divergences = []
@@ -173,7 +225,7 @@ def compute_bridge_windows(
                 "operator_alignment_method": "sum_and_renormalize",
                 "exclude_open_rounds": True,
             },
-            "hmm": {
+            "hmmm": {
                 "contained": [
                     "Bridge uses thresholded L1 divergence and Pearson correlations.",
                     "Operator vectors aligned by behavioral window round_ids via per-turn aggregation.",

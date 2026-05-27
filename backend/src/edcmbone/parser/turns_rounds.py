@@ -211,12 +211,14 @@ def _group_into_rounds(turns, strategy="cycle"):
 # Tokenizer — word + punctuation split
 # ---------------------------------------------------------------------------
 
-# Split into word-runs and individual punctuation characters
-_WORD_RE = re.compile(r"[A-Za-z''\-]+|[^\w\s]|\d+")
+# Split into word-runs and individual punctuation characters.
+# Preserve hyphenated compounds as one token before punctuation handling.
+_WORD_RE = re.compile(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+|[A-Za-z]+(?:'[A-Za-z]+)*|[0-9]+|[^\w\s]")
 
 
 def _raw_tokens(text):
     """Return list of raw token strings from utterance text."""
+    text = (text or '').replace('’', "'").replace('‘', "'")
     return _WORD_RE.findall(text)
 
 
@@ -246,6 +248,11 @@ class _BoneClassifier:
         # but we access via the public API for correctness)
         self._word_cache = {}
         self._affix_cache = {}
+        self._valid_stems = {
+            entry["word"].lower()
+            for entry in canon.all_words()
+            if entry.get("primary") != "S"
+        }
 
     def _make_bone(self, surface, normalized, bone_type, entry):
         return BoneToken(
@@ -296,6 +303,9 @@ class _BoneClassifier:
             matched_affix = False
             for pre in self._prefixes:
                 if lower.startswith(pre) and len(lower) - len(pre) >= 2:
+                    residual = lower[len(pre):]
+                    if residual not in self._valid_stems:
+                        continue
                     affix_key = pre + "-"
                     if affix_key not in self._affix_cache:
                         self._affix_cache[affix_key] = self._canon.lookup_affix(affix_key)
@@ -311,6 +321,9 @@ class _BoneClassifier:
             # 3b. Affix strip — suffix
             for suf in self._suffixes:
                 if lower.endswith(suf) and len(lower) - len(suf) >= 2:
+                    residual = lower[:-len(suf)]
+                    if residual not in self._valid_stems:
+                        continue
                     affix_key = "-" + suf
                     if affix_key not in self._affix_cache:
                         self._affix_cache[affix_key] = self._canon.lookup_affix(affix_key)
