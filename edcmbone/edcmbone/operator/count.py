@@ -1,3 +1,20 @@
+# === MODULE_BUILD ===
+# id: operator_family_count
+#   module_name: operator family count
+#   module_kind: service
+#   summary: counts P/K/Q/T/S family assignments per turn and across windows.
+#   owner: edcmbone-maintainers
+#   public_surface: count_families,count_turn,count_window
+#   internal_surface: FAMILIES
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: read
+#   admin_only: false
+#   tests: tests/test_backend.py
+#   rollout: default_enabled
+#   rollback: remove public counter entrypoints and call sites
+# === END MODULE_BUILD ===
 """
 Operator-layer bone-family counter.
 Counts P/K/Q/T/S tokens from tokenize_turn output.

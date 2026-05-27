@@ -37,7 +37,7 @@ from __future__ import annotations
 from fractions import Fraction
 from typing import Dict, List, Optional, Tuple
 
-from ucns_v04 import (
+from .ucns_v04 import (
     UCNSObject, AnchorPayload,
     unit_obj, multiply,
 )

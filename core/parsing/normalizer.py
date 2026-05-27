@@ -7,7 +7,8 @@ def normalize_text_for_matching(s: str) -> str:
     # Lowercase + normalize both smart-quote apostrophe variants to plain "’"
     return (
         (s or "")
-        .replace("’", "’")  # right single quotation mark (most common in contractions)
-        .replace("‘", "’")  # left single quotation mark
+        .replace("’", "'")  # right single quotation mark -> ASCII apostrophe
+        .replace("‘", "'")  # left single quotation mark -> ASCII apostrophe
+        .replace("‛", "'")  # single high-reversed-9 quotation mark -> ASCII apostrophe
         .lower()
     )
