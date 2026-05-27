@@ -9,7 +9,11 @@ from .projection import (
     AgentMetrics, project, project_transcript, gini_tbf,
     fire_alerts, crosswalk_risk,
 )
-from .orthogonality import AxisState, MetricAxis, SIGNED_TERNARY, canonical_axes
+from .orthogonality import (
+    AxisState, MetricAxis, MetricReadout, ConstraintField, FieldMotion,
+    SIGNED_TERNARY, GRAINS, CONTACT_SIGN, RESOLUTION_SIGN,
+    canonical_axes, field_motion_fixture, FIELD_MOTION_FIXTURE_MATRIX,
+)
 from .matrix import (
     A_MATRIX, PROJECTION_MAP, ALERT_THRESHOLDS, RISK_TO_ALERT,
     MATRIX_VERSION, freeze, diff,
@@ -30,6 +34,8 @@ __all__ = [
     # Matrix / weights
     "A_MATRIX", "PROJECTION_MAP", "ALERT_THRESHOLDS", "RISK_TO_ALERT",
     "MATRIX_VERSION", "freeze", "diff",
-    # v0.2 orthogonality primitives
-    "SIGNED_TERNARY", "AxisState", "MetricAxis", "canonical_axes",
+    # v0.2 orthogonality primitives + UCNS construction objects
+    "SIGNED_TERNARY", "GRAINS", "CONTACT_SIGN", "RESOLUTION_SIGN",
+    "AxisState", "MetricAxis", "MetricReadout", "ConstraintField", "FieldMotion",
+    "canonical_axes", "field_motion_fixture", "FIELD_MOTION_FIXTURE_MATRIX",
 ]
