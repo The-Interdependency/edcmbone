@@ -109,7 +109,7 @@ def _process_turn_tokens(
             "collision_priority": ["P", "K", "Q", "T", "S"],
             "aggregation_method": "sum_and_renormalize"
         },
-        "hmm": {
+        "hmmm": {
             "contained": ["Whole-word precedence over affix stripping."],
             "deferred": ["Slash-as-K decision.", "Expanded contraction map."]
         }
@@ -191,7 +191,7 @@ def compute_operator_windows(
             "counts": counts,
             "vector": _vector_from_counts(counts),
             "rules_frozen": win[0]["rules_frozen"],
-            "hmm": {
+            "hmmm": {
                 "contained": ["Sum-and-renormalize aggregation."],
                 "deferred": ["Alternative aggregation (mean of turn vectors)."]
             }

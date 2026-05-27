@@ -33,7 +33,7 @@ Repository = "https://github.com/The-Interdependency/edcmbone"
 Issues = "https://github.com/The-Interdependency/edcmbone/issues"
 
 [tool.pytest.ini_options]
-testpaths = ["../Tests"]
+testpaths = ["../Tests", "../tests"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/edcmbone"]
