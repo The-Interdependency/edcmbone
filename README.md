@@ -68,7 +68,7 @@ Three exchanges measured April 17, 2026 using `edcmbone.metrics.compute_transcri
 | **L** (lexical load) | Vocabulary specificity | Drop = category collapse |
 | **structural_density** | Bone token count ÷ total tokens | Rise + F-loss = decorative preservation |
 
-F is computed as `structural_density` in `edcmbone.compress.compression_stats()`. The bone token inventory (253 words, 76 affixes, 13 punctuation marks) is in `Backend/src/edcmbone/canon/data/`.
+F is computed as `structural_density` in `edcmbone.compress.compression_stats()`. The bone token inventory (253 words, 76 affixes, 13 punctuation marks) is in `backend/src/edcmbone/canon/data/`.
 
 ---
 
@@ -76,7 +76,7 @@ F is computed as `structural_density` in `edcmbone.compress.compression_stats()`
 
 ```bash
 git clone https://github.com/The-Interdependency/edcmbone
-pip install -e ./Backend
+pip install -e ./backend
 ```
 
 Python 3.8+. No external ML dependencies.
@@ -134,9 +134,9 @@ This repository is the measurement instrument cited in the **Global Cognitive In
 
 The complaint argues that AI systems structurally degrade high-density, nonlinear, or structure-sensitive user input — a measurable cognitive accessibility failure affecting neurodivergent users disproportionately.
 
-→ [`Documentation/GCIP.md`](Documentation/GCIP.md) — full proposal
-→ [`Documentation/evidence_log.md`](Documentation/evidence_log.md) — measured evidence
-→ [`Documentation/neurodivergence_handling.md`](Documentation/neurodivergence_handling.md) — interaction rubric
+→ [`docs/GCIP.md`](docs/GCIP.md) — full proposal
+→ [`docs/evidence_log.md`](docs/evidence_log.md) — measured evidence
+→ [`docs/neurodivergence_handling.md`](docs/neurodivergence_handling.md) — interaction rubric
 
 ---
 
@@ -144,10 +144,10 @@ The complaint argues that AI systems structurally degrade high-density, nonlinea
 
 | File | Contents |
 |------|---------|
-| [`Documentation/spec.md`](Documentation/spec.md) | EDCM-PCNA-PCTA framework: full mathematics |
-| [`Documentation/GCIP.md`](Documentation/GCIP.md) | GCIP proposal submitted to AI developers and regulators |
-| [`Documentation/evidence_log.md`](Documentation/evidence_log.md) | Three EDCM-measured evidence entries |
-| [`Documentation/neurodivergence_handling.md`](Documentation/neurodivergence_handling.md) | Neurodivergent interaction rubric and AI skill specification |
+| [`docs/spec.md`](docs/spec.md) | EDCM-PCNA-PCTA framework: full mathematics |
+| [`docs/GCIP.md`](docs/GCIP.md) | GCIP proposal submitted to AI developers and regulators |
+| [`docs/evidence_log.md`](docs/evidence_log.md) | Three EDCM-measured evidence entries |
+| [`docs/neurodivergence_handling.md`](docs/neurodivergence_handling.md) | Neurodivergent interaction rubric and AI skill specification |
 | [`docs/ucns-boundary.md`](docs/ucns-boundary.md) | UCNS-A / UCNS-G / `edcmbone.ucns` boundary discipline; proof-scope non-transfer rule |
 | [`docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md`](docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md) | UCNS-G v3 prime-cylinder metric-geometry pin |
 
