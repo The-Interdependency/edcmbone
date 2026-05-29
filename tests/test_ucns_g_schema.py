@@ -102,6 +102,29 @@ def test_unit_gauge_typed_ones_are_distinct():
     assert r != z
 
 
+def test_unit_gauge_rejects_unknown_kind():
+    with pytest.raises(ValueError):
+        ucns_g.UnitGauge(kind="volume")  # type: ignore[arg-type]
+
+
+# ---------------------------------------------------------------------------
+# AxisState
+# ---------------------------------------------------------------------------
+
+
+def test_axis_state_carries_signed_ternary_projection():
+    neutral = ucns_g.AxisState(sign=0, magnitude=Fraction(3, 5))
+    assert neutral.sign == 0
+    assert neutral.magnitude == Fraction(3, 5)
+
+
+def test_axis_state_rejects_invalid_sign_or_magnitude():
+    with pytest.raises(ValueError):
+        ucns_g.AxisState(sign=2, magnitude=Fraction(1, 2))
+    with pytest.raises(ValueError):
+        ucns_g.AxisState(sign=1, magnitude=Fraction(5, 4))
+
+
 # ---------------------------------------------------------------------------
 # MetricDiskState
 # ---------------------------------------------------------------------------
@@ -196,6 +219,28 @@ def test_prime_axis_must_be_at_least_two():
         _mk_state(prime_axis=1)
 
 
+def test_prime_axis_must_match_axis_assignment():
+    with pytest.raises(ValueError):
+        _mk_state(axis="C", prime_axis=17)
+
+
+def test_axis_must_be_primitive_axis():
+    with pytest.raises(KeyError):
+        _mk_state(axis="Z", prime_axis=2)  # type: ignore[arg-type]
+
+
+def test_metric_disk_state_coerces_fraction_compatible_numbers():
+    s = _mk_state(phase="1/2", magnitude=1, confidence="3/4")
+    assert s.phase == Fraction(1, 2)
+    assert s.magnitude == Fraction(1)
+    assert s.confidence == Fraction(3, 4)
+
+
+def test_metric_disk_state_exposes_axis_state_projection():
+    s = _mk_state(sign=-1, magnitude=Fraction(2, 3))
+    assert s.axis_state == ucns_g.AxisState(sign=-1, magnitude=Fraction(2, 3))
+
+
 def test_confidence_bounds():
     _mk_state(confidence=None)
     _mk_state(confidence=Fraction(0))
@@ -246,6 +291,37 @@ def test_mobius_face_alternation_holds_across_twist_ordinals():
     assert faces == [1, -1, 1, -1]
 
 
+def test_mobius_face_helper_computes_canonical_alternation():
+    assert [ucns_g.mobius_face_for_twist(n) for n in range(5)] == [1, -1, 1, -1, 1]
+    assert [ucns_g.mobius_face_for_twist(n, initial_face=-1) for n in range(4)] == [
+        -1, 1, -1, 1,
+    ]
+
+
+def test_split_ordinal_phase_preserves_zero_boundary():
+    assert ucns_g.split_ordinal_phase(Fraction(0)) == (0, Fraction(0))
+    assert ucns_g.split_ordinal_phase(Fraction(1)) == (1, Fraction(0))
+    assert ucns_g.split_ordinal_phase(Fraction(5, 2)) == (2, Fraction(1, 2))
+    assert ucns_g.split_ordinal_phase(Fraction(3, 2), initial_twist=10) == (
+        11, Fraction(1, 2),
+    )
+
+
+def test_make_metric_disk_state_derives_prime_and_face():
+    s = ucns_g.make_metric_disk_state(
+        axis="O",
+        grain="turn",
+        twist_ordinal=3,
+        phase=Fraction(1, 4),
+        sign=1,
+        magnitude=Fraction(1, 2),
+        gauge="circumference",
+    )
+    assert s.prime_axis == 31
+    assert s.face == -1
+    assert s.axis_state == ucns_g.AxisState(sign=1, magnitude=Fraction(1, 2))
+
+
 # ---------------------------------------------------------------------------
 # GrainTensor
 # ---------------------------------------------------------------------------
@@ -275,6 +351,29 @@ def test_grain_tensor_rejects_unknown_grain():
 def test_grain_tensor_default_is_empty_tuple():
     g = ucns_g.GrainTensor(grain="session")
     assert g.states == ()
+
+
+def test_grain_tensor_rejects_state_from_different_grain():
+    with pytest.raises(ValueError):
+        ucns_g.GrainTensor(grain="round", states=(_mk_state(grain="turn"),))
+
+
+def test_grain_tensor_rejects_duplicate_axes():
+    states = (
+        _mk_state(axis="C", prime_axis=13),
+        _mk_state(axis="C", prime_axis=13, twist_ordinal=1, face=-1),
+    )
+    with pytest.raises(ValueError):
+        ucns_g.GrainTensor(grain="turn", states=states)
+
+
+def test_grain_tensor_returns_state_for_axis():
+    c = _mk_state(axis="C", prime_axis=13)
+    r = _mk_state(axis="R", prime_axis=17)
+    g = ucns_g.GrainTensor(grain="turn", states=(c, r))
+    assert g.state_for_axis("R") is r
+    with pytest.raises(KeyError):
+        g.state_for_axis("P")
 
 
 # ---------------------------------------------------------------------------

@@ -19,6 +19,7 @@ UCNS-A.
 
 from .schema import (
     AxisSign,
+    AxisState,
     Face,
     GaugeKind,
     Grain,
@@ -27,6 +28,9 @@ from .schema import (
     MetricPoint,
     GrainTensor,
     UnitGauge,
+    make_metric_disk_state,
+    mobius_face_for_twist,
+    split_ordinal_phase,
 )
 from .primes import (
     PRIME_AXIS_ASSIGNMENT,
@@ -37,6 +41,7 @@ from .primes import (
 
 __all__ = [
     "AxisSign",
+    "AxisState",
     "Face",
     "GaugeKind",
     "Grain",
@@ -45,6 +50,9 @@ __all__ = [
     "MetricPoint",
     "GrainTensor",
     "UnitGauge",
+    "make_metric_disk_state",
+    "mobius_face_for_twist",
+    "split_ordinal_phase",
     "PRIME_AXIS_ASSIGNMENT",
     "PRIMITIVE_OPERATOR_AXES",
     "PRIMITIVE_METRIC_AXES",
