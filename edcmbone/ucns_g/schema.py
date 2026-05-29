@@ -9,6 +9,7 @@ Mirrors the Python sketch from the v3 handoff:
     MetricAxis            — string identifier for an EDCM or Operator axis
     Grain                 — token | turn | round | session | archive
     AxisSign              — -1 | 0 | 1   (0 is neutral, not absence)
+    AxisState             — state_A(W) = (sign, magnitude)
     Face                  — -1 | +1      (Möbius face / orientation bit)
     GaugeKind             — radius | circumference | area | depth
     UnitGauge             — typed unit-one: (kind, value)
@@ -31,6 +32,8 @@ try:
     from typing import Literal
 except ImportError:  # pragma: no cover - Python 3.7 fallback
     from typing_extensions import Literal  # type: ignore[no-redef]
+
+from .primes import prime_for_axis
 
 
 # ---------------------------------------------------------------------------
@@ -85,6 +88,26 @@ GRAIN_ORDER: Tuple[Grain, ...] = ("token", "turn", "round", "session", "archive"
 AxisSign = Literal[-1, 0, 1]
 
 
+@dataclass(frozen=True)
+class AxisState:
+    """Signed ternary EDCM state ``state_A(W) = (s_A, m_A)``.
+
+    ``sign`` is directional commitment in ``{-1, 0, +1}``; ``0`` is a
+    measurable neutral/uncommitted state, not absence. ``magnitude`` is the
+    normalized scalar projection in ``[0, 1]``.
+    """
+
+    sign: AxisSign
+    magnitude: Fraction
+
+    def __post_init__(self) -> None:
+        magnitude = _as_fraction(self.magnitude, "magnitude")
+        object.__setattr__(self, "magnitude", magnitude)
+        if self.sign not in (-1, 0, 1):
+            raise ValueError(f"sign must be -1, 0, or +1, got {self.sign!r}")
+        _validate_unit_interval(magnitude, "magnitude")
+
+
 # ---------------------------------------------------------------------------
 # Möbius face / orientation bit
 # ---------------------------------------------------------------------------
@@ -106,6 +129,12 @@ Face = Literal[-1, 1]
 #
 # These may all display as 1, but they are not the same unit.
 GaugeKind = Literal["radius", "circumference", "area", "depth"]
+VALID_GAUGE_KINDS: Tuple[GaugeKind, ...] = (
+    "radius",
+    "circumference",
+    "area",
+    "depth",
+)
 
 
 @dataclass(frozen=True)
@@ -120,6 +149,11 @@ class UnitGauge:
 
     kind: GaugeKind
     value: Fraction = Fraction(1)
+
+    def __post_init__(self) -> None:
+        if self.kind not in VALID_GAUGE_KINDS:
+            raise ValueError(f"unknown gauge kind: {self.kind!r}")
+        object.__setattr__(self, "value", _as_fraction(self.value, "value"))
 
     # Convenience constructors mirroring the spec's typed-one symbols.
 
@@ -143,6 +177,63 @@ class UnitGauge:
 # ---------------------------------------------------------------------------
 # Metric disk state
 # ---------------------------------------------------------------------------
+
+
+def _as_fraction(value: object, field_name: str) -> Fraction:
+    """Coerce exact numeric inputs to ``Fraction`` for stable schema values."""
+
+    try:
+        return value if isinstance(value, Fraction) else Fraction(value)  # type: ignore[arg-type]
+    except (TypeError, ValueError, ZeroDivisionError) as exc:
+        raise TypeError(f"{field_name} must be Fraction-compatible, got {value!r}") from exc
+
+
+def _validate_unit_interval(value: Fraction, field_name: str) -> None:
+    if not (Fraction(0) <= value <= Fraction(1)):
+        raise ValueError(f"{field_name} must be in [0, 1], got {value!r}")
+
+
+def _validate_twist_ordinal(twist_ordinal: int) -> None:
+    if isinstance(twist_ordinal, bool) or not isinstance(twist_ordinal, int):
+        raise TypeError(
+            f"twist_ordinal must be a nonnegative int, got {twist_ordinal!r}"
+        )
+    if twist_ordinal < 0:
+        raise ValueError(f"twist_ordinal must be >= 0, got {twist_ordinal!r}")
+
+
+def mobius_face_for_twist(twist_ordinal: int, initial_face: Face = 1) -> Face:
+    """Return the canonical Möbius face for ``twist_ordinal``.
+
+    This encodes the v3 rule ``face_{n+1} = -face_n`` without treating twist
+    as an angle. The default starts at ``+1`` for ``twist_0``.
+    """
+
+    _validate_twist_ordinal(twist_ordinal)
+    if initial_face not in (-1, 1):
+        raise ValueError(f"initial_face must be -1 or +1, got {initial_face!r}")
+    return initial_face if twist_ordinal % 2 == 0 else -initial_face  # type: ignore[return-value]
+
+
+def split_ordinal_phase(
+    traversal: Fraction,
+    *,
+    initial_twist: int = 0,
+) -> Tuple[int, Fraction]:
+    """Split a nonnegative traversal count into ``(twist_ordinal, phase)``.
+
+    ``traversal`` counts local disk traversals where each whole unit advances
+    the ordinal seam. For example, ``0`` maps to ``(0, 0)``, ``1`` maps to
+    ``(1, 0)``, and ``Fraction(5, 2)`` maps to ``(2, Fraction(1, 2))``.
+    """
+
+    _validate_twist_ordinal(initial_twist)
+    traversal = _as_fraction(traversal, "traversal")
+    if traversal < 0:
+        raise ValueError(f"traversal must be >= 0, got {traversal!r}")
+    whole = traversal.numerator // traversal.denominator
+    phase = traversal - whole
+    return initial_twist + whole, phase
 
 
 @dataclass(frozen=True)
@@ -191,43 +282,82 @@ class MetricDiskState:
     def __post_init__(self) -> None:
         # Validate at construction time; this is a frozen dataclass so
         # later mutation is not possible.
-        if self.twist_ordinal < 0:
+        expected_prime = prime_for_axis(self.axis)
+        if self.prime_axis != expected_prime:
             raise ValueError(
-                f"twist_ordinal must be >= 0, got {self.twist_ordinal!r}"
+                f"prime_axis for axis {self.axis!r} must be {expected_prime}, "
+                f"got {self.prime_axis!r}"
             )
-        if not (Fraction(0) <= self.phase < Fraction(1)):
-            raise ValueError(
-                f"phase must be in [0, 1), got {self.phase!r}"
-            )
+        _validate_twist_ordinal(self.twist_ordinal)
+        phase = _as_fraction(self.phase, "phase")
+        magnitude = _as_fraction(self.magnitude, "magnitude")
+        confidence = (
+            None
+            if self.confidence is None
+            else _as_fraction(self.confidence, "confidence")
+        )
+        object.__setattr__(self, "phase", phase)
+        object.__setattr__(self, "magnitude", magnitude)
+        object.__setattr__(self, "confidence", confidence)
+        if not (Fraction(0) <= phase < Fraction(1)):
+            raise ValueError(f"phase must be in [0, 1), got {phase!r}")
         if self.face not in (-1, 1):
             raise ValueError(f"face must be -1 or +1, got {self.face!r}")
         if self.sign not in (-1, 0, 1):
-            raise ValueError(
-                f"sign must be -1, 0, or +1, got {self.sign!r}"
-            )
-        if not (Fraction(0) <= self.magnitude <= Fraction(1)):
-            raise ValueError(
-                f"magnitude must be in [0, 1], got {self.magnitude!r}"
-            )
-        if self.gauge not in ("radius", "circumference", "area", "depth"):
+            raise ValueError(f"sign must be -1, 0, or +1, got {self.sign!r}")
+        _validate_unit_interval(magnitude, "magnitude")
+        if self.gauge not in VALID_GAUGE_KINDS:
             raise ValueError(f"unknown gauge kind: {self.gauge!r}")
         if self.grain not in GRAIN_ORDER:
             raise ValueError(f"unknown grain: {self.grain!r}")
-        if self.prime_axis < 2:
-            raise ValueError(
-                f"prime_axis must be a prime >= 2, got {self.prime_axis!r}"
-            )
-        if self.confidence is not None and not (
-            Fraction(0) <= self.confidence <= Fraction(1)
-        ):
-            raise ValueError(
-                f"confidence must be in [0, 1] or None, got {self.confidence!r}"
-            )
+        if confidence is not None:
+            _validate_unit_interval(confidence, "confidence")
+
+    @property
+    def axis_state(self) -> AxisState:
+        """Return the directional projection ``state_A(W) = (sign, magnitude)``."""
+
+        return AxisState(sign=self.sign, magnitude=self.magnitude)
 
 
 # Handoff naming parity: MetricPoint is the wire-name in the v3 sketch.
 # Internally we treat MetricPoint and MetricDiskState as the same record.
 MetricPoint = MetricDiskState
+
+
+def make_metric_disk_state(
+    *,
+    axis: MetricAxis,
+    grain: Grain,
+    twist_ordinal: int = 0,
+    phase: Fraction = Fraction(0),
+    face: Face | None = None,
+    sign: AxisSign = 0,
+    magnitude: Fraction = Fraction(0),
+    gauge: GaugeKind = "radius",
+    confidence: Fraction | None = None,
+) -> MetricDiskState:
+    """Build a ``MetricDiskState`` with derived prime and optional face.
+
+    The direct dataclass remains available for wire-format round-tripping.
+    New code should prefer this helper so primitive axes cannot accidentally
+    alias to the wrong prime anchor.
+    """
+
+    if face is None:
+        face = mobius_face_for_twist(twist_ordinal)
+    return MetricDiskState(
+        axis=axis,
+        prime_axis=prime_for_axis(axis),
+        grain=grain,
+        twist_ordinal=twist_ordinal,
+        phase=phase,
+        face=face,
+        sign=sign,
+        magnitude=magnitude,
+        gauge=gauge,
+        confidence=confidence,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -269,3 +399,19 @@ class GrainTensor:
                     f"GrainTensor.states must contain MetricDiskState, "
                     f"got {type(s).__name__}"
                 )
+            if s.grain != self.grain:
+                raise ValueError(
+                    f"state grain {s.grain!r} does not match tensor grain "
+                    f"{self.grain!r} for axis {s.axis!r}"
+                )
+        axes = [s.axis for s in self.states]
+        if len(axes) != len(set(axes)):
+            raise ValueError("GrainTensor cannot contain duplicate metric axes")
+
+    def state_for_axis(self, axis: MetricAxis) -> MetricDiskState:
+        """Return the disk state for ``axis`` or raise ``KeyError``."""
+
+        for state in self.states:
+            if state.axis == axis:
+                return state
+        raise KeyError(f"axis {axis!r} is not present in this grain tensor")
