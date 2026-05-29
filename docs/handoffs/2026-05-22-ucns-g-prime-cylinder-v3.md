@@ -348,4 +348,87 @@ Open items:
 * Whether current scalar EDCM code should be migrated through schema first or code first.
 * How to encode signed ternary axis states in frontend/API types without breaking current scalar projections.
 
-## hmmm
+hmmm — the open items above remain living constraints, not discarded unknowns.
+
+## Follow-up code/schema work
+
+|∆|Do not implement full geometry yet unless explicitly asked.|∆|
+
+First safe follow-up is schema/docs:
+
+* `MetricAxis`
+* `MetricDiskState`
+* `MetricPoint`
+* `GrainTensor`
+* `UnitGauge`
+* `PrimeAxisAssignment`
+
+Potential TypeScript sketch:
+
+```ts
+export type MetricAxis =
+  | "P" | "K" | "Q" | "T" | "S"
+  | "C" | "R" | "D" | "N" | "L" | "O" | "F" | "E" | "I";
+
+export type Grain = "token" | "turn" | "round" | "session" | "archive";
+
+export type AxisSign = -1 | 0 | 1;
+
+export type GaugeKind = "radius" | "circumference" | "area" | "depth";
+
+export type Face = -1 | 1;
+
+export type MetricDiskState = {
+  axis: MetricAxis;
+  primeAxis: number;
+  grain: Grain;
+  twistOrdinal: number;
+  phase: number;       // normalized local phase [0,1)
+  face: Face;
+  sign: AxisSign;
+  magnitude: number;   // normalized [0,1]
+  gauge: GaugeKind;
+  confidence?: number;
+};
+```
+
+Potential Python sketch:
+
+```python
+from dataclasses import dataclass
+from fractions import Fraction
+from typing import Literal, Optional
+
+
+AxisSign = Literal[-1, 0, 1]
+Face = Literal[-1, 1]
+GaugeKind = Literal["radius", "circumference", "area", "depth"]
+Grain = Literal["token", "turn", "round", "session", "archive"]
+
+
+@dataclass(frozen=True)
+class MetricDiskState:
+    axis: str
+    prime_axis: int
+    grain: Grain
+    twist_ordinal: int
+    phase: Fraction
+    face: Face
+    sign: AxisSign
+    magnitude: Fraction
+    gauge: GaugeKind
+    confidence: Optional[Fraction] = None
+```
+
+## Do not do
+
+* Do not merge UCNS-A and UCNS-G theorem status.
+* Do not claim Theorem N proves the prime-cylinder model.
+* Do not collapse turn/round/session tensors into one parent disk as identity.
+* Do not treat `phase=0` at later traversals as identical to `twist_0`.
+* Do not replace the old scalar metrics immediately; keep scalar values as projections until schema migration is explicit.
+* Do not throw away percentage/phase; demote it to projection/magnitude.
+
+## Boundary hmmm
+
+hmmm — the disk closes in the lantern, not in the ledger; useful maps may glow, but audit trails still need coordinates.
