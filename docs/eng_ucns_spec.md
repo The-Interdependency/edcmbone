@@ -279,6 +279,67 @@ Option (a) preserves the frozen kernel. Option (b) is more expressive but
 touches the conserved face semantics. `hmm:` sarcasm operator vs. face-type
 decision deferred.
 
+### 2.6 The span layer (constituency on the axis, dependency on the face)
+
+A **span** is a syntactic constituent — a contiguous run of tokens forming a
+grammatical unit — encoded as an **epicyclic UCNS object**: tokens grouped by
+the closed-class skeleton, nested recursively, composing by the proven
+offset-sum (§2.2.3). Constituency is not imposed by an external parser; it is
+**derived from the skeleton** (closed-class tokens mark constituent boundaries
+— determiners open noun phrases, prepositions open prepositional phrases,
+conjunctions join, pairing marks bracket explicitly). This is the
+diagram-tradition insight made structural:
+
+> **Closed-class words are the lines of the sentence diagram; open-class words
+> are the nodes.** Layer 0 (closed-class, built first) encodes the *attachment
+> geometry*; the deferred open-class layer supplies the *nodes that geometry
+> connects.* Reed-Kellogg drew this in 1877; X-bar formalized the nesting.
+
+Constituency nests **around heads** (X-bar) and is read as dependency relations
+(Reed-Kellogg). These are not two grammars but **two faces of one bracketing** —
+inter-convertible, and carried by UCNS as its two native channels (face/axis,
+the conserved distinction). See §2.7.
+
+### 2.7 The dual-head rule — FROZEN (this session)
+
+**Decision:** a span carries **two head markers**, deliberately distinct, related
+by the disk-flip.
+
+- **Axis head (constituency / X-bar):** the *functional opener* — the
+  closed-class token that opens the span (determiner heads its DP, preposition
+  heads its PP). This is the intrinsic, conserved bracketing identity.
+- **Face head (dependency / Reed-Kellogg):** the *governed content word* — the
+  lexical token the opener points to (the noun, the verb). This is the baseline
+  spine, carried on the face channel.
+
+The **disk-flip is exactly the swap** between functional-head and lexical-head
+readings: reverse-only, no bit negation (frozen). A span and its
+dependency-reversed reading are disk-flips of one object — same axis (same
+tokens grouped), flipped face (head and dependent exchange spine).
+
+**Why this rule and not the alternatives:** of four candidate head rules
+(governed-complement, content-survives, opener-anchored, dual-head), only the
+dual-head makes Reed-Kellogg and X-bar *genuine disk-flips of one structure*
+rather than approximate cousins — because the flip *is* the functional↔lexical
+head swap. It is the only rule that does not force a choice the architecture was
+built not to make. Cost: two head markers per span. But their relationship is
+already proven (XOR / star, §2.2.3 face channel).
+
+**Furnishing schedule (consistent with every prior layer):**
+1. **Now:** furnish the *axis head* face — the functional opener is visible
+   closed-class, so its orienting face can be set immediately. This unblocks the
+   metric's dynamic range (§2.2.2) and the reflexion canary (currently 0.000
+   because faces are all-zero).
+2. **When open-class descends:** complete the *face head* — the lexical spine is
+   usually an open-class gap on the skeleton, filled when content words load as
+   epicyclic payloads (§1.4).
+
+`hmm:` the specific bracketing rule (which closed-class configurations open vs.
+close spans, how nesting resolves around heads) is the next decision — the
+dual-head rule fixes *what a head is*; the bracketing rule fixes *where spans
+begin and end*. Pronouns are the known exception: a pronoun is a closed-class
+token that is itself a lexical head (a node on a line), to be handled explicitly.
+
 ---
 
 ## Part IV — Freight Manifest (what's loaded where)
@@ -295,6 +356,9 @@ decision deferred.
 | 2 | metric | open (nearest) | this doc §2.2.2 |
 | 2 | long-sequence carrier bound | open (frontier) | this doc §2.2.4 |
 | 2 | sarcasm / bit-negation face | conjecture (new) | this doc §2.5 |
+| 2 | span = epicyclic constituent | **defined** | this doc §2.6 |
+| 2 | dual-head rule (axis + face) | **FROZEN this session** | this doc §2.7 |
+| 2 | bracketing rule (span edges) | open (next decision) | this doc §2.7 hmm |
 
 ---
 
@@ -315,12 +379,6 @@ v3 extends the same law through recursion (payload) and the orientation channel
 (face). Face was tested synthetically because the encoder currently emits
 all-zero host faces — the *law* composes; the encoder has not yet furnished the
 channel (see §2.5).
-
-**Reproduced in-repo 2026-05-30** (edcmbone, this branch) against the worked
-`ucns_v04.py` + `closed_tokens.py`: v1 carrier 400/400 (100%) / coordinate
-173/400 (43.2%); v2 600/600 both laws; v3 payload 600/600, face 5/5. All three
-match the frozen claims above. See `docs/STATUS_phi_probes.md` for the
-reproduction record and the one-line probe import-hygiene note.
 
 ---
 
