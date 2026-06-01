@@ -17,7 +17,8 @@ Carrier widening was treated across multiple sessions as *the* unsolved frontier
 Measurement dissolved most of it:
 
 1. Real closed-class text lives in carriers {8,16,32} at 99.3%
-   (`frequency_probe.py`).
+   (`frequency_probe.py`; the band reproduces in-repo, the exact 99.3% needs the
+   external corpus — see §5.1).
 2. Those are powers of two; the dyadic band is closed under ⊠ — pairwise and
    ternary, with products flowing toward 32 and stopping.
 3. Powers of two close *for free* (lcm of 2^a is 2^a). The free-ness was the
@@ -108,20 +109,29 @@ Run from the repo root against the worked `ucns_v04.py` + `closed_tokens.py`:
 | `ternary_widening_probe.py` | threefold in-band, associative, order-carrying | in-band 27/27; associative OK; order-sensitive OK; PCEA ternary OK | 0 |
 | `prime5_widening_probe.py` | per-prime finiteness survives a coherence prime | pure-5 closed; cross lands in ⟨2,5⟩; navigable | 0 |
 | `prime_carpet_probe.py` | per-sublattice law across 53 prime axes | all 53 pure-power closed; all cross-axis land in ⟨p,2⟩ | 0 |
+| `frequency_probe.py` | empirical carrier distribution (provenance for §0) | closed-class carriers ∈ {8,16,32}, top-3 cover 100% (fallback sample) | 0 |
 
-All four pass standalone. `ternary_widening_probe.py` carries a one-line
+All five pass standalone. `ternary_widening_probe.py` carries a one-line
 import-hygiene change (pre-importing `fractions` before the `sys.path` mutation,
-matching its three sibling probes) so the repo-root `edcmbone/` directory does
+matching its sibling probes) so the repo-root `edcmbone/` directory does
 not shadow stdlib `types`; the probe *logic* is unchanged.
 
-> **Provenance gap (honest):** the 99.3% / {8,16,32} measurement in §0 is
-> attributed to `frequency_probe.py`, which is **not in this repo** and was not
-> among the filed artifacts. The four probes above neither import nor require it
-> — they construct or encode their own operands — so the law's *closure* claims
-> reproduce independently of that measurement. What is unwitnessed in-repo is the
-> *empirical frequency distribution* (which carriers real text actually uses);
-> §0 point 1 and §6 should be read as resting on an external probe not yet filed.
-> File `frequency_probe.py` to close this.
+> **Provenance — what `frequency_probe.py` now witnesses, and what it doesn't.**
+> `frequency_probe.py` is now filed; it is the source of §0's carrier claim.
+> Run in-repo it confirms the **band**: every closed-class token it encodes lands
+> on a carrier in **{8, 16, 32}** and nothing else, with those three covering
+> **100%** of encoded tokens. That substantiates "real closed-class demand is the
+> dyadic band ≤32." It does **not** reproduce the exact **99.3%** figure: the
+> probe reads its corpus from `EDCM__260125_181916.txt`, which is **not in this
+> repo**, so it falls back to a small built-in sample (~22 closed-class tokens →
+> 100% on {8,16,32}). So the *band* is now witnessed in-repo; the precise
+> *percentage* still rests on the external corpus. The 0.7% rare tail in §6 is
+> exactly the gap between this fallback's 100% and the corpus's 99.3% — file
+> `EDCM__260125_181916.txt` (or any real corpus) to measure it directly.
+>
+> The four closure probes neither import nor require `frequency_probe.py` — they
+> construct or encode their own operands — so the law's *closure* claims stand
+> independent of any frequency measurement.
 
 ## 6. What remains open (honest tail)
 
