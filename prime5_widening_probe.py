@@ -74,11 +74,12 @@ def test_A_pure5_closure():
         c = carrier_of(multiply(A, B))
         out[c] += 1
         total += 1
-        if c in (5, 25, 125, 625):   # powers of 5
+        # “pure-5” means no prime factors besides 5 (including 1 = 5^0).
+        if _only_2_5(c) and (c % 2 != 0):
             inband += 1
     print(f"    products: {total}   resulting carriers: {dict(out)}")
     ok = inband == total
-    print(f"    all products are powers of 5: {'OK' if ok else 'XX'}")
+    print(f"    all products are pure powers of 5: {'OK' if ok else 'XX'}")
     print(f"    -> a PTCA core on prime 5 stays finite within 5^k: "
           f"{'OK (per-prime finite)' if ok else 'XX'}")
     return ok
