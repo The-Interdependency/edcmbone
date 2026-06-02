@@ -95,6 +95,10 @@ def test_B_closure():
     samples = []
     for c in REAL_CARRIERS:
         samples += [o for _, o in by_c.get(c, [])[:3]]
+    if not samples:
+        print("    (no sample objects available; encode() returned nothing)")
+        return False
+
     escaped = Counter()
     in_band = 0
     total = 0
@@ -108,7 +112,6 @@ def test_B_closure():
                 escaped[p.n_min] += 1
     print(f"    pairwise products: {total}")
     print(f"    stayed in-band {{8,16,32}}: {in_band} ({100*in_band/total:.1f}%)")
-    if escaped:
         print(f"    escaped to carriers: {dict(escaped)}")
         # are escapes still within the band's lcm-closure (powers of 2 <= 32)?
         all_pow2 = all(nm in (2,4,8,16,32) for nm in escaped)
