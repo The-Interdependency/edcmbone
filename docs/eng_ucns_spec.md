@@ -380,6 +380,12 @@ v3 extends the same law through recursion (payload) and the orientation channel
 all-zero host faces — the *law* composes; the encoder has not yet furnished the
 channel (see §2.5).
 
+**Reproduced in-repo 2026-05-30** (edcmbone, this branch) against the worked
+`ucns_v04.py` + `closed_tokens.py`: v1 carrier 400/400 (100%) / coordinate
+173/400 (43.2%); v2 600/600 both laws; v3 payload 600/600, face 5/5. All three
+match the frozen claims above. See `docs/STATUS_phi_probes.md` for the
+reproduction record and the one-line probe import-hygiene note.
+
 ---
 
 ## hmm
