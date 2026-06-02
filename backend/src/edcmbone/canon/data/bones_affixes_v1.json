@@ -126,5 +126,18 @@
       {"affix":"-like","type":"suffix","primary":"K","families":["K"],"notes":"resembling (childlike, lifelike). Comparison/similarity."},
       {"affix":"-esque","type":"suffix","primary":"K","families":["K"],"notes":"in the style of (picturesque, Kafkaesque). Comparison."}
     ]
+  },
+
+  "contractions": {
+    "description": "Bound contraction morphemes (clitics). Split from the host word in morph.py before bone matching; the free-word host is matched separately and the contraction morpheme is counted as its own bone. Listed here (not in bones_words_v1) because they are bound, not free, bones.",
+    "affixes": [
+      {"affix":"n't","type":"contraction","primary":"P","families":["P"],"notes":"contracted negation (don't -> do + n't). Negative polarity pole."},
+      {"affix":"'ll","type":"contraction","primary":"T","families":["T"],"notes":"contracted will/shall (I'll -> I + 'll). Temporal/modal."},
+      {"affix":"'d","type":"contraction","primary":"T","families":["T"],"notes":"contracted would/had (I'd -> I + 'd). Temporal/modal."},
+      {"affix":"'ve","type":"contraction","primary":"T","families":["T"],"notes":"contracted have (I've -> I + 've). Temporal/modal."},
+      {"affix":"'re","type":"contraction","primary":"T","families":["T"],"notes":"contracted are (we're -> we + 're). Temporal/modal."},
+      {"affix":"'m","type":"contraction","primary":"T","families":["T"],"notes":"contracted am (I'm -> I + 'm). Temporal/modal."},
+      {"affix":"'s","type":"contraction","primary":"T","families":["T","S"],"notes":"contracted is/has (he's -> he + 's) (T) or possessive (S)."}
+    ]
   }
 }

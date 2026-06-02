@@ -36,14 +36,6 @@
       "notes": "core negator"
     },
     {
-      "word": "n't",
-      "primary": "P",
-      "families": [
-        "P"
-      ],
-      "notes": "contracted negation via morph.py"
-    },
-    {
       "word": "no",
       "primary": "P",
       "families": [
@@ -845,55 +837,6 @@
         "T"
       ],
       "notes": "necessity/certainty"
-    },
-    {
-      "word": "'ll",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted will/shall"
-    },
-    {
-      "word": "'d",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted would/had"
-    },
-    {
-      "word": "'ve",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted have"
-    },
-    {
-      "word": "'re",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted are"
-    },
-    {
-      "word": "'m",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted am"
-    },
-    {
-      "word": "'s",
-      "primary": "T",
-      "families": [
-        "T",
-        "S"
-      ],
-      "notes": "contracted is/has (T) or possessive (S)"
     },
     {
       "word": "have",
