@@ -94,12 +94,8 @@ def test_B_cross_prime_escape():
         c = carrier_of(multiply(A, B))
         out[c] += 1
         print(f"    {pa} ⊠ {pb} -> {c}   (lcm={lcm(pa,pb)})")
-    # are the escapes predictable = lcm = 2^a * 5^b ? (the {2,5} multiplicative lattice)
-    predictable = all(
-        set(__import__("sympy").primefactors(c)).issubset({2, 5}) if _have_sympy()
-        else _only_2_5(c)
-        for c in out
-    )
+    # are the escapes predictable = confined to the {2,5} multiplicative lattice?
+    predictable = all(_only_2_5(c) for c in out)
     print(f"    escapes confined to the ⟨2,5⟩ lattice (carriers 2^a·5^b): "
           f"{'OK' if predictable else 'XX'}")
     print(f"    -> cross-prime composition generates ⟨2,5⟩, NOT arbitrary carriers")
