@@ -64,20 +64,25 @@ def real_bone_objects():
 def test_A_constructibility():
     print("[A] CONSTRUCTIBILITY at n_min 32 (the 59.7% carrier), by composition")
     by_c = real_bone_objects()
+    by_c = real_bone_objects()
     # objects natively at 32
     native32 = by_c.get(32, [])
+    if not native32:
+        print("    (no native n_min=32 token available)")
+        return False
+
     # objects we can BUILD to 32 by composing lower carriers:
     #   lcm(32, anything dividing 32) = 32; and lcm(16,32)=32, lcm(8,32)=32.
     #   Also lcm-reaching 32 requires a 32 already present (8 and 16 lcm to 16).
     # So test: composing a 32-object with an 8- or 16-object stays at 32.
     built = []
-    if native32:
-        _, base32 = native32[0]
-        for c in (8, 16, 32):
-            for (t, o) in by_c.get(c, [])[:2]:
-                p = multiply(base32, o)
-                built.append((c, p.n_min))
-    ok = all(nm == 32 for _, nm in built)
+    _, base32 = native32[0]
+    for c in (8, 16, 32):
+        for (t, o) in by_c.get(c, [])[:2]:
+            p = multiply(base32, o)
+            built.append((c, p.n_min))
+
+    ok = bool(built) and all(nm == 32 for _, nm in built)
     print(f"    native n_min=32 tokens: {[t for t,_ in native32]}")
     print(f"    composing 32 ⊠ {{8,16,32}} -> resulting n_min: {sorted(set(nm for _,nm in built))}")
     print(f"    stays at 32 (operational construction holds): {'OK' if ok else 'XX'}")
