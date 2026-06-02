@@ -75,7 +75,13 @@ print("-"*60)
 print(f"all pure-power axes closed (single-prime finiteness): {'OK' if all_pure_closed else 'XX'}")
 print(f"all cross-axis escapes land in <p,2> (bounded mixing): {'OK' if all_cross_known else 'XX'}")
 print()
-print("VERDICT: the per-sublattice law holds across all 53 prime axes.")
-print("Each prime is a closed widening axis; mixing any two stays in their")
-print("2-generated lattice. The carpet is the proof surface: 53 axes, every")
-print("one finite alone, every pairing bounded by exactly its generators.")
+
+ok = all_pure_closed and all_cross_known
+if ok:
+    print("VERDICT: the per-sublattice law holds across all 53 prime axes.")
+    print("Each prime is a closed widening axis; mixing any two stays in their")
+    print("2-generated lattice. The carpet is the proof surface: 53 axes, every")
+    print("one finite alone, every pairing bounded by exactly its generators.")
+else:
+    print("VERDICT: FAILED — at least one axis escaped its expected sublattice.")
+    raise SystemExit(1)
