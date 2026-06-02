@@ -287,7 +287,7 @@ the closed-class skeleton, nested recursively, composing by the proven
 offset-sum (§2.2.3). Constituency is not imposed by an external parser; it is
 **derived from the skeleton** (closed-class tokens mark constituent boundaries
 — determiners open noun phrases, prepositions open prepositional phrases,
-conjunctions join, pairing marks bracket explicitly). This is the
+conjunctions join, pairing marks bracketing explicitly). This is the
 diagram-tradition insight made structural:
 
 > **Closed-class words are the lines of the sentence diagram; open-class words
