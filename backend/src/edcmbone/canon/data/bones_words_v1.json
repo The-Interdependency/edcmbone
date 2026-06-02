@@ -552,7 +552,7 @@
     },
     {
       "word": "versus",
-      "primary": "K",
+      "primary": "P",
       "families": [
         "K",
         "P"
@@ -653,7 +653,7 @@
     },
     {
       "word": "excluding",
-      "primary": "K",
+      "primary": "P",
       "families": [
         "K",
         "P"
@@ -1065,7 +1065,7 @@
     },
     {
       "word": "still",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
@@ -1082,7 +1082,7 @@
     },
     {
       "word": "then",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1123,7 +1123,7 @@
     },
     {
       "word": "rarely",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
@@ -1132,7 +1132,7 @@
     },
     {
       "word": "seldom",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
@@ -1165,7 +1165,7 @@
     },
     {
       "word": "once",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1174,7 +1174,7 @@
     },
     {
       "word": "whenever",
-      "primary": "T",
+      "primary": "Q",
       "families": [
         "T",
         "Q"
@@ -1191,7 +1191,7 @@
     },
     {
       "word": "meanwhile",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1200,7 +1200,7 @@
     },
     {
       "word": "subsequently",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1849,7 +1849,7 @@
     },
     {
       "word": "to",
-      "primary": "S",
+      "primary": "K",
       "families": [
         "S",
         "K"
@@ -1938,7 +1938,7 @@
     },
     {
       "word": "between",
-      "primary": "S",
+      "primary": "K",
       "families": [
         "S",
         "K"
@@ -2099,7 +2099,7 @@
     },
     {
       "word": "together",
-      "primary": "S",
+      "primary": "K",
       "families": [
         "S",
         "K"
@@ -2239,7 +2239,7 @@
     {
       "joined": "assoonas",
       "original": "as soon as",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -2372,7 +2372,7 @@
     {
       "joined": "asyet",
       "original": "as yet",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
