@@ -29,6 +29,28 @@ Public API
     compression_stats(original_text, compressed_bytes, parsed) -> dict
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_compress
+#   module_name: compress
+#   module_kind: engine
+#   summary: lossless EDCM-aware codec for ParsedTranscript + RoundMetrics (separate bone/flesh streams, zlib entropy coding)
+#   owner: Erin Spencer
+#   public_surface: encode, decode, to_bytes, from_bytes, compression_stats
+#   internal_surface: _tok_to_dict, _dict_to_tok, _metrics_to_dict, _dict_to_metrics, _build_huffman_codes, _huffman_expected_bits
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: hmmm
+#   rollout: default_enabled
+#   rollback: remove module; transcripts persist uncompressed
+#   requires: edcmbone_parser_turns_rounds, edcmbone_metrics_compute
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 import heapq

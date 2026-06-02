@@ -22,6 +22,28 @@ Public API
     crosswalk_risk(risk_name)      — alert names for a Layer 2 risk proxy
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_metrics_projection
+#   module_name: projection
+#   module_kind: engine
+#   summary: projects the 11 Layer-1 Arc-Style metrics to the 6 agent-facing metrics (CM, DA, DRIFT, DVG, INT, TBF)
+#   owner: Erin Spencer
+#   public_surface: AgentMetrics, project, project_transcript, gini_tbf, fire_alerts, crosswalk_risk
+#   internal_surface: none
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: hmmm
+#   rollout: default_enabled
+#   rollback: remove module; agent-facing 6-metric view unavailable
+#   requires: edcmbone_metrics_matrix
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 from .matrix import ALERT_THRESHOLDS, PROJECTION_MAP, RISK_TO_ALERT

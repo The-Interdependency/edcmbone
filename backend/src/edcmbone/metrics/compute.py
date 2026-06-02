@@ -40,6 +40,28 @@ energy_step(prev_kappa, dissonance, alpha, delta_max)      -> (E_t, s_t)
 energy_step(prev_energy, prev_kappa, dissonance, ...)      -> (E_t, s_t)  # legacy
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_metrics_compute
+#   module_name: compute
+#   module_kind: engine
+#   summary: computes the EDCM metric vector M_t and dissonance energy for a parsed round/transcript
+#   owner: Erin Spencer
+#   public_surface: RoundMetrics, compute_round, compute_transcript, energy_step
+#   internal_surface: _compute_R, _compute_F, _compute_L, _compute_N, _compute_P, _compute_O, _compute_I, _compute_C, _compute_D, _compute_E, _build_phrase_patterns, _count_marker_hits
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: tests.test_metrics_layer_designation
+#   rollout: default_enabled
+#   rollback: remove module; no behavioral metric vector produced
+#   requires: edcmbone_metrics_stats, edcmbone_metrics_risk, edcmbone_canon_loader
+#   since: 2026-06-02
+#   unresolved: per its own docstring this layer-A module canonically belongs upstream in the future edcm package
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 import re

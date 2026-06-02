@@ -8,6 +8,28 @@ Loads and exposes the v1 canon data files:
   - markers_v1.json           behavioral-layer markers (9-metric vector)
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_canon_loader
+#   module_name: loader
+#   module_kind: adapter
+#   summary: loads the v1 canon data files (bones/affixes/punct/markers) and exposes a lookup API
+#   owner: Erin Spencer
+#   public_surface: CanonLoader
+#   internal_surface: _load
+#   auth_boundary: none
+#   storage_boundary: read
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: hmmm
+#   rollout: default_enabled
+#   rollback: remove module; parser falls back to no embedded canon
+#   requires: none
+#   since: 2026-06-02
+#   unresolved: dedicated canon-loader test module not located in tracked tests/
+# === END MODULE_BUILD ===
+
+
 import json
 import pathlib
 

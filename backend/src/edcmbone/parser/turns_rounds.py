@@ -16,6 +16,28 @@ Data classes (all plain Python, no dataclasses module for 3.8 compat)
 BoneToken, FleshToken, Turn, Round, ParsedTranscript
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_parser_turns_rounds
+#   module_name: turns_rounds
+#   module_kind: engine
+#   summary: embedded rule-based transcript parser (canon-driven, no ML deps) producing bones/flesh tokens, turns, and rounds
+#   owner: Erin Spencer
+#   public_surface: parse_transcript, BoneToken, FleshToken, Turn, Round, ParsedTranscript
+#   internal_surface: _BoneClassifier, _split_turns, _group_into_rounds, _raw_tokens, _ordered_unique
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: tests.test_apostrophe_normalization_and_tokenization
+#   rollout: default_enabled
+#   rollback: remove module; transcripts cannot be parsed into the EDCM structure
+#   requires: edcmbone_canon_loader
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 import re

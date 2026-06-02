@@ -23,6 +23,28 @@ clamp(x)                 -> float         max(0, min(1, x))
 norm_per_100(x, tokens)  -> float
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_metrics_stats
+#   module_name: stats
+#   module_kind: engine
+#   summary: stdlib-only text statistics (TTR, entropy, novelty, cosine, n-gram density) feeding the EDCM metric vector
+#   owner: Erin Spencer
+#   public_surface: tokenize, ngrams, ttr, repetition_ratio, shannon_entropy, rep_ngram_density, pattern_density, novelty, cosine_sim, jaccard, correction_fidelity, clamp, norm_per_100
+#   internal_surface: _count_vector
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: hmmm
+#   rollout: default_enabled
+#   rollback: remove module; metric primitives unavailable
+#   requires: none
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 import re

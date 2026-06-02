@@ -26,6 +26,28 @@ is_unit_payload(obj): bool
 multiply(A, B)      : UCNSObject  (A ⊠ B)
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_ucns_v04
+#   module_name: ucns_v04
+#   module_kind: engine
+#   summary: local UCNS engine using the turn-fraction angle convention on the doubled cover of the unit circle
+#   owner: Erin Spencer
+#   public_surface: AnchorPayload, UCNSObject, unit_obj, is_unit_payload, multiply
+#   internal_surface: _lcm, _reduce_lcm
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: tests.test_ucns_objects
+#   rollout: default_enabled
+#   rollback: remove module; closed_tokens loses its UCNS object algebra
+#   requires: none
+#   since: 2026-06-02
+#   unresolved: this is edcmbone's local UCNS-A layer; per docs/ucns-boundary.md no UCNS-A theorem status transfers to EDCM/UCNS-G
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 from fractions import Fraction
