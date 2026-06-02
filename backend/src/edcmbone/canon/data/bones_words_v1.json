@@ -4,7 +4,7 @@
     "description": "EDCM Operator bone inventory: English free bones mapped to PKQTS families.",
     "attribution": "Claude generated; context, prompt Erin Spencer.",
     "bone_membership_test": "Does this word create, redirect, or resolve a constraint relationship? If yes: bone. Does it only modulate magnitude of content? If yes: flesh (excluded).",
-    "exclusion_principle": "Degree adverbs (very, quite, rather-as-intensifier, extremely, totally, completely, utterly, absolutely-as-intensifier, really-as-intensifier) are flesh. They modulate intensity without creating pressure gradients.",
+    "exclusion_principle": "Degree adverbs (very, quite, rather-as-intensifier, extremely, totally, completely-as-intensifier, utterly, absolutely-as-intensifier, really-as-intensifier) are flesh. They modulate intensity without creating pressure gradients.",
     "polarity_balance_principle": "If the negative pole of a category is a bone, the affirmative pole must also be a bone. Otherwise the instrument has built-in observer bias.",
     "collision_priority": "P > K > Q > T > S",
     "read_mode_v1": "Count by primary field only.",
@@ -34,14 +34,6 @@
         "P"
       ],
       "notes": "core negator"
-    },
-    {
-      "word": "n't",
-      "primary": "P",
-      "families": [
-        "P"
-      ],
-      "notes": "contracted negation via morph.py"
     },
     {
       "word": "no",
@@ -284,6 +276,22 @@
         "P"
       ],
       "notes": "near-negation"
+    },
+    {
+      "word": "fully",
+      "primary": "P",
+      "families": [
+        "P"
+      ],
+      "notes": "affirmative completion. Affirmative pole of near-negation (hardly/scarcely/barely). Polarity bone, not a degree intensifier."
+    },
+    {
+      "word": "completely",
+      "primary": "P",
+      "families": [
+        "P"
+      ],
+      "notes": "affirmative completion. Affirmative pole of near-negation (hardly/scarcely/barely). Polarity bone in completion sense, not the degree-intensifier sense excluded as flesh."
     },
     {
       "word": "nothing",
@@ -552,7 +560,7 @@
     },
     {
       "word": "versus",
-      "primary": "K",
+      "primary": "P",
       "families": [
         "K",
         "P"
@@ -653,7 +661,7 @@
     },
     {
       "word": "excluding",
-      "primary": "K",
+      "primary": "P",
       "families": [
         "K",
         "P"
@@ -847,55 +855,6 @@
       "notes": "necessity/certainty"
     },
     {
-      "word": "'ll",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted will/shall"
-    },
-    {
-      "word": "'d",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted would/had"
-    },
-    {
-      "word": "'ve",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted have"
-    },
-    {
-      "word": "'re",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted are"
-    },
-    {
-      "word": "'m",
-      "primary": "T",
-      "families": [
-        "T"
-      ],
-      "notes": "contracted am"
-    },
-    {
-      "word": "'s",
-      "primary": "T",
-      "families": [
-        "T",
-        "S"
-      ],
-      "notes": "contracted is/has (T) or possessive (S)"
-    },
-    {
       "word": "have",
       "primary": "T",
       "families": [
@@ -1065,7 +1024,7 @@
     },
     {
       "word": "still",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
@@ -1082,7 +1041,7 @@
     },
     {
       "word": "then",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1123,7 +1082,7 @@
     },
     {
       "word": "rarely",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
@@ -1132,7 +1091,7 @@
     },
     {
       "word": "seldom",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"
@@ -1165,7 +1124,7 @@
     },
     {
       "word": "once",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1174,7 +1133,7 @@
     },
     {
       "word": "whenever",
-      "primary": "T",
+      "primary": "Q",
       "families": [
         "T",
         "Q"
@@ -1191,7 +1150,7 @@
     },
     {
       "word": "meanwhile",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1200,7 +1159,7 @@
     },
     {
       "word": "subsequently",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -1849,7 +1808,7 @@
     },
     {
       "word": "to",
-      "primary": "S",
+      "primary": "K",
       "families": [
         "S",
         "K"
@@ -1938,7 +1897,7 @@
     },
     {
       "word": "between",
-      "primary": "S",
+      "primary": "K",
       "families": [
         "S",
         "K"
@@ -2099,7 +2058,7 @@
     },
     {
       "word": "together",
-      "primary": "S",
+      "primary": "K",
       "families": [
         "S",
         "K"
@@ -2239,7 +2198,7 @@
     {
       "joined": "assoonas",
       "original": "as soon as",
-      "primary": "T",
+      "primary": "K",
       "families": [
         "T",
         "K"
@@ -2372,7 +2331,7 @@
     {
       "joined": "asyet",
       "original": "as yet",
-      "primary": "T",
+      "primary": "P",
       "families": [
         "T",
         "P"

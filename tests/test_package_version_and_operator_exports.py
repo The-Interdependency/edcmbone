@@ -19,12 +19,12 @@ def _literal_assign_value(module: ast.Module, name: str) -> str:
     raise AssertionError(f"{name} not found")
 
 
-def test_version_constant_and_readme_marker_are_aligned_to_v1_0_0() -> None:
+def test_version_constant_and_readme_marker_are_aligned_to_v1_0_1() -> None:
     version_ast = _parse_py(ROOT / "version.py")
-    assert _literal_assign_value(version_ast, "__version__") == "1.0.0"
+    assert _literal_assign_value(version_ast, "__version__") == "1.0.1"
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "**edcmbone v1.0.0**" in readme
+    assert "**edcmbone v1.0.1**" in readme
 
 
 def test_operator_public_surface_declares_expected_exports() -> None:
