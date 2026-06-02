@@ -73,9 +73,9 @@ TERSE = (
 def load_real():
     p = "EDCM__260125_181916.txt"
     if os.path.exists(p):
-        return open(p, encoding="utf-8", errors="ignore").read()
+        with open(p, encoding="utf-8", errors="ignore") as f:
+            return f.read()
     return PLAIN
-
 
 # ------------------------------------------------------------------
 # PAYLOAD 1a — character frequency: mean (floor) vs residual (voice)
