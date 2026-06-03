@@ -20,5 +20,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Vendored generate.py matches skill-lib (no local fork)
+        run: cd .agents/skills/manifest && sha256sum -c generate.py.sha256
       - name: Check CLAUDE.md manifest block is in sync
         run: python .agents/skills/manifest/generate.py --root . --pyproject backend/pyproject.toml --check
