@@ -6,11 +6,13 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 ## Project Overview
 
-**edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Extended Distributed Cognitive Model with PCNA/PCTA framework). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input.
+**edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Energy–Dissonance Circuit Model with Prime Circular Tensor / Neural Architecture). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input.
 
-**Current status**: Version 0.1.0. The library ships four tested modules (canon, parser, metrics, compress). The repo also carries a newer in-progress package refactoring (`edcmbone/` root-level) and a `core/` framework package — both are partially scaffolded (see below).
+**Status**: The repo-wide constant in `version.py` is `1.0.1`; the installable package (`backend/pyproject.toml`) declares `0.1.0` (Development Status: 3 - Alpha). The canonical, tested package lives under `backend/src/edcmbone/` and ships four working module groups (canon, parser, metrics, compress) plus `ucns/`. A root-level `edcmbone/` package and a `core/` framework package are an in-progress layer migration — mostly stubs or partial (see below).
 
-The project also functions as a civil rights evidence instrument in the **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to major AI labs and regulatory bodies. `Documentation/GCIP.md` contains the full proposal.
+The project also functions as a civil-rights evidence instrument in the **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to major AI labs and regulatory bodies. `canon_eng/GCIP.md` contains the full proposal.
+
+**License**: The repo *intends* dual-licensing — **AGPL-3.0-or-later** (default, see root `LICENSE`) or a separate **commercial license** (`LICENSE-COMMERCIAL.md`). Note: root `LICENSE` currently carries an interim AGPL notice; the verbatim AGPL text has not yet been pasted in. **Known inconsistency (migration item):** the installable package disagrees with this intent — `backend/pyproject.toml` declares `license = { text = "Apache-2.0" }` with the Apache classifier, and `backend/LICENSE` is the full Apache-2.0 text. So the *as-packaged* license is currently Apache-2.0, not AGPL. Copyright (c) 2026 Erin Patrick Spencer.
 
 ---
 
@@ -18,143 +20,135 @@ The project also functions as a civil rights evidence instrument in the **Global
 
 ```
 edcmbone/
-├── README.md
+├── README.md                        # Library overview, evidence log, quickstart, GCIP
 ├── CLAUDE.md                        # This file
-├── LICENSE                          # Apache 2.0
+├── LICENSE                          # AGPL-3.0-or-later (interim notice; full text pending)
+├── LICENSE-COMMERCIAL.md            # Commercial dual-license terms
 ├── .gitignore
-├── __init__.py                      # Root package marker
-├── version.py                       # Version stub
+├── __init__.py                      # Empty package marker (0 lines; no import side effects)
+├── version.py                       # __version__ = "1.0.1" (repo-wide constant)
+├── pytest.ini                       # testpaths = tests
 │
-├── Backend/                         # Original pip package (stable, tested)
-│   ├── pyproject.toml               # Package config (Hatchling, src layout)
+├── backend/                         # CANONICAL pip package (src layout, tested)
+│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling; declares license = Apache-2.0 (see License note)
 │   ├── README.md                    # PyPI long description (keep in sync with root README)
-│   ├── requirements.txt             # Dev/test deps (pytest>=7.0)
-│   └── src/
-│       └── edcmbone/
-│           ├── __init__.py
-│           ├── canon/
-│           │   ├── loader.py        # CanonLoader — bone/marker lookup API
-│           │   └── data/
-│           │       ├── bones_words_v1.json    # 253 free-word bones (PKQTS families)
-│           │       ├── bones_affixes_v1.json  # 79 affix bones
-│           │       ├── bones_punct_v1.json    # 13 punctuation bones
-│           │       └── markers_v1.json        # 9-metric behavioral markers
-│           ├── parser/
-│           │   └── turns_rounds.py  # Embedded-model transcript parser
-│           ├── metrics/
-│           │   ├── stats.py         # tokenise, TTR, entropy, novelty, cosine
-│           │   ├── risk.py          # four risk proxies
-│           │   ├── compute.py       # RoundMetrics, compute_round/transcript
-│           │   ├── matrix.py        # A_MATRIX, PROJECTION_MAP, freeze/diff
-│           │   └── projection.py    # AgentMetrics (CM,DA,DRIFT,DVG,INT,TBF), fire_alerts
-│           └── compress.py          # Lossless codec + Huffman compression stats
+│   ├── LICENSE                      # Apache header text bundled with package
+│   └── src/edcmbone/
+│       ├── __init__.py              # __version__ = "0.1.0"; re-exports public API
+│       ├── canon/
+│       │   ├── loader.py            # CanonLoader — bone/marker lookup API
+│       │   └── data/
+│       │       ├── bones_words_v1.json    # free-word bones (PKQTS families)
+│       │       ├── bones_affixes_v1.json  # affix bones
+│       │       ├── bones_punct_v1.json    # punctuation bones
+│       │       └── markers_v1.json        # 9-metric behavioral markers (C,R,D,N,...)
+│       ├── parser/turns_rounds.py   # Embedded-model transcript parser
+│       ├── metrics/
+│       │   ├── stats.py             # tokenize, TTR, entropy, novelty, cosine
+│       │   ├── risk.py              # risk proxies (fixation, escalation, ...)
+│       │   ├── compute.py           # RoundMetrics, compute_round/transcript
+│       │   ├── matrix.py            # A_MATRIX, PROJECTION_MAP, freeze/diff
+│       │   ├── projection.py        # AgentMetrics (CM,DA,DRIFT,DVG,INT,TBF)
+│       │   └── orthogonality.py     # metric orthogonality (v0.2)
+│       ├── ucns/                    # local closed-token / marker encoding layer
+│       │   ├── ucns_v04.py
+│       │   └── closed_tokens.py
+│       └── compress.py              # Lossless zlib codec + compression stats
 │
-├── backend/                         # Lowercase alias / restructured package layout
-│   ├── pyproject.toml
-│   ├── README.md
-│   ├── requirements.txt
-│   └── src/                         # Mirror of Backend/src — evolving
+├── edcmbone/                        # Root-level refactor target (IN PROGRESS — mostly stubs)
+│   ├── __init__.py                  # `from version import __version__`
+│   ├── config.py / engine.py / errors.py / types.py   # EMPTY stubs (0 lines)
+│   ├── behavioral/ bridge/ cli/ ingest/ operator/      # scaffolded
+│   ├── parse/ routing/ (pcna/, pcta/)                  # scaffolded
+│   ├── ucns_g/                      # UCNS-G v3 prime-cylinder schema (substantive)
+│   └── edcmbone/                    # nested duplicate scaffold
 │
-├── edcmbone/                        # Root-level refactored package (IN PROGRESS — stubs)
-│   ├── __init__.py
-│   ├── config.py                    # stub
-│   ├── engine.py                    # stub
-│   ├── errors.py                    # stub
-│   ├── types.py                     # stub
-│   ├── behavioral/                  # behavioral metrics module (scaffolded)
-│   ├── bridge/                      # bridge layer (scaffolded)
-│   ├── canon/                       # canon loader (scaffolded)
-│   ├── cli/                         # CLI interface (scaffolded)
-│   ├── edcmbone/                    # nested edcmbone package (scaffolded)
-│   ├── ingest/                      # transcript ingestion (scaffolded)
-│   ├── operator/                    # operator logic (scaffolded)
-│   ├── parse/                       # parser refactor (scaffolded)
-│   └── routing/                     # routing layer (scaffolded)
+├── core/                            # Core framework package (IN PROGRESS — partial)
+│   ├── parsing/ operator/          # substantive implementations
+│   ├── bridge/ (bridge_engine.py)  # substantive; divergence/correlation stubs
+│   ├── behavioral/ pcna/ windowing/
 │
-├── core/                            # Core framework package (IN PROGRESS — partially implemented)
-│   ├── __init__.py
-│   ├── behavioral/
-│   ├── bridge/
-│   ├── operator/
-│   ├── parsing/
-│   ├── pcna/
-│   └── windowing/
+├── canon_eng/                       # Frozen structural canon (specs + JSON schemas)
+│   ├── spec.md GCIP.md edcm.md parser.md function.md dataflow.md ...
+│   ├── *_schema_v1.json             # actor/turn/round/operator/bridge/utterance schemas
+│   └── release/                     # v1.0.0 release + freeze statements
 │
-├── canon_eng/                       # Canon engine utilities
-├── aimmh-lib/
-│   └── backend/server.py            # AIMMH-LIB multi-model hub server (stub)
-├── Frontend/
-│   ├── package.json                 # React 18.2.0 + Tailwind CSS
-│   └── tailwind.config.js
-├── frontend/                        # Lowercase alias / evolving frontend
+├── docs/                            # Working docs, specs, handoffs
+│   ├── spec.md ucns-boundary.md ingest.md routing.md ...
+│   ├── specs/edcm-ucns-metric-orthogonality-v0.2.md
+│   └── handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md
 │
-├── Documentation/
-│   ├── spec.md                      # Full framework specification
-│   ├── GCIP.md                      # Global Cognitive Interaction Profiles proposal
-│   ├── evidence_log.md              # Three EDCM-measured evidence entries
-│   └── neurodivergence_handling.md  # Interaction rubric and AI skill specification
-├── docs/                            # Additional docs (evolving)
+├── aimmh-lib/backend/server.py      # AI Multimodel Hub server (stub)
+├── frontend/                        # package.json (react ^18.2.0), tailwind, src/ucns_g/types.ts
 │
-├── Tests/                           # Original test suite
-│   └── test_backend.py              # 87-test suite (all pass)
-├── tests/                           # Lowercase alias / new test location
+├── tests/                           # pytest suite — currently passing (see "Build / Test")
+│   ├── test_*.py (11 modules)        # NOTE: test_backend.py is empty; coverage lives in the others
+│   ├── run_all.py                   # standalone validation harness (uses root engine.py)
+│   ├── conftest.py                  # sys.path shim: backend/src ahead of repo root
+│   ├── fixtures/ golden/
 │
-├── engine.py                        # Top-level engine entry point
-├── closed_tokens.py                 # Closed-token vocabulary
-├── ucns_v04.py                      # UCNS v0.4 reference implementation
-└── edcmbone_canon_data_v1.zip       # Source zip for canon data files (reference only)
+├── engine.py                        # Top-level v1.0.0 engine (consumed by tests/run_all.py)
+├── closed_tokens.py                 # Root closed-token table (L0 reference)
+├── ucns_v04.py                      # Root UCNS v0.4 reference
+├── *_probe.py                       # Research probes (phi_compose, frequency, widening, ...)
+├── AUDIT_REGRADE.md                 # Layer re-grading findings
+├── LAYER_MIGRATION_PLAN.md          # edcmbone → future `edcm` package contract
+└── edcmbone_canon_data_v1.zip       # Source zip for canon data (reference only)
 ```
+
+> Note: there are no capitalized `Backend/`, `Frontend/`, `Documentation/`, or `Tests/` directories. Only the lowercase variants exist.
 
 ---
 
-## Dual Package Layout — What to Use
-
-The repo currently has **two parallel package structures**:
+## Which Package to Use
 
 | Layout | Path | Status | When to Use |
 |--------|------|--------|-------------|
-| **Stable** | `Backend/src/edcmbone/` | 87 tests passing, production-ready | Installing and consuming the library |
-| **Refactor** | `edcmbone/` (root) and `core/` | Partially implemented refactor-in-progress; see individual module docstrings for what is and isn't complete | Adding new architecture — fill in stubs here |
+| **Canonical** | `backend/src/edcmbone/` | `tests/` suite passing (≈78 tests at time of writing) | Installing and consuming the library |
+| **Refactor target** | `edcmbone/` (root) + `core/` | In-progress migration; many empty/partial files | Adding new architecture — fill stubs here |
 
-Do not assume all files in `edcmbone/` (root) or `core/` contain working implementations. `core/parsing/`, `core/operator/`, and `core/bridge/` now contain substantive implementations; other subdirectories may still be stubs. The **stable** code lives under `Backend/src/edcmbone/`.
+The repo root and `backend/src` both contain an `edcmbone` package. `tests/conftest.py` puts `backend/src` ahead of the repo root on `sys.path` so the canonical package shadows the incomplete root one. Do not assume root `edcmbone/` files are implemented — `engine.py`, `types.py`, `config.py`, `errors.py` there are empty.
 
 ---
 
 ## Technology Stack
 
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| Backend   | Python >= 3.8, Hatchling packaging  |
-| Frontend  | React 18.2.0, Tailwind CSS          |
-| AIMMH-LIB | Python (server.py stub)             |
-| Tests     | pytest >= 7.0                       |
-| Build     | Hatchling (Python), npm (Frontend)  |
+| Layer     | Technology                                   |
+|-----------|----------------------------------------------|
+| Backend   | Python >= 3.8, Hatchling packaging, no runtime deps |
+| Frontend  | React ^18.2.0, Tailwind CSS (minimal scaffold) |
+| AIMMH-LIB | Python (`server.py` stub)                    |
+| Tests     | pytest (CI installs latest); `jsonschema` optional |
+| CI        | GitHub Actions — `.github/workflows/ci.yml`  |
 
 ---
 
-## Development Workflows
+## Build / Test / Run (verified)
 
-### Backend (Python — stable path)
-
-```bash
-# Install from Backend/ (stable, tested)
-pip install -e ./Backend
-pip install -r Backend/requirements.txt
-
-# Run tests
-pytest Tests/
-# or from Backend/:
-cd Backend && pytest
-```
-
-### Backend (Python — refactor path)
+### Install
 
 ```bash
-# Install from backend/ (lowercase — evolving)
-pip install -e ./backend
+pip install -e ./backend          # editable install of the canonical package
 ```
 
-### Full pipeline (stable)
+No `requirements.txt` exists; the package declares zero runtime dependencies. Install `pytest` separately for tests (`jsonschema` is optional and only enables schema checks).
+
+### Test
+
+```bash
+pytest                            # uses pytest.ini -> testpaths=tests; suite passes (~78 tests, spread across tests/test_*.py — test_backend.py is currently empty)
+python tests/run_all.py           # standalone harness: smoke transcript + golden compare
+```
+
+CI (`.github/workflows/ci.yml`) runs on push to `main` and on PRs: Python 3.11, `pip install pytest`, `pip install -e ./backend`, then `pytest`.
+
+> Gotcha: `backend/pyproject.toml` has a stale `[tool.pytest.ini_options] testpaths = ["../Tests", "../tests"]` pointing at a non-existent `../Tests`. The repo-root `pytest.ini` (`testpaths = tests`) is what actually governs `pytest` runs from the repo root.
+
+### Lint
+
+No linter is configured (no ruff/flake8/black config present). Prefer `ruff` if adding one.
+
+### Run (library usage)
 
 ```python
 from edcmbone.canon import CanonLoader
@@ -166,103 +160,87 @@ canon = CanonLoader()
 pt = parse_transcript(transcript, canon=canon)
 metrics = compute_transcript(pt, canon=canon)
 compressed = codec.to_bytes(pt, metrics)
-stats = codec.compression_stats(transcript, compressed, pt)
+stats = codec.compression_stats(transcript, compressed, pt)   # stats['structural_density'] == F
 ```
 
-### Frontend (React)
+### Frontend
 
-```bash
-cd Frontend
-npm install
-npm start
-npm run build
-```
-
----
-
-## Key Conventions
-
-### Python
-- Stable package lives under `Backend/src/edcmbone/` — standard `src/` layout
-- Python 3.8+ compatible (no 3.9+ syntax without `from __future__ import annotations`)
-- `pyproject.toml` is source of truth for metadata; `requirements.txt` for dev/test deps
-- JSON canon data files under `src/edcmbone/canon/data/` are versioned (`_v1`) — do not edit manually
-- `Backend/README.md` mirrors root `README.md` for PyPI — keep in sync
-- When filling in stubs in `edcmbone/` (root): follow the same conventions as `Backend/src/edcmbone/`
-
-### JavaScript / React
-- React 18.2.0, functional components and hooks
-- Tailwind CSS for styling
-- No TypeScript, no ESLint configured yet
-
-### General
-- Apache 2.0 license; all new files consistent with open-source expectations
-- `Documentation/` is the authoritative docs directory; `docs/` is supplementary
+`frontend/` is a minimal scaffold (a `package.json` with only `react` and a Tailwind config). There are no build/start scripts defined — do not assume `npm start`/`npm run build` work until scripts are added.
 
 ---
 
 ## Domain Model — Key Concepts
 
-- **Bones**: operator tokens carrying structural constraint weight — classified into PKQTS families (Polarity, Quantification, Qualification, Topology, Structuring)
-- **Flesh**: tokens that modulate magnitude only — excluded from bone inventory
-- **Markers**: phrase-level signals for the 9 behavioral metrics (C, R, D, N, L, O, F, E, I)
-- **Rounds vs Turns**: rounds are the unit of metric computation; turns are speaker utterances within a round
-- **F-loss**: structural fidelity loss metric — quantifies meaning deletion by an AI system
-- **UCNS boundary**: `edcmbone.ucns` (this repo) is a local closed-token / marker encoding layer. **UCNS-A** lives in `The-Interdependency/ucns` as a recursive factorization algebra; **UCNS-G** is the EDCM metric geometry (see `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md`). No UCNS-A theorem/proof status transfers to EDCM, edcmbone, or UCNS-G unless an explicit source-backed bridge is added. See `docs/ucns-boundary.md`.
+- **Bones**: operator tokens carrying structural constraint weight — classified into **PKQTS** families (Polarity, Quantification, Qualification, Topology, Structuring).
+- **Flesh**: tokens that modulate magnitude only — excluded from the bone inventory.
+- **Markers**: phrase-level signals for the behavioral metrics (`markers_v1.json` keys include C, R, D, N, ...).
+- **Rounds vs Turns**: rounds are the unit of metric computation; turns are speaker utterances within a round.
+- **Layer stack** (per `LAYER_MIGRATION_PLAN.md`): **L0** bones-only operator layer (edcmbone is canonical L0); **L1** Arc Style `M_t = A·φ`; **L2** risk composites; **L3** projection (CM, DA, DRIFT, DVG, INT, TBF); **Bridge** is observational-only correlation, orthogonal to the stack. The future upstream `edcm` package (not yet created) is intended to consume edcmbone (L0) + `ucns` and produce L1/L2/L3.
+- **F (F-loss)**: structural fidelity / operator density, computed as `structural_density` in `compress.compression_stats()`. F-loss ≥ 20% = degradation; ≥ 50% = significant failure; structural density rising with F-loss = decorative preservation (F6).
+- **Failure taxonomy**: F1 Deletion, F2 Mutation, F3 Inversion, F4 Category Collapse, F5 Persistence Failure, F6 Decorative Preservation.
+
+### UCNS boundary (important)
+
+These are distinct objects in distinct repos — not synonyms (see `docs/ucns-boundary.md`):
+
+- **`edcmbone.ucns`** (this repo): local closed-token / marker encoding layer (`backend/src/edcmbone/ucns/`, root `closed_tokens.py`).
+- **UCNS-A** (`The-Interdependency/ucns`): recursive factorization algebra.
+- **UCNS-G**: EDCM metric geometry — prime-indexed Möbius-cylinder metric disks (`edcmbone/ucns_g/`, `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md`).
+
+**No UCNS-A theorem/proof status transfers to EDCM, edcmbone, or UCNS-G** unless an explicit source-backed bridge is added.
 
 ---
 
-## Important Files
+## Conventions & Gotchas
 
-| File | Purpose |
-|------|---------|
-| `README.md` | Library overview, quickstart, evidence log |
-| `Backend/pyproject.toml` | Python package metadata and build config |
-| `Backend/src/edcmbone/canon/loader.py` | `CanonLoader` — bone/marker lookup API |
-| `Backend/src/edcmbone/canon/data/*.json` | Authoritative canon data (do not edit) |
-| `Backend/src/edcmbone/parser/turns_rounds.py` | Transcript parser |
-| `Backend/src/edcmbone/metrics/compute.py` | Metric vector computation |
-| `Backend/src/edcmbone/metrics/projection.py` | AgentMetrics and alert firing |
-| `Backend/src/edcmbone/compress.py` | Lossless codec + compression stats |
-| `Tests/test_backend.py` | 87-test suite (canon, parser, metrics, compress) |
-| `Documentation/spec.md` | Full framework specification with mathematics |
-| `Documentation/GCIP.md` | Global Cognitive Interaction Profiles proposal |
-| `closed_tokens.py` | Closed-token vocabulary (top-level) |
-| `ucns_v04.py` | UCNS v0.4 reference (top-level) |
-| `engine.py` | Top-level engine entry point |
-| `docs/ucns-boundary.md` | UCNS-A / UCNS-G / `edcmbone.ucns` boundary discipline; proof-scope non-transfer rule |
-| `docs/handoffs/2026-05-22-ucns-g-prime-cylinder-v3.md` | UCNS-G v3 prime-cylinder metric-geometry pin |
-| `edcmbone/ucns_g/` | UCNS-G v3 schema (Python); additive to scalar metrics |
+- **Canonical code is `backend/src/edcmbone/`** — standard `src/` layout. Root `edcmbone/` and `core/` are migration targets; check for empty/stub files before relying on them.
+- Python 3.8+ compatible: use `from __future__ import annotations` rather than 3.9+ syntax.
+- `backend/pyproject.toml` is the source of truth for package metadata; there is no `requirements.txt`.
+- JSON canon data under `backend/src/edcmbone/canon/data/` is versioned (`_v1`) — **do not edit manually**; it is generated/frozen (source: `edcmbone_canon_data_v1.zip`).
+- `backend/README.md` mirrors the root `README.md` for PyPI — keep in sync.
+- `canon_eng/` holds the **frozen structural canon** (specs + `*_schema_v1.json`). Code must consume canon, not "improve" it (see header comments in `engine.py`).
+- `tests/conftest.py` performs deliberate `sys.path` ordering — do not reorder it; it keeps the canonical `edcmbone` package ahead of the incomplete root one.
+- Repository skills: `.agents/skills/README.md` notes agents should read `meta-module-build/SKILL.md` before scaffolding new modules, schemas, engines, etc.
+- "hmmm:" inline comments mark open constraints / intent notes throughout the canon and engine; respect them as guardrails.
 
----
+### Known stale/quirky items
 
-## What Does Not Exist Yet
-
-- No CI/CD pipeline
-- No linting configs (prefer `ruff` when adding)
-- No pre-commit hooks
-- `edcmbone/` (root) stubs — not yet fully implemented (see individual module docstrings)
-- `core/` — partially implemented refactor-in-progress; `core/parsing/`, `core/operator/`, and `core/bridge/` contain substantive implementations; other subdirectories may still be stubs
-- `aimmh-lib/backend/server.py` is a stub
-- `tailwind.config.js` needs `content` globs before use
-- Frontend tests
+- `backend/pyproject.toml` testpaths reference a non-existent `../Tests` (use repo-root `pytest.ini` instead).
+- `LICENSE` is an interim AGPL notice without the verbatim license body inserted yet.
+- `version.py` (1.0.1) and `backend/pyproject.toml` (0.1.0) disagree — expected during the migration.
 
 ---
 
 ## Git Workflow
 
-- Main branch: `main`
-- Feature branches: `feat/<description>`, `fix/<description>`, `docs/<description>`, `chore/<description>` (e.g., `claude/add-feature-abc123`)
-- Commit style: Conventional Commits (`feat(metrics):`, `fix(canon):`, etc.)
-- Author: Erin Patrick Spencer (wayseer@interdependentway.org)
-- License: Apache 2.0
+- Main branch: `main`.
+- Feature branches: `feat/…`, `fix/…`, `docs/…`, `chore/…` (e.g. `claude/<topic>-<id>`).
+- Commit style: Conventional Commits (`feat(metrics):`, `fix(canon):`, `docs:`…).
+- Author: Erin Patrick Spencer (wayseer@interdependentway.org).
+- License: AGPL-3.0-or-later (or commercial).
 
-## Agent module-build doctrine
+---
 
-Before adding a new module, route, service, adapter, schema, worker, engine,
-UI panel, migration, or experiment, read:
+## Key Files Quick Reference
 
-`./.agents/skills/meta-module-build/SKILL.md`
+| File | Purpose |
+|------|---------|
+| `backend/pyproject.toml` | Package metadata and build config |
+| `backend/src/edcmbone/canon/loader.py` | `CanonLoader` — bone/marker lookup |
+| `backend/src/edcmbone/canon/data/*.json` | Authoritative canon data (do not edit) |
+| `backend/src/edcmbone/parser/turns_rounds.py` | Transcript parser |
+| `backend/src/edcmbone/metrics/compute.py` | Metric vector computation |
+| `backend/src/edcmbone/metrics/projection.py` | AgentMetrics + alert firing |
+| `backend/src/edcmbone/compress.py` | Lossless codec + compression stats (F) |
+| `tests/test_*.py` | Test suite (11 modules; coverage in `test_smoke.py`, `test_metric_orthogonality_v02.py`, `test_ucns_objects.py`, `test_closed_tokens.py`, etc. — `test_backend.py` is currently empty) |
+| `tests/run_all.py` | Standalone validation harness (root `engine.py`) |
+| `canon_eng/spec.md` | Full framework specification |
+| `canon_eng/GCIP.md` | Global Cognitive Interaction Profiles proposal |
+| `docs/ucns-boundary.md` | UCNS-A / UCNS-G / `edcmbone.ucns` boundary discipline |
+| `LAYER_MIGRATION_PLAN.md` | edcmbone → future `edcm` package contract |
+| `engine.py` (root) | v1.0.0 engine consumed by `tests/run_all.py` |
 
-New module work should start with a `MODULE_BUILD` block. Unknown fields must
-be marked `hmmm`, not guessed.
+---
+
+edcmbone · AGPL-3.0-or-later / Commercial · [The Interdependent Way](https://github.com/The-Interdependency)
+Contact: [wayseer@interdependentway.org](mailto:wayseer@interdependentway.org)
