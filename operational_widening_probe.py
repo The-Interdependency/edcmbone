@@ -64,7 +64,6 @@ def real_bone_objects():
 def test_A_constructibility():
     print("[A] CONSTRUCTIBILITY at n_min 32 (the 59.7% carrier), by composition")
     by_c = real_bone_objects()
-    by_c = real_bone_objects()
     # objects natively at 32
     native32 = by_c.get(32, [])
     if not native32:
@@ -110,8 +109,10 @@ def test_B_closure():
                 in_band += 1
             else:
                 escaped[p.n_min] += 1
+    pct = (100 * in_band / total) if total else 0.0
     print(f"    pairwise products: {total}")
-    print(f"    stayed in-band {{8,16,32}}: {in_band} ({100*in_band/total:.1f}%)")
+    print(f"    stayed in-band {{8,16,32}}: {in_band} ({pct:.1f}%)")
+    if escaped:
         print(f"    escaped to carriers: {dict(escaped)}")
         # are escapes still within the band's lcm-closure (powers of 2 <= 32)?
         all_pow2 = all(nm in (2,4,8,16,32) for nm in escaped)

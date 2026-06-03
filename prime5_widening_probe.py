@@ -102,14 +102,6 @@ def test_B_cross_prime_escape():
     return predictable
 
 
-def _have_sympy():
-    try:
-        import sympy  # noqa
-        return True
-    except Exception:
-        return False
-
-
 def _only_2_5(n):
     for p in (2, 5):
         while n % p == 0:
