@@ -16,6 +16,28 @@ stagnation_risk(refusal_density, tokens_b, tokens_a,
 loop_risk(tokens_a, tokens_b)                              -> float
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_metrics_risk
+#   module_name: risk
+#   module_kind: engine
+#   summary: the EDCM risk proxies (fixation, broken-return, escalation, stagnation, loop), all clamped to [0,1]
+#   owner: Erin Spencer
+#   public_surface: fixation_risk, broken_return, escalation_risk, stagnation_risk, loop_risk
+#   internal_surface: none
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: hmmm
+#   rollout: default_enabled
+#   rollback: remove module; risk composites unavailable
+#   requires: none
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 from .stats import (

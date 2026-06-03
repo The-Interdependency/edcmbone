@@ -33,6 +33,28 @@ their close counterparts in class 11. The disk-flip of an open-mark UCNS
 object equals the close-mark object (verified by test).
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_ucns_closed_tokens
+#   module_name: closed_tokens
+#   module_kind: adapter
+#   summary: encodes English closed-class tokens, whitespace, punctuation, and small numerals to UCNS objects on a 16-gon host carrier
+#   owner: Erin Spencer
+#   public_surface: encode, class_of, feature_payload_of
+#   internal_surface: _class_anchor, _wrap_with_class, _feature_payload, _build_dispatch_table
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: tests.test_closed_tokens
+#   rollout: default_enabled
+#   rollback: remove module; closed-token UCNS encoding unavailable
+#   requires: edcmbone_ucns_v04
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 from fractions import Fraction
 from typing import Dict, List, Optional, Tuple

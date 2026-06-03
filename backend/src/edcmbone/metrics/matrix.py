@@ -42,6 +42,28 @@ changing a weight here automatically changes the computation.  Until
 that refactor is complete, keep both in sync manually.
 """
 
+# === MODULE_BUILD ===
+# id: edcmbone_metrics_matrix
+#   module_name: matrix
+#   module_kind: schema
+#   summary: explicit freezable A matrix (Layer0->Layer1) and PROJECTION_MAP (Layer1->Layer3) as versioned, diffable dicts
+#   owner: Erin Spencer
+#   public_surface: freeze, diff
+#   internal_surface: none
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   tests: hmmm
+#   rollout: default_enabled
+#   rollback: remove module; metric projection loses its frozen coefficient source
+#   requires: none
+#   since: 2026-06-02
+#   unresolved: none
+# === END MODULE_BUILD ===
+
+
 from __future__ import annotations
 
 import copy
