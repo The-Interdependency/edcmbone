@@ -5,7 +5,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 ---
 
 <!-- BEGIN GENERATED:manifest -->
-<!-- Generated from pyproject + repo tree by .agents/skills/manifest/generate.py — DO NOT EDIT BY HAND. Refresh with `python .agents/skills/manifest/generate.py --write`. -->
+<!-- Generated from pyproject + repo tree by .agents/skills/manifest/generate.py — DO NOT EDIT BY HAND. Refresh with `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`. -->
 
 | Field | Value |
 |---|---|
