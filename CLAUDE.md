@@ -4,6 +4,37 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 ---
 
+<!-- BEGIN GENERATED:manifest -->
+<!-- Generated from pyproject + repo tree by .agents/skills/manifest/generate.py — DO NOT EDIT BY HAND. Refresh with `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`. -->
+
+| Field | Value |
+|---|---|
+| Package | `edcmbone` |
+| Version | `0.1.0` |
+| Description | Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input |
+| Status | 3 - Alpha |
+| Python | >=3.8 (classifiers: 3.8, 3.9, 3.10, 3.11, 3.12) |
+| License | Apache-2.0 |
+| Build backend | `hatchling.build` |
+| Author(s) | Erin Patrick Spencer <erin.eps.hovel@gmail.com> |
+| Repository | https://github.com/The-Interdependency/edcmbone |
+| Runtime dependencies | none (stdlib only) |
+| Optional extras | none |
+| Keywords | AI, measurement, structural fidelity, cognitive accessibility, NLP, EDCM |
+| CI workflows | `ci.yml`, `manifest-check.yml` |
+| Top-level directories | `aimmh-lib/` · `backend/` · `canon_eng/` · `core/` · `docs/` · `edcmbone/` · `frontend/` · `tests/` |
+
+<sub>Derived from `backend/pyproject.toml` + the repo tree. Unknown fields surface as `hmmm` rather than a guess.</sub>
+<!-- END GENERATED:manifest -->
+
+> Generated from `backend/pyproject.toml` (the canonical installable package) +
+> the repo tree, gated by `.github/workflows/manifest-check.yml`. These are the
+> **as-packaged** facts; the "Status" and "License" notes below explain the
+> known intent-vs-packaging inconsistencies (e.g. `version.py` says `1.0.1`
+> while the package declares `0.1.0`; the repo intends AGPL while the package
+> declares Apache-2.0). Refresh with
+> `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`.
+
 ## Project Overview
 
 **edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Energy–Dissonance Circuit Model with Prime Circular Tensor / Neural Architecture). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input.
