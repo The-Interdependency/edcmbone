@@ -4,6 +4,26 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 ---
 
+<!-- BEGIN GENERATED:manifest -->
+<!-- Generated from pyproject + repo tree by .agents/skills/manifest/generate.py — DO NOT EDIT BY HAND. Refresh with `python .agents/skills/manifest/generate.py --write`. -->
+
+**Package:** `edcmbone` &nbsp;·&nbsp; **Version:** `0.1.0` &nbsp;·&nbsp; **Python:** `>=3.8` &nbsp;·&nbsp; **License:** Apache-2.0
+
+**Runtime dependencies:** none (stdlib only)
+
+**Top-level directories:** `aimmh-lib/` · `backend/` · `canon_eng/` · `core/` · `docs/` · `edcmbone/` · `frontend/` · `tests/`
+
+<sub>Derived from `backend/pyproject.toml` + the repo tree. Unknown fields surface as `hmmm` rather than a guess.</sub>
+<!-- END GENERATED:manifest -->
+
+> Generated from `backend/pyproject.toml` (the canonical installable package) +
+> the repo tree, gated by `.github/workflows/manifest-check.yml`. These are the
+> **as-packaged** facts; the "Status" and "License" notes below explain the
+> known intent-vs-packaging inconsistencies (e.g. `version.py` says `1.0.1`
+> while the package declares `0.1.0`; the repo intends AGPL while the package
+> declares Apache-2.0). Refresh with
+> `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`.
+
 ## Project Overview
 
 **edcmbone** is a pip-installable Python library and monorepo implementing the **EDCM-PCNA-PCTA Framework** (Energy–Dissonance Circuit Model with Prime Circular Tensor / Neural Architecture). Its primary function is measuring structural fidelity loss in AI interactions — quantifying how much meaning an AI system deletes when transforming structured user input.
