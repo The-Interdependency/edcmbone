@@ -12,7 +12,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 The project also functions as a civil-rights evidence instrument in the **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to major AI labs and regulatory bodies. `canon_eng/GCIP.md` contains the full proposal.
 
-**License**: Dual-licensed — **AGPL-3.0-or-later** (default, see `LICENSE`) or a separate **commercial license** (`LICENSE-COMMERCIAL.md`). Note: `LICENSE` currently carries an interim notice; the verbatim AGPL text has not yet been pasted in. Copyright (c) 2026 Erin Patrick Spencer.
+**License**: The repo *intends* dual-licensing — **AGPL-3.0-or-later** (default, see root `LICENSE`) or a separate **commercial license** (`LICENSE-COMMERCIAL.md`). Note: root `LICENSE` currently carries an interim AGPL notice; the verbatim AGPL text has not yet been pasted in. **Known inconsistency (migration item):** the installable package disagrees with this intent — `backend/pyproject.toml` declares `license = { text = "Apache-2.0" }` with the Apache classifier, and `backend/LICENSE` is the full Apache-2.0 text. So the *as-packaged* license is currently Apache-2.0, not AGPL. Copyright (c) 2026 Erin Patrick Spencer.
 
 ---
 
@@ -25,12 +25,12 @@ edcmbone/
 ├── LICENSE                          # AGPL-3.0-or-later (interim notice; full text pending)
 ├── LICENSE-COMMERCIAL.md            # Commercial dual-license terms
 ├── .gitignore
-├── __init__.py                      # Root package marker (imports version.__version__)
+├── __init__.py                      # Empty package marker (0 lines; no import side effects)
 ├── version.py                       # __version__ = "1.0.1" (repo-wide constant)
 ├── pytest.ini                       # testpaths = tests
 │
 ├── backend/                         # CANONICAL pip package (src layout, tested)
-│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling, AGPL
+│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling; declares license = Apache-2.0 (see License note)
 │   ├── README.md                    # PyPI long description (keep in sync with root README)
 │   ├── LICENSE                      # Apache header text bundled with package
 │   └── src/edcmbone/
@@ -81,8 +81,8 @@ edcmbone/
 ├── aimmh-lib/backend/server.py      # AI Multimodel Hub server (stub)
 ├── frontend/                        # package.json (react ^18.2.0), tailwind, src/ucns_g/types.ts
 │
-├── tests/                           # pytest suite — 78 tests pass
-│   ├── test_backend.py + ~11 more test_*.py
+├── tests/                           # pytest suite — currently passing (see "Build / Test")
+│   ├── test_*.py (11 modules)        # NOTE: test_backend.py is empty; coverage lives in the others
 │   ├── run_all.py                   # standalone validation harness (uses root engine.py)
 │   ├── conftest.py                  # sys.path shim: backend/src ahead of repo root
 │   ├── fixtures/ golden/
@@ -104,7 +104,7 @@ edcmbone/
 
 | Layout | Path | Status | When to Use |
 |--------|------|--------|-------------|
-| **Canonical** | `backend/src/edcmbone/` | 78 tests passing | Installing and consuming the library |
+| **Canonical** | `backend/src/edcmbone/` | `tests/` suite passing (≈78 tests at time of writing) | Installing and consuming the library |
 | **Refactor target** | `edcmbone/` (root) + `core/` | In-progress migration; many empty/partial files | Adding new architecture — fill stubs here |
 
 The repo root and `backend/src` both contain an `edcmbone` package. `tests/conftest.py` puts `backend/src` ahead of the repo root on `sys.path` so the canonical package shadows the incomplete root one. Do not assume root `edcmbone/` files are implemented — `engine.py`, `types.py`, `config.py`, `errors.py` there are empty.
@@ -136,7 +136,7 @@ No `requirements.txt` exists; the package declares zero runtime dependencies. In
 ### Test
 
 ```bash
-pytest                            # uses pytest.ini -> testpaths=tests; 78 tests pass
+pytest                            # uses pytest.ini -> testpaths=tests; suite passes (~78 tests, spread across tests/test_*.py — test_backend.py is currently empty)
 python tests/run_all.py           # standalone harness: smoke transcript + golden compare
 ```
 
@@ -232,7 +232,7 @@ These are distinct objects in distinct repos — not synonyms (see `docs/ucns-bo
 | `backend/src/edcmbone/metrics/compute.py` | Metric vector computation |
 | `backend/src/edcmbone/metrics/projection.py` | AgentMetrics + alert firing |
 | `backend/src/edcmbone/compress.py` | Lossless codec + compression stats (F) |
-| `tests/test_backend.py` | Core canon/parser/metrics/compress tests |
+| `tests/test_*.py` | Test suite (11 modules; coverage in `test_smoke.py`, `test_metric_orthogonality_v02.py`, `test_ucns_objects.py`, `test_closed_tokens.py`, etc. — `test_backend.py` is currently empty) |
 | `tests/run_all.py` | Standalone validation harness (root `engine.py`) |
 | `canon_eng/spec.md` | Full framework specification |
 | `canon_eng/GCIP.md` | Global Cognitive Interaction Profiles proposal |
