@@ -16,7 +16,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 | Python | >=3.8 (classifiers: 3.8, 3.9, 3.10, 3.11, 3.12) |
 | License | Apache-2.0 |
 | Build backend | `hatchling.build` |
-| Author(s) | Erin Patrick Spencer <erin.eps.hovel@gmail.com> |
+| Author(s) | Erin Patrick Spencer <wayseer@interdependentway.org> |
 | Repository | https://github.com/The-Interdependency/edcmbone |
 | Runtime dependencies | none (stdlib only) |
 | Optional extras | none |
