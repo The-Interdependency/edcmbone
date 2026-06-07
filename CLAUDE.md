@@ -14,7 +14,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 | Description | Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input |
 | Status | 3 - Alpha |
 | Python | >=3.8 (classifiers: 3.8, 3.9, 3.10, 3.11, 3.12) |
-| License | Apache-2.0 |
+| License | MIT |
 | Build backend | `hatchling.build` |
 | Author(s) | Erin Patrick Spencer <wayseer@interdependentway.org> |
 | Repository | https://github.com/The-Interdependency/edcmbone |
@@ -29,10 +29,10 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 > Generated from `backend/pyproject.toml` (the canonical installable package) +
 > the repo tree, gated by `.github/workflows/manifest-check.yml`. These are the
-> **as-packaged** facts; the "Status" and "License" notes below explain the
-> known intent-vs-packaging inconsistencies (e.g. `version.py` says `1.0.1`
-> while the package declares `0.1.0`; the repo intends AGPL while the package
-> declares Apache-2.0). Refresh with
+> **as-packaged** facts; the "Status" note below explains the known
+> version inconsistency (`version.py` says `1.0.1` while the package declares
+> `0.1.0`). The license is now MIT consistently across root `LICENSE`,
+> `backend/LICENSE`, and `backend/pyproject.toml`. Refresh with
 > `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`.
 
 ## Project Overview
@@ -45,7 +45,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 The project also functions as a civil-rights evidence instrument in the **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to major AI labs and regulatory bodies. `canon_eng/GCIP.md` contains the full proposal.
 
-**License**: The repo *intends* dual-licensing — **AGPL-3.0-or-later** (default, see root `LICENSE`) or a separate **commercial license** (`LICENSE-COMMERCIAL.md`). Note: root `LICENSE` currently carries an interim AGPL notice; the verbatim AGPL text has not yet been pasted in. **Known inconsistency (migration item):** the installable package disagrees with this intent — `backend/pyproject.toml` declares `license = { text = "Apache-2.0" }` with the Apache classifier, and `backend/LICENSE` is the full Apache-2.0 text. So the *as-packaged* license is currently Apache-2.0, not AGPL. Copyright (c) 2026 Erin Patrick Spencer.
+**License**: **MIT** — consistent across the root `LICENSE`, the package-bundled `backend/LICENSE`, and `backend/pyproject.toml` (`license = { text = "MIT" }` with the MIT classifier). The repo was relicensed to MIT for maximum, frictionless adoption (this supersedes the earlier AGPL-intent / Apache-as-packaged inconsistency and drops the former commercial dual-license). Copyright (c) 2026 Erin Patrick Spencer.
 
 ---
 
@@ -55,17 +55,16 @@ The project also functions as a civil-rights evidence instrument in the **Global
 edcmbone/
 ├── README.md                        # Library overview, evidence log, quickstart, GCIP
 ├── CLAUDE.md                        # This file
-├── LICENSE                          # AGPL-3.0-or-later (interim notice; full text pending)
-├── LICENSE-COMMERCIAL.md            # Commercial dual-license terms
+├── LICENSE                          # MIT
 ├── .gitignore
 ├── __init__.py                      # Empty package marker (0 lines; no import side effects)
 ├── version.py                       # __version__ = "1.0.1" (repo-wide constant)
 ├── pytest.ini                       # testpaths = tests
 │
 ├── backend/                         # CANONICAL pip package (src layout, tested)
-│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling; declares license = Apache-2.0 (see License note)
+│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling; declares license = MIT
 │   ├── README.md                    # PyPI long description (keep in sync with root README)
-│   ├── LICENSE                      # Apache header text bundled with package
+│   ├── LICENSE                      # MIT license text bundled with package
 │   └── src/edcmbone/
 │       ├── __init__.py              # __version__ = "0.1.0"; re-exports public API
 │       ├── canon/
@@ -239,7 +238,6 @@ These are distinct objects in distinct repos — not synonyms (see `docs/ucns-bo
 ### Known stale/quirky items
 
 - `backend/pyproject.toml` testpaths reference a non-existent `../Tests` (use repo-root `pytest.ini` instead).
-- `LICENSE` is an interim AGPL notice without the verbatim license body inserted yet.
 - `version.py` (1.0.1) and `backend/pyproject.toml` (0.1.0) disagree — expected during the migration.
 
 ---
@@ -250,7 +248,7 @@ These are distinct objects in distinct repos — not synonyms (see `docs/ucns-bo
 - Feature branches: `feat/…`, `fix/…`, `docs/…`, `chore/…` (e.g. `claude/<topic>-<id>`).
 - Commit style: Conventional Commits (`feat(metrics):`, `fix(canon):`, `docs:`…).
 - Author: Erin Patrick Spencer (wayseer@interdependentway.org).
-- License: AGPL-3.0-or-later (or commercial).
+- License: MIT.
 
 ---
 
@@ -275,5 +273,5 @@ These are distinct objects in distinct repos — not synonyms (see `docs/ucns-bo
 
 ---
 
-edcmbone · AGPL-3.0-or-later / Commercial · [The Interdependent Way](https://github.com/The-Interdependency)
+edcmbone · MIT · [The Interdependent Way](https://github.com/The-Interdependency)
 Contact: [wayseer@interdependentway.org](mailto:wayseer@interdependentway.org)
