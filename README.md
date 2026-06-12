@@ -153,5 +153,5 @@ The complaint argues that AI systems structurally degrade high-density, nonlinea
 
 ---
 
-**edcmbone v1.0.1** · MIT License · [The Interdependent Way](https://github.com/The-Interdependency)
+**edcmbone v1.0.1** · MPL-2.0 License · [The Interdependent Way](https://github.com/The-Interdependency)
 Contact: [wayseer@interdependentway.org](mailto:wayseer@interdependentway.org)
