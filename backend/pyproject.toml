@@ -8,7 +8,7 @@ version = "0.1.0"
 authors = [{ name = "Erin Patrick Spencer", email = "wayseer@interdependentway.org" }]
 description = "Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "MPL-2.0" }
 requires-python = ">=3.8"
 dependencies = []
 keywords = ["AI", "measurement", "structural fidelity", "cognitive accessibility", "NLP", "EDCM"]
@@ -16,7 +16,7 @@ classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",

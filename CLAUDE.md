@@ -14,7 +14,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 | Description | Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input |
 | Status | 3 - Alpha |
 | Python | >=3.8 (classifiers: 3.8, 3.9, 3.10, 3.11, 3.12) |
-| License | MIT |
+| License | MPL-2.0 |
 | Build backend | `hatchling.build` |
 | Author(s) | Erin Patrick Spencer <wayseer@interdependentway.org> |
 | Repository | https://github.com/The-Interdependency/edcmbone |
@@ -31,7 +31,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 > the repo tree, gated by `.github/workflows/manifest-check.yml`. These are the
 > **as-packaged** facts; the "Status" note below explains the known
 > version inconsistency (`version.py` says `1.0.1` while the package declares
-> `0.1.0`). The license is now MIT consistently across root `LICENSE`,
+> `0.1.0`). The license is now MPL-2.0 consistently across root `LICENSE`,
 > `backend/LICENSE`, and `backend/pyproject.toml`. Refresh with
 > `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`.
 
@@ -45,7 +45,7 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 The project also functions as a civil-rights evidence instrument in the **Global Cognitive Interaction Profiles (GCIP)** submission — a formal accessibility and safety complaint to major AI labs and regulatory bodies. `canon_eng/GCIP.md` contains the full proposal.
 
-**License**: **MIT** — consistent across the root `LICENSE`, the package-bundled `backend/LICENSE`, and `backend/pyproject.toml` (`license = { text = "MIT" }` with the MIT classifier). The repo was relicensed to MIT for maximum, frictionless adoption (this supersedes the earlier AGPL-intent / Apache-as-packaged inconsistency and drops the former commercial dual-license). Copyright (c) 2026 Erin Patrick Spencer.
+**License**: **MPL-2.0** (Mozilla Public License 2.0 — weak, file-level copyleft: embed anywhere, but changes to these files must be published) — consistent across the root `LICENSE`, the package-bundled `backend/LICENSE`, and `backend/pyproject.toml` (`license = { text = "MPL-2.0" }` with the MPL-2.0 classifier). Relicensed from MIT (which had itself superseded the earlier AGPL-intent / Apache-as-packaged inconsistency and the former commercial dual-license). Copyright (c) 2026 Erin Patrick Spencer.
 
 ---
 
@@ -55,16 +55,16 @@ The project also functions as a civil-rights evidence instrument in the **Global
 edcmbone/
 ├── README.md                        # Library overview, evidence log, quickstart, GCIP
 ├── CLAUDE.md                        # This file
-├── LICENSE                          # MIT
+├── LICENSE                          # MPL-2.0
 ├── .gitignore
 ├── __init__.py                      # Empty package marker (0 lines; no import side effects)
 ├── version.py                       # __version__ = "1.0.1" (repo-wide constant)
 ├── pytest.ini                       # testpaths = tests
 │
 ├── backend/                         # CANONICAL pip package (src layout, tested)
-│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling; declares license = MIT
+│   ├── pyproject.toml               # name=edcmbone, version=0.1.0, Hatchling; declares license = MPL-2.0
 │   ├── README.md                    # PyPI long description (keep in sync with root README)
-│   ├── LICENSE                      # MIT license text bundled with package
+│   ├── LICENSE                      # MPL-2.0 license text bundled with package
 │   └── src/edcmbone/
 │       ├── __init__.py              # __version__ = "0.1.0"; re-exports public API
 │       ├── canon/
@@ -248,7 +248,7 @@ These are distinct objects in distinct repos — not synonyms (see `docs/ucns-bo
 - Feature branches: `feat/…`, `fix/…`, `docs/…`, `chore/…` (e.g. `claude/<topic>-<id>`).
 - Commit style: Conventional Commits (`feat(metrics):`, `fix(canon):`, `docs:`…).
 - Author: Erin Patrick Spencer (wayseer@interdependentway.org).
-- License: MIT.
+- License: MPL-2.0 (weak copyleft — embed anywhere, but changes to these files must be published; relicensed from MIT).
 
 ---
 
@@ -273,5 +273,5 @@ These are distinct objects in distinct repos — not synonyms (see `docs/ucns-bo
 
 ---
 
-edcmbone · MIT · [The Interdependent Way](https://github.com/The-Interdependency)
+edcmbone · MPL-2.0 · [The Interdependent Way](https://github.com/The-Interdependency)
 Contact: [wayseer@interdependentway.org](mailto:wayseer@interdependentway.org)
