@@ -1,0 +1,4 @@
+interface:
+  display_name: "New While Retaining Old"
+  short_description: "Safe replacement with retained old path"
+  default_prompt: "Use this skill to replace an implementation while preserving the old one, documenting rollback, and testing the transition."

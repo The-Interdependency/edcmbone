@@ -10,6 +10,7 @@ Installed skills:
 - `msdmd/` — Module Self-Declared Metadata Markdown
 - `test-build/` — test contract metadata blocks
 - `meta-module-build/` — metadata-first module scaffolding
+- `new-retain-old/` — safe replacement workflow that preserves the old implementation while creating a new active path
 - `manifest/` — living-spec generator for `CLAUDE.md` (vendored from
   `The-Interdependency/skill-lib@d6e4d78`). Generates the mechanical facts
   block in `CLAUDE.md` from `backend/pyproject.toml` + the tree; the
