@@ -3,49 +3,16 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "edcmbone"
-version = "0.1.0"
-authors = [{ name = "Erin Patrick Spencer", email = "wayseer@interdependentway.org" }]
-description = "Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input"
+name = "edcmbone-backend"
+version = "0.2.0"
+description = "MSDMD-compliant UCNS-only backend for EDCM boundary objects"
 readme = "README.md"
 license = { text = "MPL-2.0" }
 requires-python = ">=3.8"
 dependencies = []
-keywords = ["AI", "measurement", "structural fidelity", "cognitive accessibility", "NLP", "EDCM"]
-classifiers = [
-  "Development Status :: 3 - Alpha",
-  "Intended Audience :: Developers",
-  "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Topic :: Scientific/Engineering :: Artificial Intelligence",
-  "Topic :: Text Processing :: Linguistic",
-]
-
-[project.urls]
-Homepage = "https://github.com/The-Interdependency/edcmbone"
-Repository = "https://github.com/The-Interdependency/edcmbone"
-Issues = "https://github.com/The-Interdependency/edcmbone/issues"
-
-[tool.pytest.ini_options]
-testpaths = ["../Tests", "../tests"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/edcmbone"]
-include = [
-  "src/edcmbone/canon/data/**/*.json",
-]
+packages = ["src/edcmbone_backend"]
 
-[tool.hatch.build.targets.sdist]
-include = [
-  "src",
-  "pyproject.toml",
-  "requirements.txt",
-  "README.md",
-  "LICENSE",
-]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
