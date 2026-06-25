@@ -1,11 +1,28 @@
 # edcmbone-backend
 
-This backend is intentionally small: its only runtime import is `ucns`.
-It turns unresolved constraints into explicit boundary objects rather than
-silently resolving them.
+This backend is intentionally small: the active backend package imports only
+`ucns`. It turns unresolved constraints into explicit boundary objects rather
+than silently resolving them.
 
 The prior backend has been preserved at `backend_old/`.
 
+## Few-click path
+
+From the repository root:
+
+```bash
+python -m pip install -e backend
+python backend/examples/boundary_quickstart.py
+```
+
+Expected result: a JSON object with `delivered`, structured `hmmm`, and `ucns`
+fields. If that prints, the backend is installed and usable.
+
+## Usage Guidance
+
+After installation, use the backend directly:
+
+```python
 ## Usage Guidance
 
 Install or run from this repository with both the repository root and backend
@@ -39,6 +56,9 @@ PY
 
 ### Integration notes
 
+- Runtime dependency boundary: active backend source imports only `ucns`.
+- Packaging boundary: the backend wheel includes a local `ucns` package so users
+  do not need to put the repository root on `PYTHONPATH`.
 - Runtime dependency boundary: backend source imports only `ucns`.
 - Risk boundary: in-memory only; no auth, storage, network, admin, or secret
   side effects.

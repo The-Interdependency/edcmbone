@@ -74,3 +74,24 @@ def test_boundaries_record_no_hidden_side_effects():
     assert "#   storage_boundary: none" in source
     assert "#   network_boundary: none" in source
     assert "#   admin_only: false" in source
+
+
+def test_backend_src_path_is_self_contained(tmp_path):
+    import subprocess
+    import sys
+
+    code = """
+import edcmbone_backend as backend
+boundary = backend.make_boundary('delivered', 'unresolved')
+assert boundary.ucns_object.n_min == 1
+assert backend.serialize_boundary(boundary)['hmmm']['text'] == 'unresolved'
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=tmp_path,
+        env={"PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
