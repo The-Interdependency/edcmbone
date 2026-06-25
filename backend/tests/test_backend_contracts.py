@@ -24,8 +24,18 @@ def test_hmmm_preserves_unresolved_constraint():
     )
 
     assert boundary.delivered == "delivered output"
-    assert "The-Interdependency/skill-lib" in boundary.hmmm
-    assert backend.serialize_boundary(boundary)["hmmm"] == boundary.hmmm
+    assert isinstance(boundary.hmmm, backend.Hmmm)
+    assert "The-Interdependency/skill-lib" in str(boundary.hmmm)
+    assert backend.serialize_boundary(boundary)["hmmm"]["text"] == str(boundary.hmmm)
+
+
+def test_hmmm_fallback_is_never_empty():
+    boundary = backend.make_boundary("delivered output")
+
+    assert isinstance(boundary.hmmm, backend.Hmmm)
+    assert boundary.hmmm.transition == "hmmm"
+    assert str(boundary.hmmm).startswith("hmmm:")
+    assert backend.serialize_boundary(boundary)["hmmm"]["text"] == str(boundary.hmmm)
 
 
 def test_boundary_objects_are_ucns_backed():
@@ -38,4 +48,28 @@ def test_boundary_objects_are_ucns_backed():
     assert isinstance(merged.ucns_object, ucns.UCNSObject)
     assert merged.ucns_object.equivalent(expected)
     assert merged.delivered == "left\nright"
-    assert "left unresolved" in merged.hmmm
+    assert isinstance(merged.hmmm, backend.Hmmm)
+    assert "left unresolved" in str(merged.hmmm)
+
+
+def _source_text():
+    return Path(backend.__file__).read_text(encoding="utf-8")
+
+
+def test_canonical_skill_lib_blocks_are_declared():
+    source = _source_text()
+
+    for block in ("MODULE_BUILD", "CONTRACTS", "DEPENDENCIES", "BOUNDARIES", "DOCS"):
+        assert f"# === {block} ===" in source
+        assert f"# === END {block} ===" in source
+    assert "canonical https://github.com/The-Interdependency/skill-lib guidance verified" in source
+    assert "The requested The-Interdependency/skill-lib path was not present" not in source
+
+
+def test_boundaries_record_no_hidden_side_effects():
+    source = _source_text()
+
+    assert "#   auth_boundary: none" in source
+    assert "#   storage_boundary: none" in source
+    assert "#   network_boundary: none" in source
+    assert "#   admin_only: false" in source
