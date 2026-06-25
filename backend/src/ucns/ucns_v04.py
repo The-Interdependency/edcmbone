@@ -1,5 +1,6 @@
 """
 ucns_v04 — UCNS Engine (turn-fraction angle convention)
+========================================================
 Angles are stored as Fraction objects representing fractions of a full turn:
   0 = 0 deg, 1/4 = 90 deg, 1/2 = 180 deg, 2 = 720 deg = 0 on doubled cover.
 
@@ -203,8 +204,3 @@ def multiply(A: UCNSObject, B: UCNSObject) -> UCNSObject:
         anchors_pos=tuple(new_anchors),
         faces_pos=tuple(new_faces),
     )
-"""Compatibility name for the UCNS v0.4 engine."""
-
-from .ucns_v04 import AnchorPayload, UCNSObject, is_unit_payload, multiply, unit_obj
-
-__all__ = ["AnchorPayload", "UCNSObject", "is_unit_payload", "multiply", "unit_obj"]
