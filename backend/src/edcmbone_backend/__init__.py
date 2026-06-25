@@ -134,7 +134,8 @@ def hmmm(unresolved=None):
 
 def make_boundary(delivered, unresolved=None):
     """Create a UCNS-backed boundary object from delivered and unresolved text."""
-    return BoundaryObject(delivered, hmmm(unresolved), _anchor(0 if unresolved else 1))
+    unresolved_text = _coerce_text(unresolved)
+    return BoundaryObject(delivered, hmmm(unresolved_text), _anchor(0 if unresolved_text else 1))
 
 
 def merge_boundaries(left, right):
