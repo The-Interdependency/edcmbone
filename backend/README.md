@@ -23,6 +23,14 @@ fields. If that prints, the backend is installed and usable.
 After installation, use the backend directly:
 
 ```python
+## Usage Guidance
+
+Install or run from this repository with both the repository root and backend
+source path on `PYTHONPATH` so the backend can import the UCNS compatibility
+module:
+
+```bash
+PYTHONPATH="$PWD:$PWD/backend/src" python - <<'PY'
 import edcmbone_backend as backend
 
 boundary = backend.make_boundary(
@@ -30,6 +38,7 @@ boundary = backend.make_boundary(
     "remaining constraint to carry forward",
 )
 print(backend.serialize_boundary(boundary))
+PY
 ```
 
 ### Boundary lifecycle
@@ -50,6 +59,7 @@ print(backend.serialize_boundary(boundary))
 - Runtime dependency boundary: active backend source imports only `ucns`.
 - Packaging boundary: the backend wheel includes a local `ucns` package so users
   do not need to put the repository root on `PYTHONPATH`.
+- Runtime dependency boundary: backend source imports only `ucns`.
 - Risk boundary: in-memory only; no auth, storage, network, admin, or secret
   side effects.
 - Documentation and runtime boundaries are declared in msdmd blocks beside the
