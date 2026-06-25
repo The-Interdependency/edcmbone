@@ -14,6 +14,7 @@ def test_backend_imports_only_ucns():
             imports.extend(alias.name for alias in node.names)
         elif isinstance(node, ast.ImportFrom):
             imports.append(node.module or "")
+    assert set(imports) == {"ucns"}
     assert imports == ["ucns"]
 
 
