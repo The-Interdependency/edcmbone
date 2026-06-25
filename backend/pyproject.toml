@@ -13,6 +13,7 @@ dependencies = []
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/edcmbone_backend", "src/ucns"]
+packages = ["src/edcmbone_backend"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -24,6 +24,7 @@ carried forward in a mandatory ``hmmm`` object instead of being erased.
 #   requires: ucns
 #   since: 2026-06-25
 #   unresolved: The requested The-Interdependency/skill-lib path was not present in this checkout; local .agents/skills was used as the msdmd/test-build source.
+#   unresolved: none; canonical https://github.com/The-Interdependency/skill-lib guidance verified on 2026-06-25
 # === END MODULE_BUILD ===
 
 # === CONTRACTS ===
@@ -51,6 +52,44 @@ carried forward in a mandatory ``hmmm`` object instead of being erased.
 #   class: correctness
 #   call:  tests.test_backend_contracts.test_boundary_objects_are_ucns_backed
 # === END CONTRACTS ===
+
+# === DEPENDENCIES ===
+# id: edcmbone_backend_dependency_edges
+#   summary: backend imports only ucns and calls UCNSObject construction, AnchorPayload construction, normalization, and multiply for carrier composition
+#   imports: ucns
+#   calls: ucns.UCNSObject,ucns.AnchorPayload,ucns.multiply
+#   provides: BoundaryObject,Hmmm,make_boundary,merge_boundaries,serialize_boundary
+#   class: runtime
+#   direction: outbound
+#   owner: The Interdependency
+#   since: 2026-06-25
+# === END DEPENDENCIES ===
+
+# === BOUNDARIES ===
+# id: edcmbone_backend_runtime_boundary
+#   summary: in-memory UCNS boundary-object construction from caller-supplied text; no auth, persistence, network, admin action, secrets, or PII handling beyond caller-provided content
+#   auth_boundary: none
+#   storage_boundary: none
+#   network_boundary: none
+#   user_data_boundary: none
+#   admin_only: false
+#   pii: possible
+#   secrets: none
+#   side_effects: none
+#   owner: The Interdependency
+#   since: 2026-06-25
+# === END BOUNDARIES ===
+
+# === DOCS ===
+# id: edcmbone_backend_usage_docs
+#   summary: README usage guidance for creating, merging, and serializing UCNS-backed boundary objects
+#   audience: developer
+#   source: backend/README.md#usage-guidance
+#   covers: BoundaryObject,Hmmm,make_boundary,merge_boundaries,serialize_boundary
+#   status: current
+#   owner: The Interdependency
+#   since: 2026-06-25
+# === END DOCS ===
 
 import ucns
 
@@ -136,6 +175,7 @@ def make_boundary(delivered, unresolved=None):
     """Create a UCNS-backed boundary object from delivered and unresolved text."""
     unresolved_text = _coerce_text(unresolved)
     return BoundaryObject(delivered, hmmm(unresolved_text), _anchor(0 if unresolved_text else 1))
+    return BoundaryObject(delivered, hmmm(unresolved), _anchor(0 if unresolved else 1))
 
 
 def merge_boundaries(left, right):
@@ -144,6 +184,9 @@ def merge_boundaries(left, right):
     return BoundaryObject(
         "\n".join(part for part in (left.delivered, right.delivered) if part),
         hmmm(unresolved),
+    return BoundaryObject(
+        "\n".join(part for part in (left.delivered, right.delivered) if part),
+        "\n".join(str(part) for part in (left.hmmm, right.hmmm) if part),
         ucns.multiply(left.ucns_object, right.ucns_object),
     )
 
