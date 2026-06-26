@@ -9,20 +9,20 @@ This file gives AI assistants (Claude Code and others) the context needed to wor
 
 | Field | Value |
 |---|---|
-| Package | `edcmbone` |
-| Version | `0.1.0` |
-| Description | Structural fidelity measurement for AI interactions — quantifies how much meaning an AI system deletes when transforming structured user input |
-| Status | 3 - Alpha |
-| Python | >=3.8 (classifiers: 3.8, 3.9, 3.10, 3.11, 3.12) |
+| Package | `edcmbone-backend` |
+| Version | `0.2.0` |
+| Description | MSDMD-compliant UCNS-only backend for EDCM boundary objects |
+| Status | hmmm |
+| Python | >=3.8 |
 | License | MPL-2.0 |
 | Build backend | `hatchling.build` |
-| Author(s) | Erin Patrick Spencer <wayseer@interdependentway.org> |
-| Repository | https://github.com/The-Interdependency/edcmbone |
+| Author(s) | hmmm |
+| Repository | hmmm |
 | Runtime dependencies | none (stdlib only) |
 | Optional extras | none |
-| Keywords | AI, measurement, structural fidelity, cognitive accessibility, NLP, EDCM |
+| Keywords | none |
 | CI workflows | `ci.yml`, `manifest-check.yml` |
-| Top-level directories | `aimmh-lib/` · `backend/` · `canon_eng/` · `core/` · `docs/` · `edcmbone/` · `frontend/` · `tests/` |
+| Top-level directories | `aimmh-lib/` · `backend/` · `backend_old/` · `canon_eng/` · `core/` · `docs/` · `edcmbone/` · `frontend/` · `tests/` |
 
 <sub>Derived from `backend/pyproject.toml` + the repo tree. Unknown fields surface as `hmmm` rather than a guess.</sub>
 <!-- END GENERATED:manifest -->

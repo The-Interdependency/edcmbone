@@ -14,6 +14,7 @@ def test_backend_imports_only_ucns():
             imports.extend(alias.name for alias in node.names)
         elif isinstance(node, ast.ImportFrom):
             imports.append(node.module or "")
+    assert set(imports) == {"ucns"}
     assert imports == ["ucns"]
 
 
@@ -76,6 +77,7 @@ def test_boundaries_record_no_hidden_side_effects():
 
 
 def test_backend_src_path_is_self_contained(tmp_path):
+    import os
     import subprocess
     import sys
 
@@ -88,7 +90,7 @@ assert backend.serialize_boundary(boundary)['hmmm']['text'] == 'unresolved'
     result = subprocess.run(
         [sys.executable, "-c", code],
         cwd=tmp_path,
-        env={"PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
+        env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
         text=True,
         capture_output=True,
         check=False,

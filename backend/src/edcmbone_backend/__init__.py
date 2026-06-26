@@ -172,14 +172,16 @@ def hmmm(unresolved=None):
 
 def make_boundary(delivered, unresolved=None):
     """Create a UCNS-backed boundary object from delivered and unresolved text."""
-    return BoundaryObject(delivered, hmmm(unresolved), _anchor(0 if unresolved else 1))
+    unresolved_text = _coerce_text(unresolved)
+    return BoundaryObject(delivered, hmmm(unresolved_text), _anchor(0 if unresolved_text else 1))
 
 
 def merge_boundaries(left, right):
     """Compose two boundaries while preserving both delivered and hmmm text."""
+    unresolved = "\n".join(text for text in (left.hmmm.unresolved, right.hmmm.unresolved) if text)
     return BoundaryObject(
         "\n".join(part for part in (left.delivered, right.delivered) if part),
-        "\n".join(str(part) for part in (left.hmmm, right.hmmm) if part),
+        hmmm(unresolved),
         ucns.multiply(left.ucns_object, right.ucns_object),
     )
 
