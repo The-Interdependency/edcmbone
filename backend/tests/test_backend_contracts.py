@@ -77,6 +77,7 @@ def test_boundaries_record_no_hidden_side_effects():
 
 
 def test_backend_src_path_is_self_contained(tmp_path):
+    import os
     import subprocess
     import sys
 
@@ -86,10 +87,13 @@ boundary = backend.make_boundary('delivered', 'unresolved')
 assert boundary.ucns_object.n_min == 1
 assert backend.serialize_boundary(boundary)['hmmm']['text'] == 'unresolved'
 """
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")
     result = subprocess.run(
         [sys.executable, "-c", code],
         cwd=tmp_path,
-        env={"PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
+        env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
+        env=env,
         text=True,
         capture_output=True,
         check=False,

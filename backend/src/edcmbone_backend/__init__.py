@@ -23,7 +23,6 @@ carried forward in a mandatory ``hmmm`` object instead of being erased.
 #   rollback: restore backend_old as backend
 #   requires: ucns
 #   since: 2026-06-25
-#   unresolved: The requested The-Interdependency/skill-lib path was not present in this checkout; local .agents/skills was used as the msdmd/test-build source.
 #   unresolved: none; canonical https://github.com/The-Interdependency/skill-lib guidance verified on 2026-06-25
 # === END MODULE_BUILD ===
 
@@ -175,7 +174,6 @@ def make_boundary(delivered, unresolved=None):
     """Create a UCNS-backed boundary object from delivered and unresolved text."""
     unresolved_text = _coerce_text(unresolved)
     return BoundaryObject(delivered, hmmm(unresolved_text), _anchor(0 if unresolved_text else 1))
-    return BoundaryObject(delivered, hmmm(unresolved), _anchor(0 if unresolved else 1))
 
 
 def merge_boundaries(left, right):
@@ -184,9 +182,6 @@ def merge_boundaries(left, right):
     return BoundaryObject(
         "\n".join(part for part in (left.delivered, right.delivered) if part),
         hmmm(unresolved),
-    return BoundaryObject(
-        "\n".join(part for part in (left.delivered, right.delivered) if part),
-        "\n".join(str(part) for part in (left.hmmm, right.hmmm) if part),
         ucns.multiply(left.ucns_object, right.ucns_object),
     )
 
