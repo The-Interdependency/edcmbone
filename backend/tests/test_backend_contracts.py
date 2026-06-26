@@ -92,6 +92,7 @@ assert backend.serialize_boundary(boundary)['hmmm']['text'] == 'unresolved'
     result = subprocess.run(
         [sys.executable, "-c", code],
         cwd=tmp_path,
+        env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
         env=env,
         text=True,
         capture_output=True,
