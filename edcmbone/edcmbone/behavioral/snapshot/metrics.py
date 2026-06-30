@@ -1,3 +1,4 @@
+# ratios: loc_comments=73:42 imports_exports=3:2 calls_definitions=38:6
 """
 Behavioral snapshot 9D vector.
 Aggregates TurnScores over a round window (W_round m=4) into BehavioralSnapshot.
@@ -137,3 +138,4 @@ def score_window(turns: Sequence[str]) -> BehavioralSnapshot:
         I = _clamp((1.0 - ack_ratio) * 0.7 + I_tb / (n * 2.0) * 0.3)
 
     return BehavioralSnapshot(C=C, R=R, D=D, N=N, L=L, O=O, F=F, E=E, I=I)
+# ratios: loc_comments=73:42 imports_exports=3:2 calls_definitions=38:6

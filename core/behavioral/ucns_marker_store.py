@@ -1,3 +1,4 @@
+# ratios: loc_comments=70:19 imports_exports=4:2 calls_definitions=19:2
 # core/behavioral/ucns_marker_store.py
 # Phase 1: UCNSStore-backed marker lookup for algebraic comparison with phrase matching.
 
@@ -107,3 +108,4 @@ def ucns_hits_for_turn(store: Any, tokens: List[str]) -> Dict[str, int]:
                     counts[key] = counts.get(key, 0) + 1
 
     return counts
+# ratios: loc_comments=70:19 imports_exports=4:2 calls_definitions=19:2

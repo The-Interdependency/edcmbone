@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=193:50 imports_exports=5:9 calls_definitions=92:9
 """
 phi_compose_probe_v3.py — keystone, full depth (payload + face).
 
@@ -283,3 +283,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=193:50 imports_exports=5:9 calls_definitions=92:9

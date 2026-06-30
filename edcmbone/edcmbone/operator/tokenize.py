@@ -1,3 +1,4 @@
+# ratios: loc_comments=115:44 imports_exports=2:1 calls_definitions=25:3
 # === MODULE_BUILD ===
 # id: operator_tokenization
 #   module_name: operator tokenizer
@@ -184,3 +185,4 @@ def tokenize_turn(text: str) -> list[tuple[str, Optional[str]]]:
         out.extend([("?", "Q")] * trailing_q)
 
     return out
+# ratios: loc_comments=115:44 imports_exports=2:1 calls_definitions=25:3

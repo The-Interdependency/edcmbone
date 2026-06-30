@@ -1,3 +1,4 @@
+# ratios: loc_comments=124:34 imports_exports=10:3 calls_definitions=20:5
 # engine.py
 # GPT generated; context, prompt Erin Spencer
 # EDCMBone v1.0.0 library engine (framework-agnostic).
@@ -188,3 +189,4 @@ def analyze_transcript(
             ]
         }
     }
+# ratios: loc_comments=124:34 imports_exports=10:3 calls_definitions=20:5

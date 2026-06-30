@@ -1,3 +1,4 @@
+# ratios: loc_comments=20:29 imports_exports=2:2 calls_definitions=2:2
 # === MODULE_BUILD ===
 # id: operator_family_count
 #   module_name: operator family count
@@ -54,3 +55,4 @@ def count_window(
         for f in FAMILIES:
             window[f] += tc.get(f, 0)
     return window
+# ratios: loc_comments=20:29 imports_exports=2:2 calls_definitions=2:2

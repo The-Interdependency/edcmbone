@@ -1,3 +1,4 @@
+# ratios: loc_comments=36:11 imports_exports=4:3 calls_definitions=12:3
 """
 10D content vector: StatusFlags (4 categorical) + ContentRatings (6 scalar).
 UCNS recursion depth: 3 (content = depth-3 in the layer–depth unification).
@@ -52,3 +53,4 @@ def average_ratings(vectors: list[ContentVector]) -> ContentRatings:
         psychological=sum(v.ratings.psychological for v in vectors) / n,
         epistemic=sum(v.ratings.epistemic for v in vectors) / n,
     )
+# ratios: loc_comments=36:11 imports_exports=4:3 calls_definitions=12:3

@@ -1,3 +1,4 @@
+# ratios: loc_comments=70:8 imports_exports=3:1 calls_definitions=15:3
 # core/parsing/turn_builder.py
 # hmmm: turn merge doctrine + forced boundary markers.
 
@@ -93,3 +94,4 @@ def build_turns_from_utterances(raw_utterances: List[Dict[str, Any]]) -> List[Di
         t["tokens_surface"] = tokens_surface(t["raw_text"])
 
     return turns
+# ratios: loc_comments=70:8 imports_exports=3:1 calls_definitions=15:3

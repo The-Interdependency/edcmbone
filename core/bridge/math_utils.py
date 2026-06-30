@@ -1,3 +1,4 @@
+# ratios: loc_comments=17:1 imports_exports=3:2 calls_definitions=9:2
 # core/bridge/math_utils.py
 from __future__ import annotations
 
@@ -19,3 +20,4 @@ def pearson(x: List[float], y: List[float]) -> float:
     if denx == 0 or deny == 0:
         return 0.0
     return max(-1.0, min(1.0, num/(denx*deny)))
+# ratios: loc_comments=17:1 imports_exports=3:2 calls_definitions=9:2

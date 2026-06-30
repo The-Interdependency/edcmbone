@@ -1,3 +1,4 @@
+# ratios: loc_comments=11:29 imports_exports=3:1 calls_definitions=9:1
 # core/parsing/tokenizer.py
 # hmmm: must satisfy tokenization invariants from spec appendix:
 # - preserve punctuation as separate tokens
@@ -42,3 +43,4 @@ def tokens_surface(text: str) -> List[str]:
     if not toks:
         toks = text.split()
     return toks
+# ratios: loc_comments=11:29 imports_exports=3:1 calls_definitions=9:1

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=129:38 imports_exports=8:6 calls_definitions=73:6
 """
 operational_widening_probe.py — spend the leverage the frequency probe exposed.
 
@@ -191,3 +191,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=129:38 imports_exports=8:6 calls_definitions=73:6

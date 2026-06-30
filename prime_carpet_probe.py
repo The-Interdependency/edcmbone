@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=61:15 imports_exports=3:4 calls_definitions=36:4
 """
 prime_carpet_probe.py — validate the per-sublattice finiteness law across the
 first 53 prime carrier axes (2..241), generalizing the prime-5 result.
@@ -85,3 +85,4 @@ if ok:
 else:
     print("VERDICT: FAILED — at least one axis escaped its expected sublattice.")
     raise SystemExit(1)
+# ratios: loc_comments=61:15 imports_exports=3:4 calls_definitions=36:4

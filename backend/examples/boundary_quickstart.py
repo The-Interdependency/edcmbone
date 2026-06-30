@@ -1,3 +1,4 @@
+# ratios: loc_comments=13:6 imports_exports=3:1 calls_definitions=5:1
 """Copy-pasteable edcmbone-backend smoke demo.
 
 Usage:
@@ -26,3 +27,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=13:6 imports_exports=3:1 calls_definitions=5:1

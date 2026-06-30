@@ -1,3 +1,4 @@
+# ratios: loc_comments=28:6 imports_exports=5:2 calls_definitions=10:3
 """
 Content-layer window aggregation.
 Aggregates ContentVectors from multiple claims over a turn/round window.
@@ -38,3 +39,4 @@ def aggregate_window(vectors: Sequence[ContentVector]) -> ContentWindow:
         foundation_distribution=_dist(FoundationStatus, "foundation_status"),
         speech_act_distribution=_dist(SpeechAct, "speech_act"),
     )
+# ratios: loc_comments=28:6 imports_exports=5:2 calls_definitions=10:3

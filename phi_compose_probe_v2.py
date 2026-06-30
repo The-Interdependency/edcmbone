@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=126:39 imports_exports=6:5 calls_definitions=73:5
 """
 phi_compose_probe_v2.py — keystone, order-aware.
 
@@ -195,3 +195,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=126:39 imports_exports=6:5 calls_definitions=73:5

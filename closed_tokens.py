@@ -1,3 +1,4 @@
+# ratios: loc_comments=348:129 imports_exports=6:3 calls_definitions=69:8
 """
 edcmbone — Closed-Token UCNS Encoder
 
@@ -557,3 +558,4 @@ def feature_payload_of(obj: UCNSObject) -> Optional[UCNSObject]:
     if len(obj.anchors_pos) != 2:
         return None
     return obj.anchors_pos[1].payload
+# ratios: loc_comments=348:129 imports_exports=6:3 calls_definitions=69:8

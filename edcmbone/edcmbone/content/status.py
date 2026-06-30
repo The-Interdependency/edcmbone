@@ -1,3 +1,4 @@
+# ratios: loc_comments=27:5 imports_exports=3:5 calls_definitions=0:5
 """
 Content-layer status flag types (4 categorical per claim).
 Source: canon_eng/canon_v2_proposal.md §1.5, frozen pending v2 freeze.
@@ -40,3 +41,4 @@ class StatusFlags(NamedTuple):
     verification_status: VerificationStatus
     foundation_status: FoundationStatus
     speech_act: SpeechAct
+# ratios: loc_comments=27:5 imports_exports=3:5 calls_definitions=0:5

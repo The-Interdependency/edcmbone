@@ -1,3 +1,4 @@
+# ratios: loc_comments=54:9 imports_exports=4:2 calls_definitions=12:3
 # core/behavioral/marker_matcher.py
 # hmmm: longest-phrase-first matching, non-overlapping per text.
 
@@ -68,3 +69,4 @@ def match_phrases_in_turn_tokens(
                     end_token=i+L-1
                 ))
     return hits
+# ratios: loc_comments=54:9 imports_exports=4:2 calls_definitions=12:3

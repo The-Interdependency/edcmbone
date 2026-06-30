@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=160:47 imports_exports=4:10 calls_definitions=94:10
 """
 frequency_probe.py — one pass over real text, THREE payloads.
 
@@ -247,3 +247,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=160:47 imports_exports=4:10 calls_definitions=94:10

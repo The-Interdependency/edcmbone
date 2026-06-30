@@ -1,3 +1,4 @@
+# ratios: loc_comments=11:18 imports_exports=3:1 calls_definitions=0:0
 # === MODULE_BUILD ===
 # id: operator_public_surface
 #   module_name: operator package exports
@@ -28,3 +29,4 @@ __all__ = [
     "aggregate",
     "OperatorVector",
 ]
+# ratios: loc_comments=11:18 imports_exports=3:1 calls_definitions=0:0

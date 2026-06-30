@@ -1,3 +1,4 @@
+# ratios: loc_comments=15:17 imports_exports=1:2 calls_definitions=0:3
 from typing import Protocol, Sequence, NamedTuple
 
 
@@ -38,3 +39,4 @@ class ClaimExtractor(Protocol):
         flesh_text is the open-class content within each claim boundary.
         """
         ...
+# ratios: loc_comments=15:17 imports_exports=1:2 calls_definitions=0:3

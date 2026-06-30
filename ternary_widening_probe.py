@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=127:33 imports_exports=6:6 calls_definitions=85:6
 """
 ternary_widening_probe.py — the correction: THREE composable together.
 
@@ -188,3 +188,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=127:33 imports_exports=6:6 calls_definitions=85:6
