@@ -1,3 +1,4 @@
+# ratios: loc_comments=71:95 imports_exports=1:7 calls_definitions=17:14
 """MSDMD-compliant UCNS-only backend.
 
 The backend models the smallest useful EDCM boundary surface:
@@ -199,3 +200,4 @@ __all__ = [
     "merge_boundaries",
     "serialize_boundary",
 ]
+# ratios: loc_comments=71:95 imports_exports=1:7 calls_definitions=17:14

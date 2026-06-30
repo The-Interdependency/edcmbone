@@ -1,3 +1,4 @@
+# ratios: loc_comments=60:6 imports_exports=2:1 calls_definitions=9:2
 # core/parsing/round_builder.py
 # hmmm: initiator-return round closure, SYS/TOOL exclusion by default.
 
@@ -75,3 +76,4 @@ def build_rounds_from_turns(
         })
 
     return rounds
+# ratios: loc_comments=60:6 imports_exports=2:1 calls_definitions=9:2

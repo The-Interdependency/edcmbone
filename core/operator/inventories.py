@@ -1,3 +1,4 @@
+# ratios: loc_comments=47:15 imports_exports=2:2 calls_definitions=27:2
 # core/operator/inventories.py
 # hmmm: flexible loader; supports canon_eng bones/affixes JSON shapes.
 
@@ -75,3 +76,4 @@ def load_affixes(affixes_inv: Dict[str, Any]) -> Tuple[Dict[str, str], Dict[str,
                 suf[ks[4:]] = v
 
     return pref, suf
+# ratios: loc_comments=47:15 imports_exports=2:2 calls_definitions=27:2

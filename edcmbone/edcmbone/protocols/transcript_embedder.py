@@ -1,3 +1,4 @@
+# ratios: loc_comments=11:24 imports_exports=2:2 calls_definitions=0:4
 from typing import Protocol, Sequence, NamedTuple, Tuple
 from .bone_embd_v1_1_0alpha import BoneEmbedding
 
@@ -44,3 +45,4 @@ class TranscriptEmbedder(Protocol):
     def zero(self) -> BoneEmbedding:
         """The Mobius twist reference point for this transcript embedding."""
         ...
+# ratios: loc_comments=11:24 imports_exports=2:2 calls_definitions=0:4

@@ -1,3 +1,4 @@
+# ratios: loc_comments=165:13 imports_exports=4:3 calls_definitions=31:7
 # core/operator/operator_extractor.py
 # hmmm: computes operator outputs over rolling k-turn windows.
 
@@ -199,3 +200,4 @@ def compute_operator_windows(
         outputs.append(out)
 
     return outputs
+# ratios: loc_comments=165:13 imports_exports=4:3 calls_definitions=31:7

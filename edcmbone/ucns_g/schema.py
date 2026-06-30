@@ -1,3 +1,4 @@
+# ratios: loc_comments=187:145 imports_exports=7:7 calls_definitions=62:20
 """
 edcmbone.ucns_g.schema
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -415,3 +416,4 @@ class GrainTensor:
             if state.axis == axis:
                 return state
         raise KeyError(f"axis {axis!r} is not present in this grain tensor")
+# ratios: loc_comments=187:145 imports_exports=7:7 calls_definitions=62:20

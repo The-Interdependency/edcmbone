@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=114:33 imports_exports=5:7 calls_definitions=79:8
 """
 prime5_widening_probe.py — the test that can BREAK the finiteness result.
 
@@ -173,3 +173,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=114:33 imports_exports=5:7 calls_definitions=79:8

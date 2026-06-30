@@ -1,3 +1,4 @@
+# ratios: loc_comments=12:2 imports_exports=4:1 calls_definitions=2:1
 # core/parsing/parsing_pipeline.py
 # hmmm: orchestrates utterances -> turns -> rounds (no IO).
 
@@ -15,3 +16,4 @@ def parse_utterances_to_turns_rounds(
     turns = build_turns_from_utterances(raw_utterances)
     rounds = build_rounds_from_turns(turns, exclude_sys_tool_from_rounds=exclude_sys_tool_from_rounds)
     return turns, rounds
+# ratios: loc_comments=12:2 imports_exports=4:1 calls_definitions=2:1

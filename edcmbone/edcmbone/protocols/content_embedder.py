@@ -1,3 +1,4 @@
+# ratios: loc_comments=23:17 imports_exports=1:4 calls_definitions=0:5
 from typing import Protocol, Sequence, NamedTuple
 
 
@@ -49,3 +50,4 @@ class ContentEmbedder(Protocol):
         enabling detection of scaffold/fill divergence.
         """
         ...
+# ratios: loc_comments=23:17 imports_exports=1:4 calls_definitions=0:5

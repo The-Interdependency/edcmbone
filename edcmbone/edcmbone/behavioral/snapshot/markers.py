@@ -1,3 +1,4 @@
+# ratios: loc_comments=159:37 imports_exports=2:2 calls_definitions=46:5
 """
 Behavioral snapshot marker engine.
 Implements behavioral_markers_v1.json (frozen v1.0.0) pattern matching.
@@ -229,3 +230,4 @@ def score_turn(text: str) -> TurnScores:
         I_ack=float(I_ack),
         I_tier_b=I_tb,
     )
+# ratios: loc_comments=159:37 imports_exports=2:2 calls_definitions=46:5

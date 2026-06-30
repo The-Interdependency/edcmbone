@@ -1,3 +1,4 @@
+# ratios: loc_comments=9:6 imports_exports=2:1 calls_definitions=0:1
 """
 Content-layer scalar ratings (6 per claim, each in [0, 1]).
 Reference frame: receiver-relative, conversation-scoped (provisional default per §3.2).
@@ -15,3 +16,4 @@ class ContentRatings(NamedTuple):
     aesthetic: float     # form quality (0 = poor, 1 = excellent)
     psychological: float # appropriateness for the receiver
     epistemic: float     # knowledge-quality: warranted, well-grounded, hedged
+# ratios: loc_comments=9:6 imports_exports=2:1 calls_definitions=0:1

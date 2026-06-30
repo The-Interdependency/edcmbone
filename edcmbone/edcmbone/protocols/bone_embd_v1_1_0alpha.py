@@ -1,3 +1,4 @@
+# ratios: loc_comments=26:37 imports_exports=1:4 calls_definitions=2:8
 from typing import Protocol, Sequence, Tuple, NamedTuple
 
 
@@ -79,3 +80,4 @@ class BoneEmbedder(Protocol):
         v1.1-compliant implementations return BONE_CANON_VERSION.
         """
         ...
+# ratios: loc_comments=26:37 imports_exports=1:4 calls_definitions=2:8

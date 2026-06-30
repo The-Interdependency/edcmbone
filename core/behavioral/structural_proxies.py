@@ -1,3 +1,4 @@
+# ratios: loc_comments=47:5 imports_exports=3:5 calls_definitions=15:5
 # core/behavioral/structural_proxies.py
 # hmmm: behavioral v1 uses structural proxies as frozen in formulas.
 
@@ -58,3 +59,4 @@ def detect_list_growth_pattern(user_turn: Dict[str, Any], assistant_turn: Dict[s
     a = assistant_turn.get("raw_text", "").splitlines()
     count = sum(1 for line in a if line.strip().startswith(("1)", "2)", "3)", "4)", "5)", "6)", "-", "*")))
     return 1 if count >= 6 else 0
+# ratios: loc_comments=47:5 imports_exports=3:5 calls_definitions=15:5

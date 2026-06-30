@@ -1,3 +1,4 @@
+# ratios: loc_comments=22:24 imports_exports=2:2 calls_definitions=8:2
 # === MODULE_BUILD ===
 # id: operator_vector_aggregate
 #   module_name: operator aggregate
@@ -49,3 +50,4 @@ def aggregate(counts: dict[str, int]) -> OperatorVector:
         S=counts.get("S", 0) / total,
         total=total,
     )
+# ratios: loc_comments=22:24 imports_exports=2:2 calls_definitions=8:2

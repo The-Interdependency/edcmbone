@@ -1,3 +1,4 @@
+# ratios: loc_comments=181:24 imports_exports=4:1 calls_definitions=35:4
 # core/bridge/bridge_engine.py
 # hmmm: observational only. Correlations + divergence flags.
 
@@ -235,3 +236,4 @@ def compute_bridge_windows(
         })
 
     return outs
+# ratios: loc_comments=181:24 imports_exports=4:1 calls_definitions=35:4

@@ -1,3 +1,4 @@
+# ratios: loc_comments=33:2 imports_exports=3:1 calls_definitions=6:1
 # core/behavioral/behavioral_window.py
 # hmmm: rolling windows over CLOSED rounds only by default.
 
@@ -40,3 +41,4 @@ def compute_behavioral_windows(
         outputs.append(out)
 
     return outputs
+# ratios: loc_comments=33:2 imports_exports=3:1 calls_definitions=6:1

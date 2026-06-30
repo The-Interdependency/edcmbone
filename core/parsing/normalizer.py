@@ -1,3 +1,4 @@
+# ratios: loc_comments=9:3 imports_exports=1:1 calls_definitions=4:1
 # core/parsing/normalizer.py
 # hmmm: normalization for matching; raw_text remains lossless elsewhere.
 
@@ -12,3 +13,4 @@ def normalize_text_for_matching(s: str) -> str:
         .replace("‛", "'")  # single high-reversed-9 quotation mark -> ASCII apostrophe
         .lower()
     )
+# ratios: loc_comments=9:3 imports_exports=1:1 calls_definitions=4:1

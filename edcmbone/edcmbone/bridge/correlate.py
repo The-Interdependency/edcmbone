@@ -1,3 +1,4 @@
+# ratios: loc_comments=43:17 imports_exports=5:2 calls_definitions=14:6
 """
 Bridge-layer cross-layer correlations (ternary: O↔B, O↔C, B↔C).
 Bridge is read-only — never modifies any layer. (Canon v1 rule, carried forward.)
@@ -72,3 +73,4 @@ def correlate(
         OC=_pearson(ops, cons),
         BC=_pearson(behs, cons),
     )
+# ratios: loc_comments=43:17 imports_exports=5:2 calls_definitions=14:6

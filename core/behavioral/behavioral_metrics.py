@@ -1,3 +1,4 @@
+# ratios: loc_comments=271:32 imports_exports=7:4 calls_definitions=88:7
 # core/behavioral/behavioral_metrics.py
 # hmmm: implements behavioral_formulas_v1.md deterministically.
 
@@ -339,3 +340,4 @@ def compute_behavioral_for_window(
     }
 
     return out, feature_vec, Iwin
+# ratios: loc_comments=271:32 imports_exports=7:4 calls_definitions=88:7

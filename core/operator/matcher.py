@@ -1,3 +1,4 @@
+# ratios: loc_comments=68:25 imports_exports=3:6 calls_definitions=16:6
 # core/operator/matcher.py
 # hmmm: whole-word precedence; affix stripping only if no whole-word bone match.
 
@@ -105,3 +106,4 @@ def match_affixes(tok: str, prefix_map: Dict[str, str], suffix_map: Dict[str, st
         return [], t
 
     return fams, root
+# ratios: loc_comments=68:25 imports_exports=3:6 calls_definitions=16:6

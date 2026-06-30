@@ -1,3 +1,4 @@
+# ratios: loc_comments=17:12 imports_exports=3:2 calls_definitions=4:2
 """
 Bridge-layer divergence flags.
 Threshold-based: correlation < threshold ⇒ layer pair flagged as divergent.
@@ -33,3 +34,4 @@ def flag_divergence(
         OC_divergent=abs(correlations.OC) < threshold,
         BC_divergent=abs(correlations.BC) < threshold,
     )
+# ratios: loc_comments=17:12 imports_exports=3:2 calls_definitions=4:2

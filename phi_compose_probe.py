@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# ratios: loc_comments=164:58 imports_exports=8:9 calls_definitions=78:10
 """
 phi_compose_probe.py — The keystone test.
 
@@ -261,3 +261,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ratios: loc_comments=164:58 imports_exports=8:9 calls_definitions=78:10

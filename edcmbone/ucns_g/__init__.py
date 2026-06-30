@@ -1,3 +1,4 @@
+# ratios: loc_comments=40:14 imports_exports=2:1 calls_definitions=0:0
 """
 edcmbone.ucns_g
 ~~~~~~~~~~~~~~~
@@ -58,3 +59,4 @@ __all__ = [
     "PRIMITIVE_METRIC_AXES",
     "prime_for_axis",
 ]
+# ratios: loc_comments=40:14 imports_exports=2:1 calls_definitions=0:0

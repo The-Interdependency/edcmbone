@@ -1,3 +1,4 @@
+# ratios: loc_comments=32:37 imports_exports=3:1 calls_definitions=3:1
 """
 edcmbone.ucns_g.primes
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -83,3 +84,4 @@ def prime_for_axis(axis: str) -> int:
             f"{axis!r} is not a primitive UCNS-G axis; "
             f"valid axes: {sorted(PRIME_AXIS_ASSIGNMENT)}"
         ) from exc
+# ratios: loc_comments=32:37 imports_exports=3:1 calls_definitions=3:1
