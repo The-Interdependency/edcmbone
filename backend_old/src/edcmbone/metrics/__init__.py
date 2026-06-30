@@ -1,3 +1,4 @@
+# ratios: loc_comments=34:6 imports_exports=6:1 calls_definitions=0:0
 from .compute import RoundMetrics, compute_round, compute_transcript, energy_step
 from .stats import (
     tokenize, ngrams, ttr, repetition_ratio, shannon_entropy,
@@ -39,3 +40,4 @@ __all__ = [
     "AxisState", "MetricAxis", "MetricReadout", "ConstraintField", "FieldMotion",
     "canonical_axes", "field_motion_fixture", "FIELD_MOTION_FIXTURE_MATRIX",
 ]
+# ratios: loc_comments=34:6 imports_exports=6:1 calls_definitions=0:0

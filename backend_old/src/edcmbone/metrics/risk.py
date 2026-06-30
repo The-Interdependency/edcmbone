@@ -1,3 +1,4 @@
+# ratios: loc_comments=37:66 imports_exports=2:5 calls_definitions=25:5
 """
 edcmbone.metrics.risk
 ~~~~~~~~~~~~~~~~~~~~~
@@ -127,3 +128,4 @@ def loop_risk(tokens_a, tokens_b):
     rep_ngram = rep_ngram_density(tokens_b, n=3)
     cos = cosine_sim(tokens_a, tokens_b)
     return clamp(0.5 * rep_b + 0.3 * rep_ngram + 0.2 * cos)
+# ratios: loc_comments=37:66 imports_exports=2:5 calls_definitions=25:5

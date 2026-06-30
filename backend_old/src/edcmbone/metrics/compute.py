@@ -1,3 +1,4 @@
+# ratios: loc_comments=200:145 imports_exports=6:4 calls_definitions=89:20
 """
 edcmbone.metrics.compute
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -424,3 +425,4 @@ def compute_transcript(parsed_transcript, canon=None, alpha=0.85, delta_max=0.3)
         prev_entropy = shannon_entropy(tokenize(" ".join(t.text for t in rnd.turns)))
 
     return results
+# ratios: loc_comments=200:145 imports_exports=6:4 calls_definitions=89:20

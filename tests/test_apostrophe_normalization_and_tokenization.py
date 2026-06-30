@@ -6,7 +6,7 @@ from core.parsing.normalizer import normalize_text_for_matching
 
 def _parser_word_re():
     repo_root = Path(__file__).resolve().parents[1]
-    src_path = repo_root / "backend" / "src" / "edcmbone" / "parser" / "turns_rounds.py"
+    src_path = repo_root / "backend_old" / "src" / "edcmbone" / "parser" / "turns_rounds.py"
     src = src_path.read_text()
     m = re.search(r"_WORD_RE\s*=\s*re\.compile\(r\"([^\"]+)\"\)", src)
     assert m, "Could not locate _WORD_RE in parser/turns_rounds.py"

@@ -1,3 +1,4 @@
+# ratios: loc_comments=77:96 imports_exports=4:6 calls_definitions=28:10
 """
 edcmbone.metrics.projection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,3 +215,4 @@ def project_transcript(parsed_transcript, layer1_metrics):
     for rnd, m in zip(parsed_transcript.rounds, layer1_metrics):
         results.append(project(m, rnd.turns))
     return results
+# ratios: loc_comments=77:96 imports_exports=4:6 calls_definitions=28:10

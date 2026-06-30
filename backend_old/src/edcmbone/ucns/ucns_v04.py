@@ -1,3 +1,4 @@
+# ratios: loc_comments=118:70 imports_exports=5:6 calls_definitions=40:14
 """
 ucns_v04 — UCNS Engine (turn-fraction angle convention)
 ========================================================
@@ -226,3 +227,4 @@ def multiply(A: UCNSObject, B: UCNSObject) -> UCNSObject:
         anchors_pos=tuple(new_anchors),
         faces_pos=tuple(new_faces),
     )
+# ratios: loc_comments=118:70 imports_exports=5:6 calls_definitions=40:14

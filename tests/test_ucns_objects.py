@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BACKEND_SRC = ROOT / "backend" / "src"
+BACKEND_SRC = ROOT / "backend_old" / "src"
 
 
 def _load_package(package_name: str, package_dir: Path):

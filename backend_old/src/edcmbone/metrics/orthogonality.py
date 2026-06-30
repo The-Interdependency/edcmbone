@@ -1,3 +1,4 @@
+# ratios: loc_comments=230:94 imports_exports=4:7 calls_definitions=44:25
 """EDCM / UCNS metric orthogonality primitives.
 
 Implements the v0.2 signed-axis model for metric identity and state transport,
@@ -388,3 +389,4 @@ def canonical_axes() -> Dict[str, MetricAxis]:
         "edcm.projection.TBF": MetricAxis("edcm.projection.TBF", "speaker-share fairness projection", "projection", primitive=False),
     }
     return axes
+# ratios: loc_comments=230:94 imports_exports=4:7 calls_definitions=44:25

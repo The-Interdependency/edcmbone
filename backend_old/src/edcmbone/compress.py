@@ -1,3 +1,4 @@
+# ratios: loc_comments=168:115 imports_exports=9:5 calls_definitions=63:11
 """
 edcmbone.compress
 ~~~~~~~~~~~~~~~~~
@@ -348,3 +349,4 @@ def compression_stats(original_text, compressed_bytes, parsed):
         "bone_stream_huffman_bits": round(bone_huffman_bits, 1),
         "bone_stream_savings_pct": round(bone_savings, 2),
     }
+# ratios: loc_comments=168:115 imports_exports=9:5 calls_definitions=63:11
