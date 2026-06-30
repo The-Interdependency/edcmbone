@@ -1,3 +1,4 @@
+# ratios: loc_comments=118:125 imports_exports=4:2 calls_definitions=15:2
 """
 edcmbone.metrics.matrix
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -265,3 +266,4 @@ def diff(matrix_a: dict, matrix_b: dict) -> dict:
             if wa != wb:
                 changes[(metric, prim)] = (wa, wb)
     return changes
+# ratios: loc_comments=118:125 imports_exports=4:2 calls_definitions=15:2

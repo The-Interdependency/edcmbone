@@ -1,3 +1,4 @@
+# ratios: loc_comments=76:84 imports_exports=4:13 calls_definitions=46:14
 """
 edcmbone.metrics.stats
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -206,3 +207,4 @@ def norm_per_100(x, tokens):
     if not tokens:
         return 0.0
     return float(x) * 100.0 / len(tokens)
+# ratios: loc_comments=76:84 imports_exports=4:13 calls_definitions=46:14

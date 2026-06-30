@@ -11,7 +11,7 @@ Pins the spec-level invariants from
   * Grain order is token < turn < round < session < archive.
 
 These tests do not exercise the scalar EDCM metric vector in
-``backend/src/edcmbone/metrics/compute.py`` — UCNS-G is additive to the
+``backend_old/src/edcmbone/metrics/compute.py`` — UCNS-G is additive to the
 scalar layer, not a replacement.
 """
 

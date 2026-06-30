@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-WORDS_PATH = REPO_ROOT / "backend" / "src" / "edcmbone" / "canon" / "data" / "bones_words_v1.json"
+WORDS_PATH = REPO_ROOT / "backend_old" / "src" / "edcmbone" / "canon" / "data" / "bones_words_v1.json"
 
 
 def _word_tokens():

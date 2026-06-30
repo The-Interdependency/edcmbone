@@ -1,3 +1,4 @@
+# ratios: loc_comments=80:79 imports_exports=3:1 calls_definitions=40:15
 """
 edcmbone.canon.loader
 ~~~~~~~~~~~~~~~~~~~~~
@@ -194,3 +195,4 @@ class CanonLoader:
                 dataset, list(mapping.keys())
             ))
         return mapping[dataset].get("_meta", {})
+# ratios: loc_comments=80:79 imports_exports=3:1 calls_definitions=40:15

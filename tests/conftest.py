@@ -4,10 +4,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BACKEND_SRC = ROOT / "backend" / "src"
+BACKEND_SRC = ROOT / "backend_old" / "src"
 
 # BACKEND_SRC must precede ROOT on sys.path: both contain an ``edcmbone``
-# package, but only backend/src/edcmbone carries CanonLoader + metrics. ROOT
+# package, but only backend_old/src/edcmbone carries CanonLoader + metrics. ROOT
 # stays on the path for the top-level test modules (core, engine, ucns_v04,
 # closed_tokens); the repo-root ``edcmbone`` package is only ever loaded by
 # tests under an explicit alias (see test_ucns_g_schema), never as ``edcmbone``.

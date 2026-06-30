@@ -1,3 +1,4 @@
+# ratios: loc_comments=28:7 imports_exports=3:1 calls_definitions=0:0
 __version__ = "0.1.0"
 
 from .canon import CanonLoader
@@ -35,3 +36,4 @@ __all__ = [
     "A_MATRIX", "PROJECTION_MAP", "ALERT_THRESHOLDS", "RISK_TO_ALERT",
     "MATRIX_VERSION", "freeze", "diff",
 ]
+# ratios: loc_comments=28:7 imports_exports=3:1 calls_definitions=0:0
