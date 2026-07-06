@@ -6,6 +6,17 @@
 
 hmmm: this document represents grading against held canon as of 2026-05-14; canon may evolve. The future `edcm` package is **not yet named, not yet existing, and not yet located** — every reference to `edcm/...` paths below is a placeholder shape.
 
+> **Update 2026-07-06 — the `edcm` package now exists and is located.** The
+> consolidation repo is `The-Interdependency/edcm`. The canonical measurement
+> package (`backend_old/src/edcmbone/` @ 05eee6d) is consolidated there as a
+> dependency-free **mirror** at `edcm/measurement/` — mirror, not move: nothing
+> was deleted here, edcmbone remains canonical L0, and the L0/L1/L2/L3 split
+> below remains gated on the unpinned metric-to-layer table (Phase 2 gate).
+> See `The-Interdependency/edcm:docs/consolidation-edcmbone.md` for provenance,
+> mirror deltas, and the carried `hmmm` items. This resolves the
+> "location of the future `edcm` package" hmmm (new repo; PyPI plan still open)
+> and leaves every other `hmmm` in this document open.
+
 hmmm: no files are moved by this document. No package is created. No Python code is modified. This is a contract, not an execution.
 
 ---
