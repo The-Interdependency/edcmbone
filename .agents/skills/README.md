@@ -12,7 +12,7 @@ Installed skills:
 - `meta-module-build/` — metadata-first module scaffolding
 - `new-retain-old/` — safe replacement workflow that preserves the old implementation while creating a new active path
 - `manifest/` — living-spec generator for `CLAUDE.md` (vendored from
-  `The-Interdependency/skill-lib@d0f6209`). Generates the mechanical facts
+  `The-Interdependency/skill-lib@6f36340`). Generates the mechanical facts
   block in `CLAUDE.md` from `backend/pyproject.toml` + the tree; the
   `manifest drift check` workflow runs `generate.py --check` in CI. Refresh with
   `python .agents/skills/manifest/generate.py --pyproject backend/pyproject.toml --write`.
