@@ -1,3 +1,6 @@
+> **ARCHIVED 2026-07-28.** Superseded by [edcm](https://github.com/The-Interdependency/edcm).
+> This repo is retained read-only for provenance. Do not build against it.
+
 # edcmbone — Structural Fidelity Measurement for AI Interactions
 
 **edcmbone** quantifies how much meaning an AI system deletes when it transforms structured user input. It computes bone token density, operator preservation, and semantic fidelity loss — metrics that standard AI evaluation frameworks do not capture.
